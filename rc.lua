@@ -410,6 +410,7 @@ globalkeys = awful.util.table.join(
     end),
     awful.key({ modkey, "Shift" }, "j", function () awful.client.swap.byidx(1)  end),
     awful.key({ modkey, "Shift" }, "k", function () awful.client.swap.byidx(-1) end)
+    )
     -- }}})
 -- }}}
 
