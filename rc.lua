@@ -316,6 +316,7 @@ clientbuttons = awful.util.table.join(
 globalkeys = awful.util.table.join(
     -- {{{ Applications
 --    awful.key({ modkey }, "e", function () exec("emacsclient -n -c") end),
+    awful.key({"Control", altkey}, "l", function () exec("xlock", false) end),
     awful.key({ modkey }, "r", function () exec("rox", false) end),
     awful.key({ modkey }, "w", function () exec("firefox") end),
     awful.key({ modkey }, "Return",  function () exec(TERM) end),
