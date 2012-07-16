@@ -342,6 +342,12 @@ globalkeys = awful.util.table.join(
     -- }}}
 
     -- {{{ Prompt menus
+    awful.key({ modkey }, "F1", function ()
+        awful.prompt.run({ prompt = "SSh: " }, promptbox[mouse.screen].widget,
+            function (host) sexec(TERM .. " -e ssh " .. host) end,
+            awful.util.getdir("cache" .. "/history_ssh")
+            )
+    end),
     awful.key({ modkey }, "F2", function ()
         awful.prompt.run({ prompt = "Run: " }, promptbox[mouse.screen].widget,
             function (...) promptbox[mouse.screen].text = exec(unpack(arg), false) end,
