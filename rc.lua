@@ -28,6 +28,7 @@ local home   = os.getenv("HOME")
 local exec   = awful.util.spawn
 local sexec  = awful.util.spawn_with_shell
 local scount = screen.count()
+
 local TERM = "sakura"
 local EDIT = "gvim"
 
@@ -188,10 +189,10 @@ vicious.register(orgwidget, vicious.widgets.org,
   orgmode.color.soon..'$3</span>-'..orgmode.color.future.. '$4</span>', 601,
   orgmode.files
 ) -- Register buttons
-orgwidget:buttons(awful.util.table.join(
-  awful.button({ }, 1, function () exec("emacsclient --eval '(org-agenda-list)'") end),
-  awful.button({ }, 3, function () exec("emacsclient --eval '(make-remember-frame)'") end)
-))
+-- orgwidget:buttons(awful.util.table.join(
+  -- awful.button({ }, 1, function () exec("emacsclient --eval '(org-agenda-list)'") end),
+  -- awful.button({ }, 3, function () exec("emacsclient --eval '(make-remember-frame)'") end)
+-- ))
 -- }}}
 
 -- {{{ Volume level
@@ -317,37 +318,74 @@ globalkeys = awful.util.table.join(
     -- {{{ Applications
 --    awful.key({ modkey }, "e", function () exec("emacsclient -n -c") end),
     awful.key({"Control", altkey}, "l", function () exec("xlock", false) end),
-    awful.key({ modkey }, "r", function () exec("rox", false) end),
-    awful.key({ modkey }, "w", function () exec("firefox") end),
+    awful.key({ modkey }, "t", function () exec("thunar", false) end),
+    awful.key({ modkey }, "w", function () exec("chromium") end),
     awful.key({ modkey }, "Return",  function () exec(TERM) end),
-    awful.key({ altkey }, "#49", function () scratch.drop(TERM, "bottom", nil, nil, 0.30) end),
-    awful.key({ modkey }, "a", function () exec("urxvt -T Alpine -e alpine.exp") end),
+    awful.key({ altkey }, "a", function () scratch.drop(TERM, "bottom", nil, nil, 0.30) end),
+    --awful.key({ modkey }, "a", function () exec("urxvt -T Alpine -e alpine.exp") end),
     awful.key({ modkey }, "g", function () sexec("GTK2_RC_FILES=~/.gtkrc-gajim gajim") end),
  --   awful.key({ modkey }, "q", function () exec("emacsclient --eval '(make-remember-frame)'") end),
-    awful.key({ altkey }, "#51", function () if boosk then osk(nil, mouse.screen)
-        else boosk, osk = pcall(require, "osk") end
-    end),
+    --awful.key({ altkey }, "#51", function () if boosk then osk(nil, mouse.screen)
+--        else boosk, osk = pcall(require, "osk") end
+--    end),
     -- }}}
 
     -- {{{ Multimedia keys
-    awful.key({}, "#235", function () exec("kscreenlocker --forcelock") end),
-    awful.key({}, "#121", function () exec("pvol.py -m") end),
-    awful.key({}, "#122", function () exec("pvol.py -p -c -2") end),
-    awful.key({}, "#123", function () exec("pvol.py -p -c  2") end),
-    awful.key({}, "#232", function () exec("plight.py -c -10") end),
-    awful.key({}, "#233", function () exec("plight.py -c  10") end),
-    awful.key({}, "#165", function () exec("sudo /usr/sbin/pm-hibernate") end),
-    awful.key({}, "#150", function () exec("sudo /usr/sbin/pm-suspend")   end),
-    awful.key({}, "#163", function () exec("pypres.py") end),
+    -- awful.key({}, "#235", function () exec("kscreenlocker --forcelock") end),
+    -- awful.key({}, "#121", function () exec("pvol.py -m") end),
+    -- awful.key({}, "#122", function () exec("pvol.py -p -c -2") end),
+    -- awful.key({}, "#123", function () exec("pvol.py -p -c  2") end),
+    -- awful.key({}, "#232", function () exec("plight.py -c -10") end),
+    -- awful.key({}, "#233", function () exec("plight.py -c  10") end),
+    -- awful.key({}, "#165", function () exec("sudo /usr/sbin/pm-hibernate") end),
+    -- awful.key({}, "#150", function () exec("sudo /usr/sbin/pm-suspend")   end),
+    -- awful.key({}, "#163", function () exec("pypres.py") end),
     -- }}}
-
+    -- ssh mgmt
+ awful.key({ modkey}, "F1", function ()
+	  awful.prompt.run({ prompt = "ssh: " },
+	  promptbox[mouse.screen].widget,
+	  function(h) awful.util.spawn(TERM1 .. " -e ssh " .. h) end,
+	  function(cmd, cur_pos, ncomp)
+		  -- get hosts and hostnames
+		  local hosts = {}
+		  f = io.popen("sed 's/#.*//;/[ \\t]*Host\\(Name\\)\\?[ \\t]\\+/!d;s///;/[*?]/d' " .. os.getenv("HOME") .. "/.ssh/config | sort")
+		  for host in f:lines() do
+		      table.insert(hosts, host)
+		  end
+		  f:close()
+		  -- abort completion under certain circumstances
+		  if cur_pos ~= #cmd + 1 and cmd:sub(cur_pos, cur_pos) ~= " " then
+		      return cmd, cur_pos
+		  end
+		  -- match
+		  local matches = {}
+		  table.foreach(hosts, function(x)
+		      if hosts[x]:find("^" .. cmd:sub(1, cur_pos):gsub('[-]', '[-]')) then
+		          table.insert(matches, hosts[x])
+		      end
+		  end)
+		  -- if there are no matches
+		  if #matches == 0 then
+		      return cmd, cur_pos
+		  end
+		  -- cycle
+		  while ncomp > #matches do
+		      ncomp = ncomp - #matches
+		  end
+		  -- return match and position
+		  return matches[ncomp], #matches[ncomp] + 1
+	  end,
+	  awful.util.getdir("cache") .. "/ssh_history")
+	end),
     -- {{{ Prompt menus
-    awful.key({ modkey }, "F1", function ()
-        awful.prompt.run({ prompt = "SSh: " }, promptbox[mouse.screen].widget,
-            function (host) sexec(TERM .. " -e ssh " .. host) end,
-            awful.util.getdir("cache" .. "/history_ssh")
-            )
-    end),
+    
+    -- awful.key({ modkey }, "F1", function ()
+    --     awful.prompt.run({ prompt = "SSh: " }, promptbox[mouse.screen].widget,
+    --         function (host) sexec(TERM .. " -e ssh " .. host) end,
+    --         awful.util.getdir("cache" .. "/history_ssh")
+    --         )
+    -- end),
     awful.key({ modkey }, "F2", function ()
         awful.prompt.run({ prompt = "Run: " }, promptbox[mouse.screen].widget,
             function (...) promptbox[mouse.screen].text = exec(unpack(arg), false) end,
