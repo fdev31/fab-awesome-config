@@ -28,6 +28,8 @@ local home   = os.getenv("HOME")
 local exec   = awful.util.spawn
 local sexec  = awful.util.spawn_with_shell
 local scount = screen.count()
+local TERM = "sakura"
+local EDIT = "gvim"
 
 -- Beautiful theme
 beautiful.init(home .. "/.config/awesome/zenburn.lua")
@@ -316,8 +318,8 @@ globalkeys = awful.util.table.join(
 --    awful.key({ modkey }, "e", function () exec("emacsclient -n -c") end),
     awful.key({ modkey }, "r", function () exec("rox", false) end),
     awful.key({ modkey }, "w", function () exec("firefox") end),
-    awful.key({ modkey }, "Return",  function () exec("sakura") end),
-    awful.key({ altkey }, "#49", function () scratch.drop("sakura", "bottom", nil, nil, 0.30) end),
+    awful.key({ modkey }, "Return",  function () exec(TERM) end),
+    awful.key({ altkey }, "#49", function () scratch.drop(TERM, "bottom", nil, nil, 0.30) end),
     awful.key({ modkey }, "a", function () exec("urxvt -T Alpine -e alpine.exp") end),
     awful.key({ modkey }, "g", function () sexec("GTK2_RC_FILES=~/.gtkrc-gajim gajim") end),
  --   awful.key({ modkey }, "q", function () exec("emacsclient --eval '(make-remember-frame)'") end),
