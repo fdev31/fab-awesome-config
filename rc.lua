@@ -17,6 +17,7 @@ require("awful.autofocus")
 -- User libraries
 local vicious = require("vicious")
 local scratch = require("scratch")
+require("revelation")
 -- }}}
 
 
@@ -386,7 +387,9 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "Right",   awful.tag.viewnext),
     awful.key({ modkey }, "Left",   awful.tag.viewprev),
     awful.key({ altkey }, "Tab", awful.tag.history.restore),
+    awful.key({modkey}, "e", revelation),
     -- }}}
+
 
     -- {{{ Layout manipulation
     awful.key({ modkey }, "l",          function () awful.tag.incmwfact( 0.05) end),
