@@ -25,15 +25,15 @@ require("revelation")
 -- {{{ Variable definitions
 local altkey = "Mod1"
 local modkey = "Mod4"
-local nic = "wlan0"
+local nic = os.execute('ip addr|grep eth0') and 'wlan0' or 'eth0'
+local term = "sakura"
+local edit = "gvim"
+
 
 local home   = os.getenv("HOME")
 local exec   = awful.util.spawn
 local sexec  = awful.util.spawn_with_shell
 local scount = screen.count()
-
-local TERM = "sakura"
-local EDIT = "gvim"
 
 -- Beautiful theme
 beautiful.init(home .. "/.config/awesome/zenburn.lua")
@@ -217,7 +217,7 @@ vicious.register(volbar,    vicious.widgets.volume,  "$1",  2, "Master")
 vicious.register(volwidget, vicious.widgets.volume, " $1%", 2, "Master")
 -- Register buttons
 volbar.widget:buttons(awful.util.table.join(
-   awful.button({ }, 1, function () exec(TERM .. " -e alsamixer") end),
+   awful.button({ }, 1, function () exec(term .. " -e alsamixer") end),
    awful.button({ }, 4, function () exec("amixer -q sset Master 3%+", false) end),
    awful.button({ }, 5, function () exec("amixer -q sset Master 3%-", false) end)
 )) -- Register assigned buttons
@@ -323,8 +323,8 @@ globalkeys = awful.util.table.join(
     awful.key({"Control", altkey}, "l", function () exec("xlock", false) end),
     awful.key({ modkey }, "t", function () exec("thunar", false) end),
     awful.key({ modkey }, "w", function () exec("chromium") end),
-    awful.key({ modkey }, "Return",  function () exec(TERM) end),
-    awful.key({ modkey }, "a", function () scratch.drop(TERM, "bottom", nil, nil, 0.30) end),
+    awful.key({ modkey }, "Return",  function () exec(term) end),
+    awful.key({ modkey }, "a", function () scratch.drop(term, "bottom", nil, nil, 0.30) end),
     --awful.key({ modkey }, "a", function () exec("urxvt -T Alpine -e alpine.exp") end),
     awful.key({ modkey }, "g", function () sexec("GTK2_RC_FILES=~/.gtkrc-gajim gajim") end),
  --   awful.key({ modkey }, "q", function () exec("emacsclient --eval '(make-remember-frame)'") end),
@@ -348,7 +348,7 @@ globalkeys = awful.util.table.join(
  awful.key({ modkey}, "F1", function ()
 	  awful.prompt.run({ prompt = "ssh: " },
 	  promptbox[mouse.screen].widget,
-	  function(h) sexec(TERM .. " -e ssh " .. h) end,
+	  function(h) sexec(term .. " -e ssh " .. h) end,
 	  function(cmd, cur_pos, ncomp)
 		  -- get hosts and hostnames
 		  local hosts = {}
@@ -385,7 +385,7 @@ globalkeys = awful.util.table.join(
     
     -- awful.key({ modkey }, "F1", function ()
     --     awful.prompt.run({ prompt = "SSh: " }, promptbox[mouse.screen].widget,
-    --         function (host) sexec(TERM .. " -e ssh " .. host) end,
+    --         function (host) sexec(term .. " -e ssh " .. host) end,
     --         awful.util.getdir("cache" .. "/history_ssh")
     --         )
     -- end),
