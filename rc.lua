@@ -536,10 +536,10 @@ root.keys(globalkeys)
 
 -- {{{ Rules
 function ru(c,n,prop)
-    return {
-        rule = {class=n, name=n},
-        properties=prop,
-    }
+        return {
+            rule = {class=c, name=n},
+            properties=prop,
+        }
 end
 
 -- Automatic rules
