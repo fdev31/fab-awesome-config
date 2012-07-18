@@ -534,44 +534,29 @@ root.keys(globalkeys)
 
 
 -- {{{ Rules
-awful.rules.rules = {
-    { rule = { }, properties = {
---      focus = true,      size_hints_honor = false,
-      keys = clientkeys, buttons = clientbuttons,
-      border_width = beautiful.border_width,
-      border_color = beautiful.border_normal }
-    },
-    -- www
-    { rule = { class = "Chromium"},
-      properties = { tag = tags[1][3] } },
-    -- chat
-    { rule = { class = "Chromium", name = ".*- chat -.*"},
-      properties = { tag = tags[1][5] } },
-    { rule = { class = "Xchat"},
-      properties = { tag = tags[2][5] } },
-    -- medias
-    { rule = { class = "Audacious"},
-      properties = { tag = tags[2][9] } },
-    -- edit      
-    { rule = { class = "Gvim"},
-      properties = { tag = tags[1][2] } },
-    { rule = { class = "Snaked"},
-      properties = { tag = tags[1][2] } },
-    -- other
-    { rule = { class = "Xmessage"},
-      properties = { floating = true }, callback = awful.titlebar.add  },
-    { rule = { instance = "plugin-container" },
-      properties = { floating = true }, callback = awful.titlebar.add  },
-    { rule = { class = "Akregator" },   properties = { tag = tags[scount][8]}},
-    { rule = { name  = "Alpine" },      properties = { tag = tags[1][4]} },
-    { rule = { class = "Gajim" },       properties = { tag = tags[1][5]} },
-    { rule = { class = "Ark" },         properties = { floating = true } },
-    { rule = { class = "Geeqie" },      properties = { floating = true } },
-    { rule = { class = "ROX-Filer" },   properties = { floating = true } },
-    { rule = { class = "Pinentry.*" },  properties = { floating = true } },
-}
--- }}}
+function ru(c,n,prop)
+    return {
+        rule = {class=n, name=n},
+        properties=prop,
+    }
+end
 
+-- Automatic rules
+
+awful.rules.rules = {
+    ru("chromium", nil, { tag = tags[1][3] }),
+    ru("Chromium", ".*- chat -.*", { tag = tags[1][5] }),
+    -- chat
+    ru("Xchat",nil, { tag = tags[scount > 1 and 2 or 1][5] } ),
+    -- medias
+    ru("Audacious",nil, { tag = tags[scount > 1 and 2 or 1][9] } ),
+    -- edit      
+    ru("Gvim", nil, { tag = tags[1][2] } ),
+    ru("Snaked",nil, { tag = tags[1][2] } ),
+      -- fs
+    ru("Geeqie",nil,{ floating = true } ),
+    ru("ROX-Filer",nil,{ floating = true }),
+}
 
 -- {{{ Signals
 --
@@ -625,5 +610,9 @@ end
 -- }}}
 
 -- INIT some state
-awful.tag.viewonly(tags[2][5])
+
 awful.tag.viewonly(tags[1][3])
+if (scount > 1) then
+    awful.tag.viewonly(tags[2][5])
+end
+
