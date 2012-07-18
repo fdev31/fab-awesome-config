@@ -14,6 +14,7 @@
 require("awful")
 require("awful.rules")
 require("awful.autofocus")
+require("naughty") -- notification
 -- User libraries
 local vicious = require("vicious")
 local scratch = require("scratch")
@@ -322,7 +323,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "t", function () exec("thunar", false) end),
     awful.key({ modkey }, "w", function () exec("chromium") end),
     awful.key({ modkey }, "Return",  function () exec(TERM) end),
-    awful.key({ altkey }, "a", function () scratch.drop(TERM, "bottom", nil, nil, 0.30) end),
+    awful.key({ modkey }, "a", function () scratch.drop(TERM, "bottom", nil, nil, 0.30) end),
     --awful.key({ modkey }, "a", function () exec("urxvt -T Alpine -e alpine.exp") end),
     awful.key({ modkey }, "g", function () sexec("GTK2_RC_FILES=~/.gtkrc-gajim gajim") end),
  --   awful.key({ modkey }, "q", function () exec("emacsclient --eval '(make-remember-frame)'") end),
@@ -540,15 +541,24 @@ awful.rules.rules = {
       border_width = beautiful.border_width,
       border_color = beautiful.border_normal }
     },
-    { rule = { class = "Chromium",  instance = "Navigator" },
-      properties = { tag = tags[scount][3] } },
-    { rule = { class = "gvim",    instance = "edit" },
+    -- www
+    { rule = { class = "Chromium"},
+      properties = { tag = tags[1][3] } },
+    -- chat
+    { rule = { class = "Chromium", name = ".*- chat -.*"},
+      properties = { tag = tags[1][5] } },
+    { rule = { class = "Xchat"},
+      properties = { tag = tags[2][5] } },
+    -- medias
+    { rule = { class = "Audacious"},
+      properties = { tag = tags[2][9] } },
+    -- edit      
+    { rule = { class = "Gvim"},
       properties = { tag = tags[1][2] } },
-    { rule = { class = "snaked",    instance = "edit" },
+    { rule = { class = "Snaked"},
       properties = { tag = tags[1][2] } },
-    { rule = { class = "Gvim",    instance = "_Remember_" },
-      properties = { floating = true }, callback = awful.titlebar.add  },
-    { rule = { class = "Xmessage", instance = "xmessage" },
+    -- other
+    { rule = { class = "Xmessage"},
       properties = { floating = true }, callback = awful.titlebar.add  },
     { rule = { instance = "plugin-container" },
       properties = { floating = true }, callback = awful.titlebar.add  },
@@ -613,4 +623,7 @@ for s = 1, scount do screen[s]:add_signal("arrange", function ()
   end)
 end
 -- }}}
--- }}}
+
+-- INIT some state
+awful.tag.viewonly(tags[2][5])
+awful.tag.viewonly(tags[1][3])
