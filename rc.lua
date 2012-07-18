@@ -545,6 +545,14 @@ end
 -- Automatic rules
 
 awful.rules.rules = {
+    {rule={}, properties = {
+        focus=true,
+        size_hints_honor=false,
+        keys=clientkeys,
+        buttons=clientbuttons,
+        border_width=beautiful.border_width,
+        border_color=beautiful.border_normal}
+    },
     ru("chromium", nil, { tag = tags[1][3] }),
     ru("Chromium", ".*- chat -.*", { tag = tags[1][5] }),
     -- chat
