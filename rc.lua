@@ -604,6 +604,7 @@ awful.rules.rules = {
     ru("Audacious",nil, { tag = tags[scount > 1 and 2 or 1][9] } ),
     -- edit      
     ru("Gvim", nil, { tag = tags[1][2] } ),
+    ru("Exe", "exe", { floating = true, fullscreen=true } ),
     ru("Snaked",nil, { tag = tags[1][2] } ),
       -- fs
     ru("Geeqie",nil,{ floating = true } ),
