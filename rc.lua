@@ -42,7 +42,7 @@ function texec(cmd)
 end
 function eexec(w)
     local t = function()
-        exec(term .. " -e " .. edit .. " " .. w)
+        exec(edit .. " " .. w)
     end
     return t
 end
