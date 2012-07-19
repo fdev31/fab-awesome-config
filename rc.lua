@@ -27,42 +27,53 @@ local altkey = "Mod1"
 local modkey = "Mod4"
 local nic = os.execute('ip addr|grep wlan0') == 0 and 'wlan0' or 'eth0'
 local term = "sakura"
-local edit = "gvim"
-
+local edit = "gvim -reverse"
 
 local home   = os.getenv("HOME")
 local exec   = awful.util.spawn
-local sexec  = awful.util.spawn_with_shell
+local _sexec  = awful.util.spawn_with_shell
 local scount = screen.count()
+
+function texec(cmd)
+    local t = function()
+        exec(term .. " -e " .. cmd)
+    end
+    return t
+end
+function eexec(w)
+    local t = function()
+        exec(term .. " -e " .. edit .. " " .. w)
+    end
+    return t
+end
+function sexec(cmd)
+    local t = function()
+        _sexec(cmd)
+    end
+    return t
+end
 
 -- Beautiful theme
 beautiful.init(home .. "/.config/awesome/zenburn.lua")
 
 -- Menu mgmt
 
-myawesomemenu = {
-    --[[
-    { "manual", function() sexec("man awesome" ) end },
-    { "edit config", function() sexec(edit .. " " .. awesome.conffile) end },
-    ]]
-    { "restart", awesome.restart },
-    { "quit", awesome.quit },
+app_menu = {
+    { "Screen 38.4",  texec('screen /dev/ttyUSB0 38400')  },
+    { "Screen 115.2", texec('screen /dev/ttyUSB0 115200') },
+    { "Inkscape", sexec('inkscape') },
 }
 mymainmenu = awful.menu({
     items = {
-    { "Screen 38.4", sexec('screen /dev/ttyUSB0 38400') },
-    { "Screen 115.2", sexec('screen /dev/ttyUSB0 115200') },
-    { "manual", function() sexec(term .. "-e man awesome" ) end },
-    { "applications", myawesomemenu, beautiful.awesome_icon },
-    { "restart", awesome.restart },
-    { "quit", awesome.quit },
-  }
+        { "applications", app_menu, beautiful.sun},
+        { "manual", texec("man awesome") },
+        { "edit config", eexec(awesome.conffile) },
+        { "restart", awesome.restart },
+        { "quit", awesome.quit },
+    }
 })
-mylauncher = awful.widget.launcher({ image = cpuicon, menu = {} })
-
-cpuicon = widget({ type = "imagebox" })
-cpuicon.image = image(beautiful.widget_cpu)
-
+mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
+                                     menu = mymainmenu })
 
 -- Window management layouts
 layouts = {
@@ -160,7 +171,7 @@ for _, w in pairs(fs) do
      beautiful.fg_center_widget, beautiful.fg_end_widget
   }) -- Register buttons
   w.widget:buttons(awful.util.table.join(
-    awful.button({ }, 1, function () exec("rox", false) end)
+    awful.button({ }, 1, sexec("rox") )
   ))
 end -- Enable caching
 vicious.cache(vicious.widgets.fs)
@@ -245,9 +256,9 @@ vicious.register(volbar,    vicious.widgets.volume,  "$1",  2, "Master")
 vicious.register(volwidget, vicious.widgets.volume, " $1%", 2, "Master")
 -- Register buttons
 volbar.widget:buttons(awful.util.table.join(
-   awful.button({ }, 1, function () exec(term .. " -e alsamixer") end),
-   awful.button({ }, 4, function () exec("amixer -q sset Master 3%+", false) end),
-   awful.button({ }, 5, function () exec("amixer -q sset Master 3%-", false) end)
+   awful.button({ }, 1, texec("alsamixer") ),
+   awful.button({ }, 4, sexec("amixer -q sset Master 3%+", false)),
+   awful.button({ }, 5, sexec("amixer -q sset Master 3%-", false))
 )) -- Register assigned buttons
 volwidget:buttons(volbar.widget:buttons())
 -- }}}
@@ -260,9 +271,11 @@ datewidget = widget({ type = "textbox" })
 -- Register widget
 vicious.register(datewidget, vicious.widgets.date, "%R", 61)
 -- Register buttons
+--[[
 datewidget:buttons(awful.util.table.join(
   awful.button({ }, 1, function () exec("pylendar.py") end)
 ))
+]]
 -- }}}
 
 -- {{{ System tray
@@ -307,7 +320,7 @@ for s = 1, scount do
     })
     -- Add widgets to the wibox
     wibox[s].widgets = {
-        {   separator, mylauncher, separator,
+        {   mylauncher, separator,
             taglist[s], layoutbox[s], separator, promptbox[s],
             ["layout"] = awful.widget.layout.horizontal.leftright
         },
@@ -350,14 +363,14 @@ clientbuttons = awful.util.table.join(
 globalkeys = awful.util.table.join(
     -- {{{ Applications
 --    awful.key({ modkey }, "e", function () exec("emacsclient -n -c") end),
-    awful.key({"Control", altkey}, "l", function () exec("xlock", false) end),
+    awful.key({"Control", altkey}, "l", sexec("xlock", false) ),
     awful.key({ modkey}, "q", function () mymainmenu:show({keygrabber=true}) end),
-    awful.key({ modkey }, "t", function () exec("thunar", false) end),
-    awful.key({ modkey }, "w", function () exec("chromium") end),
-    awful.key({ modkey }, "Return",  function () exec(term) end),
+    awful.key({ modkey }, "t", sexec("thunar") ),
+    awful.key({ modkey }, "w", sexec("chromium") ),
+    awful.key({ modkey }, "Return",  sexec(term)),
     awful.key({ modkey }, "a", function () scratch.drop(term, "bottom", nil, nil, 0.30) end),
     --awful.key({ modkey }, "a", function () exec("urxvt -T Alpine -e alpine.exp") end),
-    awful.key({ modkey }, "g", function () sexec("GTK2_RC_FILES=~/.gtkrc-gajim gajim") end),
+    awful.key({ modkey }, "g", sexec("GTK2_RC_FILES=~/.gtkrc-gajim gajim")),
  --   awful.key({ modkey }, "q", function () exec("emacsclient --eval '(make-remember-frame)'") end),
     --awful.key({ altkey }, "#51", function () if boosk then osk(nil, mouse.screen)
 --        else boosk, osk = pcall(require, "osk") end
@@ -379,7 +392,7 @@ globalkeys = awful.util.table.join(
  awful.key({ modkey}, "F1", function ()
 	  awful.prompt.run({ prompt = "ssh: " },
 	  promptbox[mouse.screen].widget,
-	  function(h) sexec(term .. " -e ssh " .. h) end,
+	  function(h) texec("ssh "..h)() end,
 	  function(cmd, cur_pos, ncomp)
 		  -- get hosts and hostnames
 		  local hosts = {}
@@ -414,12 +427,6 @@ globalkeys = awful.util.table.join(
 	end),
     -- {{{ Prompt menus
     
-    -- awful.key({ modkey }, "F1", function ()
-    --     awful.prompt.run({ prompt = "SSh: " }, promptbox[mouse.screen].widget,
-    --         function (host) sexec(term .. " -e ssh " .. host) end,
-    --         awful.util.getdir("cache" .. "/history_ssh")
-    --         )
-    -- end),
     awful.key({ modkey }, "F2", function ()
         awful.prompt.run({ prompt = "Run: " }, promptbox[mouse.screen].widget,
             function (...) promptbox[mouse.screen].text = exec(unpack(arg), false) end,
@@ -428,14 +435,19 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "F3", function ()
         awful.prompt.run({ prompt = "Dictionary: " }, promptbox[mouse.screen].widget,
             function (words)
-                sexec("crodict "..words.." | ".."xmessage -timeout 10 -file -")
+                exec("gnome-dictionary --look-up='"..words.."'")
             end)
     end),
     awful.key({ modkey }, "F4", function ()
-        awful.prompt.run({ prompt = "Web: " }, promptbox[mouse.screen].widget,
+        awful.prompt.run({ prompt = "Task: " }, promptbox[mouse.screen].widget,
             function (command)
-                sexec("firefox 'http://yubnub.org/parser/parse?command="..command.."'")
-                awful.tag.viewonly(tags[scount][3])
+                if(command:len() > 2) then
+                    exec("task add "..command)
+                else
+                    local f = "/tmp/tasks.txt"
+                    _sexec("task > "..f)
+                    texec("less "..f)()
+                end
             end)
     end),
     awful.key({ modkey }, "F5", function ()

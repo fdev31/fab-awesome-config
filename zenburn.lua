@@ -72,14 +72,15 @@ theme.mouse_finder_color = theme.fg_urgent
 -- {{{ Icons
 --
 -- {{{ Taglist icons
+theme.sun = theme.confdir .. "/icons/sun.png"
 theme.taglist_squares_sel   = theme.confdir .. "/icons/taglist/sel.png"
 theme.taglist_squares_unsel = theme.confdir .. "/icons/taglist/unsel.png"
 --theme.taglist_squares_resize = "false"
 -- }}}
 
 -- {{{ Misc icons
---theme.awesome_icon           = theme.confdir .. "/icons/awesome.png"
---theme.menu_submenu_icon      = "/usr/share/awesome/themes/default/submenu.png"
+theme.awesome_icon           = theme.confdir .. "/icons/awesome.png"
+theme.menu_submenu_icon      = "/usr/share/awesome/themes/default/submenu.png"
 --theme.tasklist_floating_icon = "/usr/share/awesome/themes/default/tasklist/floatingw.png"
 -- }}}
 
