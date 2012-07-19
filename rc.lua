@@ -293,7 +293,7 @@ for s = 1, scount do
         separator, fs.s.widget, fs.h.widget, fs.r.widget, fs.b.widget, fsicon,
         separator, membar.widget, memicon,
         separator, batwidget, baticon,
-        separator, tzswidget, cpugraph.widget, cpuicon,
+        separator, tzswidget, cpugraph.widget,-- cpuicon,
         separator, ["layout"] = awful.widget.layout.horizontal.rightleft
     }
 end
