@@ -25,7 +25,7 @@ require("revelation")
 -- {{{ Variable definitions
 local altkey = "Mod1"
 local modkey = "Mod4"
-local nic = os.execute('ip addr|grep eth0') and 'wlan0' or 'eth0'
+local nic = os.execute('ip addr|grep wlan0') == 0 and 'wlan0' or 'eth0'
 local term = "sakura"
 local edit = "gvim"
 
@@ -37,6 +37,32 @@ local scount = screen.count()
 
 -- Beautiful theme
 beautiful.init(home .. "/.config/awesome/zenburn.lua")
+
+-- Menu mgmt
+
+myawesomemenu = {
+    --[[
+    { "manual", function() sexec("man awesome" ) end },
+    { "edit config", function() sexec(edit .. " " .. awesome.conffile) end },
+    ]]
+    { "restart", awesome.restart },
+    { "quit", awesome.quit },
+}
+mymainmenu = awful.menu({
+    items = {
+    { "Screen 38.4", sexec('screen /dev/ttyUSB0 38400') },
+    { "Screen 115.2", sexec('screen /dev/ttyUSB0 115200') },
+    { "manual", function() sexec(term .. "-e man awesome" ) end },
+    { "applications", myawesomemenu, beautiful.awesome_icon },
+    { "restart", awesome.restart },
+    { "quit", awesome.quit },
+  }
+})
+mylauncher = awful.widget.launcher({ image = cpuicon, menu = {} })
+
+cpuicon = widget({ type = "imagebox" })
+cpuicon.image = image(beautiful.widget_cpu)
+
 
 -- Window management layouts
 layouts = {
@@ -281,7 +307,8 @@ for s = 1, scount do
     })
     -- Add widgets to the wibox
     wibox[s].widgets = {
-        {   taglist[s], layoutbox[s], separator, promptbox[s],
+        {   separator, mylauncher, separator,
+            taglist[s], layoutbox[s], separator, promptbox[s],
             ["layout"] = awful.widget.layout.horizontal.leftright
         },
         s == 1 and systray or nil,
@@ -303,6 +330,7 @@ end
 
 -- {{{ Mouse bindings
 root.buttons(awful.util.table.join(
+    awful.button({ }, 3, function () mymainmenu:toggle() end),
     awful.button({ }, 4, awful.tag.viewnext),
     awful.button({ }, 5, awful.tag.viewprev)
 ))
@@ -323,6 +351,7 @@ globalkeys = awful.util.table.join(
     -- {{{ Applications
 --    awful.key({ modkey }, "e", function () exec("emacsclient -n -c") end),
     awful.key({"Control", altkey}, "l", function () exec("xlock", false) end),
+    awful.key({ modkey}, "q", function () mymainmenu:show({keygrabber=true}) end),
     awful.key({ modkey }, "t", function () exec("thunar", false) end),
     awful.key({ modkey }, "w", function () exec("chromium") end),
     awful.key({ modkey }, "Return",  function () exec(term) end),
@@ -515,13 +544,13 @@ for i = 1, keynumber do
             if tags[screen][i] then awful.tag.viewonly(tags[screen][i]) end
         end),
         awful.key({ modkey, "Control" }, "#" .. i + 9, function ()
-            local screen = mouse.screen
-            if tags[screen][i] then awful.tag.viewtoggle(tags[screen][i]) end
-        end),
-        awful.key({ modkey, "Shift" }, "#" .. i + 9, function ()
             if client.focus and tags[client.focus.screen][i] then
                 awful.client.movetotag(tags[client.focus.screen][i])
             end
+        end),
+        awful.key({ modkey, "Shift" }, "#" .. i + 9, function ()
+            local screen = mouse.screen
+            if tags[screen][i] then awful.tag.viewtoggle(tags[screen][i]) end
         end),
         awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9, function ()
             if client.focus and tags[client.focus.screen][i] then
