@@ -158,6 +158,7 @@ vicious.register(netwidget, vicious.widgets.net, '<span color="'
   .. beautiful.fg_netup_widget ..'">${'..nic..' up_kb}</span>', 3)
 -- }}}
 
+--[[
 -- {{{ Mail subject
 mailicon = widget({ type = "imagebox" })
 mailicon.image = image(beautiful.widget_mail)
@@ -197,6 +198,7 @@ vicious.register(orgwidget, vicious.widgets.org,
   -- awful.button({ }, 3, function () exec("emacsclient --eval '(make-remember-frame)'") end)
 -- ))
 -- }}}
+]]
 
 -- {{{ Volume level
 volicon = widget({ type = "imagebox" })
@@ -285,8 +287,8 @@ for s = 1, scount do
         s == 1 and systray or nil,
         separator, datewidget, dateicon,
         separator, volwidget,  volbar.widget, volicon,
-        separator, orgwidget,  orgicon,
-        separator, mailwidget, mailicon,
+--        separator, orgwidget,  orgicon,
+--        separator, mailwidget, mailicon,
         separator, upicon,     netwidget, dnicon,
         separator, fs.s.widget, fs.h.widget, fs.r.widget, fs.b.widget, fsicon,
         separator, membar.widget, memicon,
