@@ -10,7 +10,8 @@
 -- }}}
 
 
--- {{{ Libraries
+-- Libraries --
+
 require("awful")
 require("awful.rules")
 require("awful.autofocus")
@@ -19,10 +20,10 @@ require("naughty") -- notification
 local vicious = require("vicious")
 local scratch = require("scratch")
 require("revelation")
--- }}}
 
 
--- {{{ Variable definitions
+-- Variable definitions --
+
 local altkey = "Mod1"
 local modkey = "Mod4"
 local nic = os.execute('ip addr|grep wlan0') == 0 and 'wlan0' or 'eth0'
@@ -33,6 +34,8 @@ local home   = os.getenv("HOME")
 local exec   = awful.util.spawn
 local _sexec  = awful.util.spawn_with_shell
 local scount = screen.count()
+
+-- handy functions --
 
 function texec(cmd)
     local t = function()
@@ -53,10 +56,11 @@ function sexec(cmd)
     return t
 end
 
--- Beautiful theme
+-- Beautiful theme --
+
 beautiful.init(home .. "/.config/awesome/zenburn.lua")
 
--- Menu mgmt
+-- Menus definition --
 
 app_items = {
     { "Inkscape", sexec('inkscape') },
@@ -88,10 +92,12 @@ mymainmenu = awful.menu({
         { "quit", awesome.quit },
     }
 })
+
+-- launcher for clickable icon
 mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
                                      menu = mymainmenu })
 
--- Window management layouts
+-- Window management layouts --
 layouts = {
   awful.layout.suit.tile,        -- 1
   awful.layout.suit.tile.bottom, -- 2
@@ -100,10 +106,8 @@ layouts = {
   awful.layout.suit.magnifier,   -- 5
   awful.layout.suit.floating     -- 6
 }
--- }}}
 
-
--- {{{ Tags
+-- Tags --
 tags = {
   names  = { "term", "edit", "web", "mail", "im", 6, 7, "rss", "media" },
   layout = { layouts[2], layouts[1], layouts[1], layouts[4], layouts[1],
@@ -117,11 +121,10 @@ for s = 1, scount do
       awful.tag.setproperty(t, "hide",  (i==6 or  i==7) and true)
   end
 end
--- }}}
 
 
--- {{{ Wibox
---
+-- Wibox --
+
 -- {{{ Widgets configuration
 --
 -- {{{ Reusable separator
@@ -354,27 +357,28 @@ for s = 1, scount do
     }
 end
 -- }}}
--- }}}
+-- // wibox end
 
 
--- {{{ Mouse bindings
+
+-- Mouse bindings --
+-- on root
 root.buttons(awful.util.table.join(
     awful.button({ }, 3, function () mymainmenu:toggle() end),
     awful.button({ }, 4, awful.tag.viewnext),
     awful.button({ }, 5, awful.tag.viewprev)
 ))
 
--- Client bindings
+-- on client
 clientbuttons = awful.util.table.join(
     awful.button({ },        1, function (c) client.focus = c; c:raise() end),
     awful.button({ modkey }, 1, awful.mouse.client.move),
     awful.button({ modkey }, 3, awful.mouse.client.resize)
 )
--- }}}
 
 
--- {{{ Key bindings
---
+-- Key bindings {{{ --
+
 -- {{{ Global keys
 globalkeys = awful.util.table.join(
     -- {{{ Applications
@@ -625,17 +629,19 @@ function ru(c,n,prop)
         }
 end
 
--- Automatic rules
+-- Automatic rules --
 
 awful.rules.rules = {
-    {rule={}, properties = {
+    -- default rules --
+    ru(nil,nil,{
         focus=true,
         size_hints_honor=false,
         keys=clientkeys,
         buttons=clientbuttons,
         border_width=beautiful.border_width,
         border_color=beautiful.border_normal}
-    },
+    ),
+    -- standard rules --
     ru("chromium", nil, { tag = tags[1][3] }),
     ru("Chromium", ".*- chat -.*", { tag = tags[1][5] }),
     -- chat
@@ -644,16 +650,16 @@ awful.rules.rules = {
     ru("Audacious",nil, { tag = tags[scount > 1 and 2 or 1][9] } ),
     -- edit      
     ru("Gvim", nil, { tag = tags[1][2] } ),
-    ru("Exe", "exe", { floating = true, fullscreen=true } ),
     ru("Snaked",nil, { tag = tags[1][2] } ),
       -- fs
     ru("Geeqie",nil,{ floating = true } ),
     ru("ROX-Filer",nil,{ floating = true }),
+    -- hacks --
+    -- arte+7
+    ru("Exe", "exe", { fullscreen=true } ),
 }
 
--- {{{ Signals
---
--- {{{ Manage signal handler
+-- Manage signal handler --
 client.add_signal("manage", function (c, startup)
     -- Add titlebar to floaters, but remove those from rule callback
     if awful.client.floating.get(c)
@@ -681,14 +687,13 @@ client.add_signal("manage", function (c, startup)
         end
     end
 end)
--- }}}
 
--- {{{ Focus signal handlers
+-- Focus signal handlers --
 client.add_signal("focus",   function (c) c.border_color = beautiful.border_focus  end)
 client.add_signal("unfocus", function (c) c.border_color = beautiful.border_normal end)
--- }}}
 
--- {{{ Arrange signal handler
+
+-- Arrange signal handler --
 for s = 1, scount do screen[s]:add_signal("arrange", function ()
     local clients = awful.client.visible(s)
     local layout = awful.layout.getname(awful.layout.get(s))
@@ -700,9 +705,8 @@ for s = 1, scount do screen[s]:add_signal("arrange", function ()
     end
   end)
 end
--- }}}
 
--- INIT some state
+-- INIT some state --
 
 awful.tag.viewonly(tags[1][3])
 if (scount > 1) then
