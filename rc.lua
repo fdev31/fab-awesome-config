@@ -58,10 +58,18 @@ beautiful.init(home .. "/.config/awesome/zenburn.lua")
 
 -- Menu mgmt
 
-app_menu = {
-    { "Screen 38.4",  texec('screen /dev/ttyUSB0 38400')  },
-    { "Screen 115.2", texec('screen /dev/ttyUSB0 115200') },
+app_items = {
     { "Inkscape", sexec('inkscape') },
+    { "Gimp", sexec('gimp') },
+    { "Chromium (mod w)", sexec('chromium') },
+    { "Thunar (mod t)", sexec('thunar') },
+}
+connect_items = {
+    { "Ssh ui",  texec('ssh ui.static.wyplay.int')  },
+    { "Ssh wopr",  texec('ssh wopr')  },
+    { "Ssh wyoli",  texec('ssh wyoli.wyplay.com')  },
+    { "Serial @38.4",  texec('screen /dev/ttyUSB0 38400')  },
+    { "Serial @115.2", texec('screen /dev/ttyUSB0 115200') },
 }
 zmitems ={
         {'toggle pause', sexec('wasp pause')},
@@ -71,7 +79,8 @@ zmitems ={
 zicmenu = awful.menu({items = zmitems})
 mymainmenu = awful.menu({
     items = {
-        { "applications", app_menu, beautiful.sun},
+        { "applications", app_items, beautiful.sun},
+        { "targets", connect_items},
         { "zic", zmitems},
         { "manual", texec("man awesome") },
         { "edit config", eexec(awesome.conffile) },
