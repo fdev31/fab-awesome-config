@@ -639,8 +639,8 @@ awful.rules.rules = {
         keys=clientkeys,
         buttons=clientbuttons,
         border_width=beautiful.border_width,
-        border_color=beautiful.border_normal}
-    ),
+        border_color=beautiful.border_normal
+    }),
     -- standard rules --
     ru("chromium", nil, { tag = tags[1][3] }),
     ru("Chromium", ".*- chat -.*", { tag = tags[1][5] }),
@@ -656,7 +656,7 @@ awful.rules.rules = {
     ru("ROX-Filer",nil,{ floating = true }),
     -- hacks --
     -- arte+7
-    ru("Exe", "exe", { fullscreen=true } ),
+    ru("Exe", "exe", { floating=true, fullscreen=true } ),
 }
 
 -- Manage signal handler --
