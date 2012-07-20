@@ -63,9 +63,16 @@ app_menu = {
     { "Screen 115.2", texec('screen /dev/ttyUSB0 115200') },
     { "Inkscape", sexec('inkscape') },
 }
+zmitems ={
+        {'toggle pause', sexec('wasp pause')},
+        {'zap', sexec('wasp next')},
+    }
+
+zicmenu = awful.menu({items = zmitems})
 mymainmenu = awful.menu({
     items = {
         { "applications", app_menu, beautiful.sun},
+        { "zic", zmitems},
         { "manual", texec("man awesome") },
         { "edit config", eexec(awesome.conffile) },
         { "restart", awesome.restart },
@@ -365,6 +372,7 @@ globalkeys = awful.util.table.join(
 --    awful.key({ modkey }, "e", function () exec("emacsclient -n -c") end),
     awful.key({"Control", altkey}, "l", sexec("xlock", false) ),
     awful.key({ modkey}, "q", function () mymainmenu:show({keygrabber=true}) end),
+    awful.key({ modkey}, "z", function () zicmenu:show({keygrabber=true}) end),
     awful.key({ modkey }, "t", sexec("thunar") ),
     awful.key({ modkey }, "w", sexec("chromium") ),
     awful.key({ modkey }, "Return",  sexec(term)),
