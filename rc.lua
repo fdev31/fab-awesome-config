@@ -485,7 +485,30 @@ globalkeys = awful.util.table.join(
 
     -- {{{ Tag browsing
     awful.key({ modkey }, "Right",   awful.tag.viewnext),
+    awful.key({ modkey, "Shift" }, "Right",   function()
+        local i = nil
+        if ( #tags[client.focus.screen] == awful.tag.getidx() ) then
+            i = 1
+        else
+            i = awful.tag.getidx()+1
+        end
+        awful.client.movetotag(tags[client.focus.screen][i])
+        awful.tag.viewnext()
+        client.focus:raise()
+    end),
     awful.key({ modkey }, "Left",   awful.tag.viewprev),
+    awful.key({ modkey, "Shift" }, "Left",   function()
+        local i = nil
+        if ( 1 == awful.tag.getidx() ) then
+            i = #tags[client.focus.screen]
+        else
+            i = awful.tag.getidx()-1
+        end
+            awful.client.movetotag(tags[client.focus.screen][i])
+            awful.tag.viewprev()
+            client.focus:raise()
+        end
+    ),
     awful.key({ altkey }, "Tab", awful.tag.history.restore),
     awful.key({modkey}, "e", revelation),
     -- }}}
