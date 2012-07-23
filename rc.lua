@@ -72,8 +72,8 @@ connect_items = {
     { "Ssh ui",  texec('ssh ui.static.wyplay.int')  },
     { "Ssh wopr",  texec('ssh wopr')  },
     { "Ssh wyoli",  texec('ssh wyoli.wyplay.com')  },
-    { "Serial @38.4",  texec('screen /dev/ttyUSB0 38400')  },
-    { "Serial @115.2", texec('screen /dev/ttyUSB0 115200') },
+    { "Serial @38.4",  texec('sudo screen /dev/ttyUSB0 38400')  },
+    { "Serial @115.2", texec('sudo screen /dev/ttyUSB0 115200') },
 }
 zmitems ={
         {'toggle pause', sexec('wasp pause')},
