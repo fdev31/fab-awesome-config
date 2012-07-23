@@ -417,10 +417,22 @@ globalkeys = awful.util.table.join(
 	  function(cmd, cur_pos, ncomp)
 		  -- get hosts and hostnames
 		  local hosts = {}
-		  f = io.popen("sed 's/#.*//;/[ \\t]*Host\\(Name\\)\\?[ \\t]\\+/!d;s///;/[*?]/d' " .. os.getenv("HOME") .. "/.ssh/config | sort")
-		  for host in f:lines() do
-		      table.insert(hosts, host)
-		  end
+
+
+            f = io.open(os.getenv('HOME') .. '/.ssh/config')
+            while true
+                do
+                    line = f:read()
+                    if (line == nil) then
+                        break
+                    end
+                    for match in line:gmatch("host%s+(%S+)") do
+                        if (match ~= '*') then
+                            table.insert(hosts, match)
+                        end
+                    end
+                end
+
 		  f:close()
 		  -- abort completion under certain circumstances
 		  if cur_pos ~= #cmd + 1 and cmd:sub(cur_pos, cur_pos) ~= " " then
