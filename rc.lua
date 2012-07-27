@@ -67,6 +67,7 @@ app_items = {
     { "Gimp", sexec('gimp') },
     { "Chromium (mod w)", sexec('chromium') },
     { "Thunar (mod t)", sexec('thunar') },
+    { "WeeChat", texec('weechat-curses') },
 }
 connect_items = {
     { "Ssh ui",  texec('ssh ui.static.wyplay.int')  },
@@ -98,30 +99,69 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
                                      menu = mymainmenu })
 
 -- Window management layouts --
-layouts = {
-  awful.layout.suit.tile,        -- 1
-  awful.layout.suit.tile.bottom, -- 2
-  awful.layout.suit.fair,        -- 3
-  awful.layout.suit.max,         -- 4
-  awful.layout.suit.magnifier,   -- 5
-  awful.layout.suit.floating     -- 6
+-- all used layouts should be defined ONCE here:
+rlayouts = {
+    title  = awful.layout.suit.tile        , 
+    titleb = awful.layout.suit.tile.bottom , 
+    fair   = awful.layout.suit.fair        , 
+    max    = awful.layout.suit.max         , 
+    mag    = awful.layout.suit.magnifier   , 
+    float  = awful.layout.suit.floating    , 
 }
+
+-- build layouts from rlayouts
+layouts = {}
+n=1
+for i, o in pairs(rlayouts) do
+    layouts[n] = o
+    n=n+1
+end
+n=nil
 
 -- Tags --
 tags = {
-  names  = { "term", "edit", "web", "mail", "im", 6, 7, "rss", "media" },
-  layout = { layouts[2], layouts[1], layouts[1], layouts[4], layouts[1],
-             layouts[6], layouts[6], layouts[5], layouts[6]
-}}
+    names={},
+    layout={}
+}
 
-for s = 1, scount do
-  tags[s] = awful.tag(tags.names, s, tags.layout)
-  for i, t in ipairs(tags[s]) do
-      awful.tag.setproperty(t, "mwfact", i==5 and 0.13  or  0.5)
-      awful.tag.setproperty(t, "hide",  (i==6 or  i==7) and true)
-  end
+_dflt = rlayouts.title
+
+-- user-customizable tags: (name, layout)
+_tags = {
+    {"term"  , rlayouts.titleb} , 
+    {"edit"  , _dflt}           , 
+    {"web"   , _dflt}           , 
+    {"im"    , _dflt}           , 
+    {"mail"  , rlayouts.max}    , 
+    {nil     , rlayouts.float}  , 
+    {nil     , rlayouts.float}  , 
+    {"rss"   , rlayouts.mag}    , 
+    {"media" , _dflt}
+}
+
+-- rtagnums.tag_name == <index of the given tag>
+rtagnums = {}
+
+for i,t in ipairs(_tags) do
+    if t[1] then
+        rtagnums[t[1]] = i
+    end
+    tags.names[i] = t[1] or i
+    tags.layout[i] = t[2]
 end
 
+_tags = nil
+_dflt = nil
+
+-- stop describing, set tags for real now
+
+for s = 1, scount do -- for each screen
+  tags[s] = awful.tag(tags.names, s, tags.layout) -- create tags
+  for i, t in ipairs(tags[s]) do -- set some properties
+      awful.tag.setproperty(t , "mwfact" , i==5 and 0.13 or 0.5)
+      awful.tag.setproperty(t , "hide"   , (i==6 or i==7) and true)
+  end
+end
 
 -- Wibox --
 
@@ -214,48 +254,6 @@ vicious.register(netwidget, vicious.widgets.net, '<span color="'
   .. beautiful.fg_netup_widget ..'">${'..nic..' up_kb}</span>', 3)
 -- }}}
 
---[[
--- {{{ Mail subject
-mailicon = widget({ type = "imagebox" })
-mailicon.image = image(beautiful.widget_mail)
--- Initialize widget
-mailwidget = widget({ type = "textbox" })
--- Register widget
-vicious.register(mailwidget, vicious.widgets.mbox, "$1", 181, {home .. "/mail/Inbox", 15})
--- Register buttons
-mailwidget:buttons(awful.util.table.join(
-  awful.button({ }, 1, function () exec("urxvt -T Alpine -e alpine.exp") end)
-))
--- }}}
-
--- {{{ Org-mode agenda
-orgicon = widget({ type = "imagebox" })
-orgicon.image = image(beautiful.widget_org)
--- Initialize widget
-orgwidget = widget({ type = "textbox" })
--- Configure widget
-local orgmode = {
-  files = { home.."/.org/computers.org",
-    home.."/.org/index.org", home.."/.org/personal.org",
-  },
-  color = {
-    past   = '<span color="'..beautiful.fg_urgent..'">',
-    today  = '<span color="'..beautiful.fg_normal..'">',
-    soon   = '<span color="'..beautiful.fg_widget..'">',
-    future = '<span color="'..beautiful.fg_netup_widget..'">'
-}} -- Register widget
-vicious.register(orgwidget, vicious.widgets.org,
-  orgmode.color.past..'$1</span>-'..orgmode.color.today .. '$2</span>-' ..
-  orgmode.color.soon..'$3</span>-'..orgmode.color.future.. '$4</span>', 601,
-  orgmode.files
-) -- Register buttons
--- orgwidget:buttons(awful.util.table.join(
-  -- awful.button({ }, 1, function () exec("emacsclient --eval '(org-agenda-list)'") end),
-  -- awful.button({ }, 3, function () exec("emacsclient --eval '(make-remember-frame)'") end)
--- ))
--- }}}
-]]
-
 -- {{{ Volume level
 volicon = widget({ type = "imagebox" })
 volicon.image = image(beautiful.widget_vol)
@@ -289,13 +287,6 @@ dateicon.image = image(beautiful.widget_date)
 datewidget = widget({ type = "textbox" })
 -- Register widget
 vicious.register(datewidget, vicious.widgets.date, "%R", 61)
--- Register buttons
---[[
-datewidget:buttons(awful.util.table.join(
-  awful.button({ }, 1, function () exec("pylendar.py") end)
-))
-]]
--- }}}
 
 -- {{{ System tray
 systray = widget({ type = "systray" })
@@ -346,8 +337,6 @@ for s = 1, scount do
         s == 1 and systray or nil,
         separator, datewidget, dateicon,
         separator, volwidget,  volbar.widget, volicon,
---        separator, orgwidget,  orgicon,
---        separator, mailwidget, mailicon,
         separator, upicon,     netwidget, dnicon,
         separator, fs.s.widget, fs.h.widget, fs.r.widget, fs.b.widget, fsicon,
         separator, membar.widget, memicon,
@@ -654,15 +643,15 @@ awful.rules.rules = {
         border_color=beautiful.border_normal
     }),
     -- standard rules --
-    ru("chromium", nil, { tag = tags[1][3] }),
-    ru("Chromium", ".*- chat -.*", { tag = tags[1][5] }),
+    ru("chromium", nil, { tag = tags[1][rtagnums.web] }),
+    ru("Chromium", ".*- chat -.*", { tag = tags[1][rtagnums.im] }),
     -- chat
-    ru("Xchat",nil, { tag = tags[scount > 1 and 2 or 1][5] } ),
+    ru("Xchat",nil, { tag = tags[scount > 1 and 2 or 1][rtagnums.im] } ),
     -- medias
-    ru("Audacious",nil, { tag = tags[scount > 1 and 2 or 1][9] } ),
+    ru("Audacious",nil, { tag = tags[scount > 1 and 2 or 1][rtagnums.media] } ),
     -- edit      
-    ru("Gvim", nil, { tag = tags[1][2] } ),
-    ru("Snaked",nil, { tag = tags[1][2] } ),
+    ru("Gvim", nil, { tag = tags[1][rtagnums.edit] } ),
+    ru("Snaked",nil, { tag = tags[1][rtagnums.edit] } ),
       -- fs
     ru("Geeqie",nil,{ floating = true } ),
     ru("ROX-Filer",nil,{ floating = true }),
