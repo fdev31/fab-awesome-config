@@ -35,6 +35,9 @@ local exec   = awful.util.spawn
 local _sexec  = awful.util.spawn_with_shell
 local scount = screen.count()
 
+local SCREEN_MAIN = 2
+local SCREEN_SEC = 1
+
 -- handy functions --
 
 function texec(cmd)
@@ -65,6 +68,8 @@ beautiful.init(home .. "/.config/awesome/zenburn.lua")
 app_items = {
     { "Inkscape", sexec('inkscape') },
     { "Gimp", sexec('gimp') },
+    { "Midori", sexec('midori') },
+    { "Firefox", sexec('firefox') },
     { "Chromium (mod w)", sexec('chromium') },
     { "Thunar (mod t)", sexec('thunar') },
 }
@@ -654,15 +659,15 @@ awful.rules.rules = {
         border_color=beautiful.border_normal
     }),
     -- standard rules --
-    ru("chromium", nil, { tag = tags[1][3] }),
-    ru("Chromium", ".*- chat -.*", { tag = tags[1][5] }),
+    ru("chromium", nil, { tag = tags[SCREEN_MAIN][3] }),
+    ru("Chromium", ".*- chat -.*", { tag = tags[SCREEN_MAIN][5] }),
     -- chat
-    ru("Xchat",nil, { tag = tags[scount > 1 and 2 or 1][5] } ),
+    ru("Xchat",nil, { tag = tags[scount > 1 and SCREEN_SEC or 1][5] } ),
     -- medias
-    ru("Audacious",nil, { tag = tags[scount > 1 and 2 or 1][9] } ),
+    ru("Audacious",nil, { tag = tags[scount > 1 and SCREEN_SEC or 1][9] } ),
     -- edit      
-    ru("Gvim", nil, { tag = tags[1][2] } ),
-    ru("Snaked",nil, { tag = tags[1][2] } ),
+    ru("Gvim", nil, { tag = tags[SCREEN_MAIN][2] } ),
+    ru("Snaked",nil, { tag = tags[SCREEN_MAIN][2] } ),
       -- fs
     ru("Geeqie",nil,{ floating = true } ),
     ru("ROX-Filer",nil,{ floating = true }),
