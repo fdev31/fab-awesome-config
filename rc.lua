@@ -405,22 +405,21 @@ globalkeys = awful.util.table.join(
 	  function(h) texec("ssh "..h)() end,
 	  function(cmd, cur_pos, ncomp)
 		  -- get hosts and hostnames
-		  local hosts = {}
-            f = io.open(home .. '/.ssh/config')
-            while true
-                do
-                    line = f:read()
-                    if (line == nil) then
-                        break
-                    end
-                    for match in line:gmatch("host%s+(%S+)") do
-                        if (match ~= '*') then
-                            table.insert(hosts, match)
-                        end
-                    end
-                end
-
-		  f:close()
+          local hosts = {}
+          f = io.open(home .. '/.ssh/config')
+          while true
+              do
+                  line = f:read()
+                  if (line == nil) then
+                      break
+                  end
+                  for match in line:gmatch("host%s+(%S+)") do
+                      if (match ~= '*') then
+                          table.insert(hosts, match)
+                      end
+                  end
+              end
+          f:close()
 		  -- abort completion under certain circumstances
 		  if cur_pos ~= #cmd + 1 and cmd:sub(cur_pos, cur_pos) ~= " " then
 		      return cmd, cur_pos
@@ -633,29 +632,29 @@ end
 awful.rules.rules = {
     -- default rules --
     ru(nil,nil,{
-        focus=true,
-        size_hints_honor=false,
-        keys=clientkeys,
-        buttons=clientbuttons,
-        border_width=beautiful.border_width,
-        border_color=beautiful.border_normal
+        focus            = true,
+        size_hints_honor = false,
+        keys             = clientkeys,
+        buttons          = clientbuttons,
+        border_width     = beautiful.border_width,
+        border_color     = beautiful.border_normal
     }),
     -- standard rules --
-    ru("chromium", nil, { tag = tags[1][rtagnums.web] }),
-    ru("Chromium", ".*- chat -.*", { tag = tags[1][rtagnums.im] }),
+    ru("chromium", nil,            { tag=tags[1][rtagnums.web] }),
+    ru("Chromium", ".*- chat -.*", { tag=tags[1][rtagnums.im] }),
     -- chat
-    ru("Xchat",nil, { tag = tags[scount > 1 and 2 or 1][rtagnums.im] } ),
+    ru("Xchat", nil,               { tag=tags[scount > 1 and 2 or 1][rtagnums.im] } ),
     -- medias
-    ru("Audacious",nil, { tag = tags[scount > 1 and 2 or 1][rtagnums.media] } ),
-    -- edit      
-    ru("Gvim", nil, { tag = tags[1][rtagnums.edit] } ),
-    ru("Snaked",nil, { tag = tags[1][rtagnums.edit] } ),
-      -- fs
-    ru("Geeqie",nil,{ floating = true } ),
-    ru("ROX-Filer",nil,{ floating = true }),
+    ru("Audacious", nil,           { tag=tags[scount > 1 and 2 or 1][rtagnums.media] } ),
+    -- edit
+    ru("Gvim", nil,                { tag=tags[1][rtagnums.edit] } ),
+    ru("Snaked", nil,              { tag=tags[1][rtagnums.edit] } ),
+    -- fs
+    ru("Geeqie", nil,              { floating=true } ),
+    ru("ROX-Filer", nil,           { floating=true }),
     -- hacks --
     -- flashplugin
-    ru("Exe", "exe", { floating=true, fullscreen=true } ),
+    ru("Exe", "exe",               { floating=true, fullscreen=true } ),
 }
 
 -- Manage signal handler --
