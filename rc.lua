@@ -667,7 +667,7 @@ awful.rules.rules = {
     ru("Geeqie",nil,{ floating = true } ),
     ru("ROX-Filer",nil,{ floating = true }),
     -- hacks --
-    -- arte+7
+    -- flashplugin
     ru("Exe", "exe", { floating=true, fullscreen=true } ),
 }
 
