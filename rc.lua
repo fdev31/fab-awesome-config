@@ -13,6 +13,8 @@
 -- TODO:
 --  * move utilities functions to another file
 
+S_SEC = 1
+S_MAIN = 2
 
 -- Libraries --
 
@@ -384,7 +386,7 @@ globalkeys = awful.util.table.join(
 --    awful.key({ modkey }, "e", function () exec("emacsclient -n -c") end),
     awful.key({"Control", altkey}, "l", sexec("xlock", false) ),
     awful.key({ modkey}, "q", function () mymainmenu:show({keygrabber=true}) end),
-    awful.key({ modkey}, "z", function () zicmenu:show({keygrabber=true}) end),
+--    awful.key({ modkey}, "z", function () zicmenu:show({keygrabber=true}) end),
     awful.key({ modkey }, "t", sexec("thunar") ),
     awful.key({ modkey }, "w", sexec("chromium") ),
     awful.key({ modkey }, "Return",  sexec(term)),
@@ -448,6 +450,16 @@ globalkeys = awful.util.table.join(
 	  awful.util.getdir("cache") .. "/ssh_history")
 	end),
     -- {{{ Prompt menus
+    awful.key({ modkey }, "z", function ()
+        awful.prompt.run({ prompt = "Wasp: " }, promptbox[mouse.screen].widget,
+            function (...)
+                p = io.popen('wasp '.. arg[1])
+                txt = p:read()
+                p:close()
+                naughty.notify({title=txt})
+            end,
+            awful.completion.shell, awful.util.getdir("cache") .. "/wasp_history")
+    end),
     
     awful.key({ modkey }, "F2", function ()
         awful.prompt.run({ prompt = "Run: " }, promptbox[mouse.screen].widget,
@@ -647,9 +659,9 @@ awful.rules.rules = {
     ru("chromium", nil,            { tag=tags[1][rtagnums.web] }),
     ru("Chromium", ".*- chat -.*", { tag=tags[1][rtagnums.im] }),
     -- chat
-    ru("Xchat", nil,               { tag=tags[scount > 1 and 2 or 1][rtagnums.im] } ),
+    ru("Xchat", nil,               { tag=tags[scount > 1 and S_SEC or 1][rtagnums.im] } ),
     -- medias
-    ru("Audacious", nil,           { tag=tags[scount > 1 and 2 or 1][rtagnums.media] } ),
+    ru("Audacious", nil,           { tag=tags[scount > 1 and S_SEC or 1][rtagnums.media] } ),
     -- edit
     ru("Gvim", nil,                { tag=tags[1][rtagnums.edit] } ),
     ru("Snaked", nil,              { tag=tags[1][rtagnums.edit] } ),
@@ -710,8 +722,8 @@ end
 
 -- INIT some state --
 
-awful.tag.viewonly(tags[1][3])
+awful.tag.viewonly(tags[S_MAIN][rtagnums.web])
 if (scount > 1) then
-    awful.tag.viewonly(tags[2][5])
+    awful.tag.viewonly(tags[S_SEC][rtagnums.im])
 end
 
