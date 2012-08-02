@@ -643,6 +643,7 @@ awful.rules.rules = {
         border_color     = beautiful.border_normal
     }),
     -- standard rules --
+    ru("Blender", "Blender",            { floating=true, fullscreen=true}),
     ru("chromium", nil,            { tag=tags[1][rtagnums.web] }),
     ru("Chromium", ".*- chat -.*", { tag=tags[1][rtagnums.im] }),
     -- chat
