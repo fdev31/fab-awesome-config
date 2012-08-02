@@ -13,9 +13,6 @@
 -- TODO:
 --  * move utilities functions to another file
 
-S_SEC = 1
-S_MAIN = 2
-
 -- Libraries --
 
 require("awful")
@@ -42,6 +39,14 @@ local home   = os.getenv("HOME")
 local exec   = awful.util.spawn
 local _sexec  = awful.util.spawn_with_shell
 local scount = screen.count()
+
+if (scount == 1) then
+    S_MAIN = 1
+    S_SEC = 1
+else
+    S_SEC = 1
+    S_MAIN = 2
+end
 
 -- handy functions --
 
