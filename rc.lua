@@ -26,11 +26,13 @@ local scratch = require("scratch")
 require("revelation")
 
 
--- Variable definitions --
+-- Variable definitions (mostly os dependent) --
+
+local nic = os.execute('ip addr|grep wlan0') == 0 and 'wlan0' or 'eth0'
+local awesome_pid = io.popen('echo $PPID', 'r'):read()
 
 local altkey = "Mod1"
 local modkey = "Mod4"
-local nic = os.execute('ip addr|grep wlan0') == 0 and 'wlan0' or 'eth0'
 local term = "sakura"
 local edit = "gvim -reverse"
 
@@ -96,6 +98,7 @@ mymainmenu = awful.menu({
         { "zic", zmitems},
         { "manual", texec("man awesome") },
         { "edit config", eexec(awesome.conffile) },
+        { "show logs", texec("tail -n 30 -f /proc/" .. awesome_pid .. "/fd/1 /proc/" .. awesome_pid .. "/fd/2") },
         { "restart", awesome.restart },
         { "quit", awesome.quit },
     }
