@@ -29,10 +29,12 @@ require("revelation")
 
 
 -- Variable definitions --
+--
+local nic = os.execute('ip addr|grep wlan0') == 0 and 'wlan0' or 'eth0'
+local awesome_pid = io.popen('echo $PPID', 'r'):read()
 
 local altkey = "Mod1"
 local modkey = "Mod4"
-local nic = os.execute('ip addr|grep wlan0') == 0 and 'wlan0' or 'eth0'
 local term = "sakura"
 local edit = "gvim -reverse"
 
@@ -40,6 +42,14 @@ local home   = os.getenv("HOME")
 local exec   = awful.util.spawn
 local _sexec  = awful.util.spawn_with_shell
 local scount = screen.count()
+
+if (scount == 1) then
+    S_MAIN = 1
+    S_SEC = 1
+else
+    S_SEC = 1
+    S_MAIN = 2
+end
 
 -- handy functions --
 
@@ -98,6 +108,7 @@ mymainmenu = awful.menu({
         { "zic", zmitems},
         { "manual", texec("man awesome") },
         { "edit config", eexec(awesome.conffile) },
+        { "show logs", texec("tail -n 30 -f /proc/" .. awesome_pid .. "/fd/1 /proc/" .. awesome_pid .. "/fd/2") },
         { "restart", awesome.restart },
         { "quit", awesome.quit },
     }
@@ -652,6 +663,7 @@ awful.rules.rules = {
         border_color     = beautiful.border_normal
     }),
     -- standard rules --
+    ru("Blender", "Blender",            { floating=true, fullscreen=true}),
     ru("chromium", nil,            { tag=tags[S_MAIN][rtagnums.web] }),
     ru("Chromium", ".*- chat -.*", { tag=tags[S_MAIN][rtagnums.im] }),
     -- chat
