@@ -652,15 +652,15 @@ awful.rules.rules = {
         border_color     = beautiful.border_normal
     }),
     -- standard rules --
-    ru("chromium", nil,            { tag=tags[1][rtagnums.web] }),
-    ru("Chromium", ".*- chat -.*", { tag=tags[1][rtagnums.im] }),
+    ru("chromium", nil,            { tag=tags[S_MAIN][rtagnums.web] }),
+    ru("Chromium", ".*- chat -.*", { tag=tags[S_MAIN][rtagnums.im] }),
     -- chat
-    ru("Xchat", nil,               { tag=tags[scount > 1 and S_SEC or 1][rtagnums.im] } ),
+    ru("Xchat", nil,               { tag=tags[S_SEC][rtagnums.im] } ),
     -- medias
-    ru("Audacious", nil,           { tag=tags[scount > 1 and S_SEC or 1][rtagnums.media] } ),
+    ru("Audacious", nil,           { tag=tags[S_SEC][rtagnums.media] } ),
     -- edit
-    ru("Gvim", nil,                { tag=tags[1][rtagnums.edit] } ),
-    ru("Snaked", nil,              { tag=tags[1][rtagnums.edit] } ),
+    ru("Gvim", nil,                { tag=tags[S_MAIN][rtagnums.edit] } ),
+    ru("Snaked", nil,              { tag=tags[S_MAIN][rtagnums.edit] } ),
     -- fs
     ru("Geeqie", nil,              { floating=true } ),
     ru("ROX-Filer", nil,           { floating=true }),
