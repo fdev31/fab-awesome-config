@@ -88,6 +88,7 @@ app_items = {
 connect_items = {
     { "Ssh ui",  texec('ssh ui.static.wyplay.int')  },
     { "Ssh wopr",  texec('ssh wopr')  },
+    { "Ssh fabbox",  texec('ssh 172.16.10.31')  },
     { "Ssh wyoli",  texec('ssh wyoli.wyplay.com')  },
     { "Serial @38.4",  texec('sudo screen /dev/ttyUSB0 38400')  },
     { "Serial @115.2", texec('sudo screen /dev/ttyUSB0 115200') },
