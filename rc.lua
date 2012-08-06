@@ -1,6 +1,6 @@
 -- {{{ License
 --
--- Awesome configuration, using awesome 3.4.12 on Arch GNU/Linux
+-- Awesome configuration, using awesome 3.4.13 on Arch GNU/Linux
 --   * Adrian C. <anrxc@sysphere.org>
 
 -- Screenshot: http://sysphere.org/gallery/snapshots
@@ -24,9 +24,11 @@ require("revelation")
 
 -- Variable definitions --
 
+local nic = os.execute('ip addr|grep wlan0') == 0 and 'wlan0' or 'eth0'
+local awesome_pid = io.popen('echo $PPID', 'r'):read()
+
 local altkey = "Mod1"
 local modkey = "Mod4"
-local nic = os.execute('ip addr|grep wlan0') == 0 and 'wlan0' or 'eth0'
 local term = "sakura"
 local edit = "gvim -reverse"
 
@@ -34,6 +36,14 @@ local home   = os.getenv("HOME")
 local exec   = awful.util.spawn
 local _sexec  = awful.util.spawn_with_shell
 local scount = screen.count()
+
+if (scount == 1) then
+    S_MAIN = 1
+    S_SEC = 1
+else
+    S_SEC = 1
+    S_MAIN = 2
+end
 
 -- handy functions --
 
@@ -62,9 +72,12 @@ beautiful.init(home .. "/.config/awesome/zenburn.lua")
 
 -- Menus definition --
 
+-- TODO: build menus from text files
 app_items = {
     { "Inkscape", sexec('inkscape') },
     { "Gimp", sexec('gimp') },
+    { "Midori", sexec('midori') },
+    { "Firefox", sexec('firefox') },
     { "Chromium (mod w)", sexec('chromium') },
     { "Thunar (mod t)", sexec('thunar') },
     { "WeeChat", texec('weechat-curses') },
@@ -72,6 +85,7 @@ app_items = {
 connect_items = {
     { "Ssh ui",  texec('ssh ui.static.wyplay.int')  },
     { "Ssh wopr",  texec('ssh wopr')  },
+    { "Ssh fabbox",  texec('ssh 172.16.10.31')  },
     { "Ssh wyoli",  texec('ssh wyoli.wyplay.com')  },
     { "Serial @38.4",  texec('sudo screen /dev/ttyUSB0 38400')  },
     { "Serial @115.2", texec('sudo screen /dev/ttyUSB0 115200') },
@@ -89,6 +103,7 @@ mymainmenu = awful.menu({
         { "zic", zmitems},
         { "manual", texec("man awesome") },
         { "edit config", eexec(awesome.conffile) },
+        { "show logs", texec("tail -n 30 -f /proc/" .. awesome_pid .. "/fd/1 /proc/" .. awesome_pid .. "/fd/2") },
         { "restart", awesome.restart },
         { "quit", awesome.quit },
     }
@@ -98,7 +113,6 @@ mymainmenu = awful.menu({
 mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
                                      menu = mymainmenu })
 
--- Window management layouts --
 -- all used layouts should be defined ONCE here:
 rlayouts = {
     title  = awful.layout.suit.tile        , 
@@ -379,14 +393,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "w", sexec("chromium") ),
     awful.key({ modkey }, "Return",  sexec(term)),
     awful.key({ modkey }, "a", function () scratch.drop(term, "bottom", nil, nil, 0.30) end),
-    --awful.key({ modkey }, "a", function () exec("urxvt -T Alpine -e alpine.exp") end),
     awful.key({ modkey }, "g", sexec("GTK2_RC_FILES=~/.gtkrc-gajim gajim")),
- --   awful.key({ modkey }, "q", function () exec("emacsclient --eval '(make-remember-frame)'") end),
-    --awful.key({ altkey }, "#51", function () if boosk then osk(nil, mouse.screen)
---        else boosk, osk = pcall(require, "osk") end
---    end),
-    -- }}}
-
     -- {{{ Multimedia keys
     -- awful.key({}, "#235", function () exec("kscreenlocker --forcelock") end),
     -- awful.key({}, "#121", function () exec("pvol.py -m") end),
@@ -405,24 +412,21 @@ globalkeys = awful.util.table.join(
 	  function(h) texec("ssh "..h)() end,
 	  function(cmd, cur_pos, ncomp)
 		  -- get hosts and hostnames
-		  local hosts = {}
-
-
-            f = io.open(os.getenv('HOME') .. '/.ssh/config')
-            while true
-                do
-                    line = f:read()
-                    if (line == nil) then
-                        break
-                    end
-                    for match in line:gmatch("host%s+(%S+)") do
-                        if (match ~= '*') then
-                            table.insert(hosts, match)
-                        end
-                    end
-                end
-
-		  f:close()
+          local hosts = {}
+          f = io.open(home .. '/.ssh/config')
+          while true
+              do
+                  line = f:read()
+                  if (line == nil) then
+                      break
+                  end
+                  for match in line:gmatch("host%s+(%S+)") do
+                      if (match ~= '*') then
+                          table.insert(hosts, match)
+                      end
+                  end
+              end
+          f:close()
 		  -- abort completion under certain circumstances
 		  if cur_pos ~= #cmd + 1 and cmd:sub(cur_pos, cur_pos) ~= " " then
 		      return cmd, cur_pos
@@ -447,7 +451,19 @@ globalkeys = awful.util.table.join(
 	  end,
 	  awful.util.getdir("cache") .. "/ssh_history")
 	end),
+    --[
     -- {{{ Prompt menus
+    awful.key({ modkey }, "z", function ()
+        awful.prompt.run({ prompt = "Wasp: " }, promptbox[mouse.screen].widget,
+            function (...)
+                p = io.popen('wasp '.. arg[1])
+                txt = p:read()
+                p:close()
+                naughty.notify({title=txt})
+            end,
+            awful.completion.shell, awful.util.getdir("cache") .. "/wasp_history")
+    end),
+    --]
     
     awful.key({ modkey }, "F2", function ()
         awful.prompt.run({ prompt = "Run: " }, promptbox[mouse.screen].widget,
@@ -635,29 +651,30 @@ end
 awful.rules.rules = {
     -- default rules --
     ru(nil,nil,{
-        focus=true,
-        size_hints_honor=false,
-        keys=clientkeys,
-        buttons=clientbuttons,
-        border_width=beautiful.border_width,
-        border_color=beautiful.border_normal
+        focus            = true,
+        size_hints_honor = false,
+        keys             = clientkeys,
+        buttons          = clientbuttons,
+        border_width     = beautiful.border_width,
+        border_color     = beautiful.border_normal
     }),
     -- standard rules --
-    ru("chromium", nil, { tag = tags[1][rtagnums.web] }),
-    ru("Chromium", ".*- chat -.*", { tag = tags[1][rtagnums.im] }),
+    ru("Blender", "Blender",            { floating=true, fullscreen=true}),
+    ru("chromium", nil,            { tag=tags[S_MAIN][rtagnums.web] }),
+    ru("Chromium", ".*- chat -.*", { tag=tags[S_MAIN][rtagnums.im] }),
     -- chat
-    ru("Xchat",nil, { tag = tags[scount > 1 and 2 or 1][rtagnums.im] } ),
+    ru("Xchat", nil,               { tag=tags[S_SEC][rtagnums.im] } ),
     -- medias
-    ru("Audacious",nil, { tag = tags[scount > 1 and 2 or 1][rtagnums.media] } ),
-    -- edit      
-    ru("Gvim", nil, { tag = tags[1][rtagnums.edit] } ),
-    ru("Snaked",nil, { tag = tags[1][rtagnums.edit] } ),
-      -- fs
-    ru("Geeqie",nil,{ floating = true } ),
-    ru("ROX-Filer",nil,{ floating = true }),
+    ru("Audacious", nil,           { tag=tags[S_SEC][rtagnums.media] } ),
+    -- edit
+    ru("Gvim", nil,                { tag=tags[S_MAIN][rtagnums.edit] } ),
+    ru("Snaked", nil,              { tag=tags[S_MAIN][rtagnums.edit] } ),
+    -- fs
+    ru("Geeqie", nil,              { floating=true } ),
+    ru("ROX-Filer", nil,           { floating=true }),
     -- hacks --
-    -- arte+7
-    ru("Exe", "exe", { floating=true, fullscreen=true } ),
+    -- flashplugin
+    ru("Exe", "exe",               { floating=true, fullscreen=true } ),
 }
 
 -- Manage signal handler --
@@ -709,8 +726,8 @@ end
 
 -- INIT some state --
 
-awful.tag.viewonly(tags[1][3])
+awful.tag.viewonly(tags[S_MAIN][rtagnums.web])
 if (scount > 1) then
-    awful.tag.viewonly(tags[2][5])
+    awful.tag.viewonly(tags[S_SEC][rtagnums.im])
 end
 
