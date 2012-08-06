@@ -13,6 +13,9 @@
 -- TODO:
 --  * move utilities functions to another file
 
+S_SEC = 1
+S_MAIN = 2
+
 -- Libraries --
 
 require("awful")
@@ -25,8 +28,8 @@ local scratch = require("scratch")
 require("revelation")
 
 
--- Variable definitions (mostly os dependent) --
-
+-- Variable definitions --
+--
 local nic = os.execute('ip addr|grep wlan0') == 0 and 'wlan0' or 'eth0'
 local awesome_pid = io.popen('echo $PPID', 'r'):read()
 
@@ -662,15 +665,15 @@ awful.rules.rules = {
     }),
     -- standard rules --
     ru("Blender", "Blender",            { floating=true, fullscreen=true}),
-    ru("chromium", nil,            { tag=tags[1][rtagnums.web] }),
-    ru("Chromium", ".*- chat -.*", { tag=tags[1][rtagnums.im] }),
+    ru("chromium", nil,            { tag=tags[S_MAIN][rtagnums.web] }),
+    ru("Chromium", ".*- chat -.*", { tag=tags[S_MAIN][rtagnums.im] }),
     -- chat
-    ru("Xchat", nil,               { tag=tags[scount > 1 and S_SEC or 1][rtagnums.im] } ),
+    ru("Xchat", nil,               { tag=tags[S_SEC][rtagnums.im] } ),
     -- medias
-    ru("Audacious", nil,           { tag=tags[scount > 1 and S_SEC or 1][rtagnums.media] } ),
+    ru("Audacious", nil,           { tag=tags[S_SEC][rtagnums.media] } ),
     -- edit
-    ru("Gvim", nil,                { tag=tags[1][rtagnums.edit] } ),
-    ru("Snaked", nil,              { tag=tags[1][rtagnums.edit] } ),
+    ru("Gvim", nil,                { tag=tags[S_MAIN][rtagnums.edit] } ),
+    ru("Snaked", nil,              { tag=tags[S_MAIN][rtagnums.edit] } ),
     -- fs
     ru("Geeqie", nil,              { floating=true } ),
     ru("ROX-Filer", nil,           { floating=true }),
