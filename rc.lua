@@ -47,9 +47,17 @@ end
 
 -- handy functions --
 
-function texec(cmd)
+function texec(cmd, opts)
+    local args = ' '
+    if (opts) then
+        local res = {}
+        for k, v in pairs(opts) do
+            table.insert(res, '-'..k..' '..v)
+        end
+        args = ' ' .. table.concat(res, ' ')
+    end
     local t = function()
-        exec(term .. " -e " .. cmd)
+        exec(term .. args .. " -e " .. cmd)
     end
     return t
 end
@@ -287,7 +295,7 @@ vicious.register(volbar,    vicious.widgets.volume,  "$1",  2, "Master")
 vicious.register(volwidget, vicious.widgets.volume, " $1%", 2, "Master")
 -- Register buttons
 volbar.widget:buttons(awful.util.table.join(
-   awful.button({ }, 1, texec("alsamixer") ),
+   awful.button({ }, 1, texec("alsamixer", {t='alsamixer'}) ),
    awful.button({ }, 4, sexec("amixer -q sset Master 3%+", false)),
    awful.button({ }, 5, sexec("amixer -q sset Master 3%-", false))
 )) -- Register assigned buttons
@@ -658,7 +666,18 @@ awful.rules.rules = {
         border_width     = beautiful.border_width,
         border_color     = beautiful.border_normal
     }),
+    -- long rules --
+    {
+        { name = "alsamixer" },
+        properties = {
+            floating = true,
+            width = 100
+        },
+        callback = awful.placement.under_mouse
+    },
+
     -- standard rules --
+    ru(nil, "alsamixer",            { floating=true, fullscreen=false}),
     ru("Blender", "Blender",            { floating=true, fullscreen=true}),
     ru("chromium", nil,            { tag=tags[S_MAIN][rtagnums.web] }),
     ru("Chromium", ".*- chat -.*", { tag=tags[S_MAIN][rtagnums.im] }),
