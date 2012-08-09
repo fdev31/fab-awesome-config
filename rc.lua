@@ -24,6 +24,8 @@ require("revelation")
 
 -- Variable definitions --
 
+local zic_prompt = true
+
 local nic = os.execute('ip addr|grep wlan0') == 0 and 'wlan0' or 'eth0'
 local awesome_pid = io.popen('echo $PPID', 'r'):read()
 
@@ -396,7 +398,7 @@ globalkeys = awful.util.table.join(
 --    awful.key({ modkey }, "e", function () exec("emacsclient -n -c") end),
     awful.key({"Control", altkey}, "l", sexec("xlock", false) ),
     awful.key({ modkey}, "q", function () mymainmenu:show({keygrabber=true}) end),
-    awful.key({ modkey}, "z", function () zicmenu:show({keygrabber=true}) end),
+    awful.key({ modkey}, "z", function () if( not zic_prompt) then zicmenu:show({keygrabber=true}) end end),
     awful.key({ modkey }, "t", sexec("thunar") ),
     awful.key({ modkey }, "w", sexec("chromium") ),
     awful.key({ modkey }, "Return",  sexec(term)),
@@ -462,14 +464,16 @@ globalkeys = awful.util.table.join(
     --[
     -- {{{ Prompt menus
     awful.key({ modkey }, "z", function ()
-        awful.prompt.run({ prompt = "Wasp: " }, promptbox[mouse.screen].widget,
-            function (...)
-                p = io.popen('wasp '.. arg[1])
-                txt = p:read()
-                p:close()
-                naughty.notify({title=txt})
-            end,
-            awful.completion.shell, awful.util.getdir("cache") .. "/wasp_history")
+        if ( zic_prompt ) then
+            awful.prompt.run({ prompt = "Wasp: " }, promptbox[mouse.screen].widget,
+                function (...)
+                    p = io.popen('wasp '.. arg[1])
+                    txt = p:read()
+                    p:close()
+                    naughty.notify({title=txt})
+                end,
+                awful.completion.shell, awful.util.getdir("cache") .. "/wasp_history")
+            end
     end),
     --]
     
