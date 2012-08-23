@@ -401,6 +401,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey}, "z", function () if( not zic_prompt) then zicmenu:show({keygrabber=true}) end end),
     awful.key({ modkey }, "t", sexec("thunar") ),
     awful.key({ modkey }, "w", sexec("chromium") ),
+    awful.key({ modkey }, "x", function() awful.client.movetotag( tags[client.focus.screen][7] ) end ),
     awful.key({ modkey }, "Return",  sexec(term)),
     awful.key({ modkey }, "a", function () scratch.drop(term, "bottom", nil, nil, 0.30) end),
     awful.key({ modkey }, "g", sexec("GTK2_RC_FILES=~/.gtkrc-gajim gajim")),
