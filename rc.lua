@@ -31,7 +31,7 @@ local awesome_pid = io.popen('echo $PPID', 'r'):read()
 
 local altkey = "Mod1"
 local modkey = "Mod4"
-local term = "sakura"
+local term = "terminator"
 local edit = "gvim -reverse"
 
 local home   = os.getenv("HOME")
@@ -116,6 +116,7 @@ mymainmenu = awful.menu({
         { "show logs", texec("tail -n 30 -f /proc/" .. awesome_pid .. "/fd/1 /proc/" .. awesome_pid .. "/fd/2") },
         { "restart", awesome.restart },
         { "quit", awesome.quit },
+        { "say song", sexec('wasp show 1 | cut -d \| -f 2- | espeak --stdin -v french-mbrola-4 -s 130 -p 20 -g 10') },
     }
 })
 
@@ -396,7 +397,7 @@ clientbuttons = awful.util.table.join(
 globalkeys = awful.util.table.join(
     -- {{{ Applications
 --    awful.key({ modkey }, "e", function () exec("emacsclient -n -c") end),
-    awful.key({"Control", altkey}, "l", sexec("xlock", false) ),
+    awful.key({"Control", altkey}, "l", sexec("pkill compton; xscreensaver-command -lock", false) ),
     awful.key({ modkey}, "q", function () mymainmenu:show({keygrabber=true}) end),
     awful.key({ modkey}, "z", function () if( not zic_prompt) then zicmenu:show({keygrabber=true}) end end),
     awful.key({ modkey }, "t", sexec("thunar") ),
