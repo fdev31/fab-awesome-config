@@ -11,6 +11,17 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 
+-- fab31
+local revelation = require("revelation")
+local vicious = require("vicious")
+local scratch = require("scratch")
+local beautiful = require("beautiful")
+local zic_prompt = true
+
+local nic = os.execute('ip addr|grep wlan0') == 0 and 'wlan0' or 'eth0'
+local awesome_pid = io.popen('echo $PPID', 'r'):read()
+-- /fab31
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -38,12 +49,102 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
+--
 beautiful.init("/usr/share/awesome/themes/default/theme.lua")
 
+
 -- This is used later as the default terminal and editor to run.
+terminal = "xterm"
+editor = os.getenv("EDITOR") or "nano"
+ieditor_cmd = terminal .. " -e " .. editor
+
+-- fab31
 terminal = "terminator"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
+
+local home   = os.getenv("HOME")
+local exec   = awful.util.spawn
+local _sexec  = awful.util.spawn_with_shell
+local scount = screen.count()
+
+if (scount == 1) then
+    S_MAIN = 1
+    S_SEC = 1
+else
+    S_SEC = 2
+    S_MAIN = 1
+end
+
+-- handy functions --
+
+function texec(cmd, opts)
+    local args = ' '
+    if (opts) then
+        local res = {}
+        for k, v in pairs(opts) do
+            table.insert(res, '-'..k..' '..v)
+        end
+        args = ' ' .. table.concat(res, ' ')
+    end
+    local t = function()
+        exec(term .. args .. " -e " .. cmd)
+    end
+    return t
+end
+function eexec(w)
+    local t = function()
+        exec(edit .. " " .. w)
+    end
+    return t
+end
+function sexec(cmd)
+    local t = function()
+        _sexec(cmd)
+    end
+    return t
+end
+-- Menus definition --
+
+-- TODO: build menus from text files
+app_items = {
+    { "Inkscape", sexec('inkscape') },
+    { "Gimp", sexec('gimp') },
+    { "Midori", sexec('midori') },
+    { "Firefox", sexec('firefox') },
+    { "Chromium (mod w)", sexec('chromium') },
+    { "Thunar (mod t)", sexec('thunar') },
+    { "WeeChat", texec('weechat-curses') },
+}
+connect_items = {
+    { "Ssh ui",  texec('ssh ui.static.wyplay.int')  },
+    { "Ssh wopr",  texec('ssh wopr')  },
+    { "Ssh fabbox",  texec('ssh 172.16.10.31')  },
+    { "Ssh wyoli",  texec('ssh wyoli.wyplay.com')  },
+    { "Serial @38.4",  texec('sudo screen /dev/ttyUSB0 38400')  },
+    { "Serial @115.2", texec('sudo screen /dev/ttyUSB0 115200') },
+}
+zmitems ={
+        {'toggle pause', sexec('wasp pause')},
+        {'zap', sexec('wasp next')},
+    }
+
+zicmenu = awful.menu({items = zmitems})
+mymainmenu = awful.menu({
+    items = {
+        { "applications", app_items, beautiful.sun},
+        { "targets", connect_items},
+        { "zic", zmitems},
+        { "manual", texec("man awesome") },
+        { "edit config", eexec(awesome.conffile) },
+        { "show logs", texec("tail -n 30 -f /proc/" .. awesome_pid .. "/fd/1 /proc/" .. awesome_pid .. "/fd/2") },
+        { "restart", awesome.restart },
+        { "quit", awesome.quit },
+    }
+})
+
+
+-- /fab31
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -96,10 +197,12 @@ myawesomemenu = {
    { "quit", awesome.quit }
 }
 
-mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "open terminal", terminal }
-                                  }
-                        })
+-- fab31
+-- mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
+--                                    { "open terminal", terminal }
+--                                  }
+--                        })
+-- /fab31
 
 mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
                                      menu = mymainmenu })
@@ -300,6 +403,8 @@ end
 
 -- Bind all key numbers to tags.
 -- Be careful: we use keycodes to make it works on any keyboard layout.
+
+
 -- This should map on the top row of your keyboard, usually 1 to 9.
 for i = 1, keynumber do
     globalkeys = awful.util.table.join(globalkeys,
@@ -335,6 +440,7 @@ clientbuttons = awful.util.table.join(
     awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
     awful.button({ modkey }, 1, awful.mouse.client.move),
     awful.button({ modkey }, 3, awful.mouse.client.resize))
+
 
 -- Set keys
 root.keys(globalkeys)
@@ -426,3 +532,4 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
+
