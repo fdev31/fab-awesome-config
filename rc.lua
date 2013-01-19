@@ -1,3 +1,4 @@
+
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
@@ -17,6 +18,7 @@ local vicious = require("vicious")
 local scratch = require("scratch")
 local beautiful = require("beautiful")
 local zic_prompt = true
+
 
 local nic = os.execute('ip addr|grep wlan0') == 0 and 'wlan0' or 'eth0'
 local awesome_pid = io.popen('echo $PPID', 'r'):read()
@@ -169,6 +171,73 @@ local layouts =
     awful.layout.suit.max.fullscreen,
     awful.layout.suit.magnifier
 }
+
+-- fab31
+-- all used layouts should be defined ONCE here:
+rlayouts = {
+    title  = awful.layout.suit.tile        , 
+    titleb = awful.layout.suit.tile.bottom , 
+    fair   = awful.layout.suit.fair        , 
+    max    = awful.layout.suit.max         , 
+    mag    = awful.layout.suit.magnifier   , 
+    float  = awful.layout.suit.floating    , 
+}
+
+-- build layouts from rlayouts
+layouts = {}
+n=1
+for i, o in pairs(rlayouts) do
+    layouts[n] = o
+    n=n+1
+end
+n=nil
+
+-- Tags --
+tags = {
+    names={},
+    layout={}
+}
+
+_dflt = rlayouts.title
+
+-- user-customizable tags: (name, layout)
+_tags = {
+    {"term"  , rlayouts.titleb} , 
+    {"edit"  , _dflt}           , 
+    {"web"   , _dflt}           , 
+    {"im"    , _dflt}           , 
+    {"mail"  , rlayouts.max}    , 
+    {nil     , rlayouts.float}  , 
+    {nil     , rlayouts.float}  , 
+    {"rss"   , rlayouts.mag}    , 
+    {"media" , _dflt}
+}
+
+-- rtagnums.tag_name == <index of the given tag>
+rtagnums = {}
+
+for i,t in ipairs(_tags) do
+    if t[1] then
+        rtagnums[t[1]] = i
+    end
+    tags.names[i] = t[1] or i
+    tags.layout[i] = t[2]
+end
+
+_tags = nil
+_dflt = nil
+-- /fab31
+
+-- stop describing, set tags for real now
+
+for s = 1, scount do -- for each screen
+  tags[s] = awful.tag(tags.names, s, tags.layout) -- create tags
+  for i, t in ipairs(tags[s]) do -- set some properties
+      awful.tag.setproperty(t , "mwfact" , i==5 and 0.13 or 0.5)
+      awful.tag.setproperty(t , "hide"   , (i==6 or i==7) and true)
+  end
+end
+
 -- }}}
 
 -- {{{ Wallpaper
@@ -181,11 +250,13 @@ end
 
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
-tags = {}
-for s = 1, screen.count() do
-    -- Each screen has its own tag table.
-    tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
-end
+-- fab31
+-- tags = {}
+-- for s = 1, screen.count() do
+--     -- Each screen has its own tag table.
+--     tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
+-- end
+-- /fab31
 -- }}}
 
 -- {{{ Menu
@@ -262,7 +333,129 @@ mytasklist.buttons = awful.util.table.join(
                                               awful.client.focus.byidx(-1)
                                               if client.focus then client.focus:raise() end
                                           end))
+-- fab31
+-- Wibox --
 
+-- {{{ Widgets configuration
+--
+-- {{{ Reusable separator
+separator = wibox.widget.imagebox()
+separator:set_image(beautiful.widget_sep)
+-- }}}
+
+-- {{{ CPU usage and temperature
+cpuicon = wibox.widget.imagebox()
+cpuicon:set_image(beautiful.widget_cpu)
+-- Initialize widgets
+cpugraph  = awful.widget.graph()
+tzswidget = wibox.widget.textbox()
+-- Graph properties
+cpugraph:set_width(40):set_height(14)
+cpugraph:set_background_color(beautiful.fg_off_widget)
+cpugraph:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 20 }, stops = { { 0, beautiful.fg_end_widget }, { 0.5, beautiful.fg_center_widget }, { 1, beautiful.fg_widget }}, angle=0})
+
+ -- Register widgets
+vicious.register(cpugraph,  vicious.widgets.cpu,      "$1")
+vicious.register(tzswidget, vicious.widgets.thermal, " $1C", 19, "thermal_zone0")
+-- }}}
+
+-- {{{ Battery state
+baticon = wibox.widget.imagebox()
+baticon:set_image(beautiful.widget_bat)
+-- Initialize widget
+batwidget = wibox.widget.textbox()
+-- Register widget
+vicious.register(batwidget, vicious.widgets.bat, "$1$2%", 61, "BAT0")
+-- }}}
+
+-- {{{ Memory usage
+memicon = wibox.widget.imagebox()
+memicon:set_image(beautiful.widget_mem)
+-- Initialize widget
+membar = awful.widget.progressbar()
+-- Pogressbar properties
+membar:set_vertical(true):set_ticks(true)
+membar:set_height(12):set_width(8):set_ticks_size(2)
+membar:set_background_color(beautiful.fg_off_widget)
+membar:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 20 }, stops = { { 0, beautiful.fg_widget }, { 0.5, beautiful.fg_center_widget }, { 1, beautiful.fg_end_widget }}})
+-- Register widget
+vicious.register(membar, vicious.widgets.mem, "$1", 13)
+-- }}}
+
+-- {{{ File system usage
+fsicon = wibox.widget.imagebox()
+fsicon:set_image(beautiful.widget_fs)
+-- Initialize widgets
+fs = {
+  b = awful.widget.progressbar(), r = awful.widget.progressbar(),
+  h = awful.widget.progressbar(), s = awful.widget.progressbar()
+}
+-- Progressbar properties
+for _, w in pairs(fs) do
+  w:set_vertical(true):set_ticks(true)
+  w:set_height(14):set_width(5):set_ticks_size(2)
+  w:set_border_color(beautiful.border_widget)
+  w:set_background_color(beautiful.fg_off_widget)
+  w:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 20 }, stops = { { 0, beautiful.fg_widget }, { 0.5, beautiful.fg_center_widget }, { 1, beautiful.fg_end_widget }}})
+  -- Register buttons
+  w:buttons(awful.util.table.join(
+    awful.button({ }, 1, sexec("rox") )
+  ))
+end -- Enable caching
+vicious.cache(vicious.widgets.fs)
+-- Register widgets
+vicious.register(fs.b, vicious.widgets.fs, "${/boot used_p}", 599)
+vicious.register(fs.r, vicious.widgets.fs, "${/ used_p}",     599)
+vicious.register(fs.h, vicious.widgets.fs, "${/home used_p}", 599)
+vicious.register(fs.s, vicious.widgets.fs, "${/mnt/storage used_p}", 599)
+-- }}}
+
+-- {{{ Network usage
+local dnicon = wibox.widget.imagebox()
+local upicon = wibox.widget.imagebox()
+dnicon:set_image(beautiful.widget_net)
+upicon:set_image(beautiful.widget_netup)
+-- Initialize widget
+local netwidget = wibox.widget.textbox()
+-- Register widget
+vicious.register(netwidget, vicious.widgets.net, '<span color="'
+  .. beautiful.fg_urgent ..'">${'..nic..' down_kb}</span> <span color="'
+  .. beautiful.bg_normal ..'">${'..nic..' up_kb}</span>', 3)
+-- }}}
+
+-- {{{ Volume level
+local volicon = wibox.widget.imagebox()
+volicon:set_image(beautiful.widget_vol)
+-- Initialize widgets
+local volbar    = awful.widget.progressbar()
+local volwidget = wibox.widget.textbox()
+-- Progressbar properties
+volbar:set_vertical(true):set_ticks(true)
+volbar:set_height(12):set_width(8):set_ticks_size(2)
+volbar:set_background_color(beautiful.fg_off_widget)
+volbar:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 20 }, stops = { { 0, beautiful.fg_widget }, { 0.5, beautiful.fg_center_widget }, { 1, beautiful.fg__endwidget }} })
+-- Enable caching
+vicious.cache(vicious.widgets.volume)
+-- Register widgets
+vicious.register(volbar,    vicious.widgets.volume,  "$1",  2, "Master")
+vicious.register(volwidget, vicious.widgets.volume, " $1%", 2, "Master")
+-- Register buttons
+volbar:buttons(awful.util.table.join(
+   awful.button({ }, 1, texec("alsamixer", {t='alsamixer'}) ),
+   awful.button({ }, 4, sexec("amixer -q sset Master 3%+", false)),
+   awful.button({ }, 5, sexec("amixer -q sset Master 3%-", false))
+)) -- Register assigned buttons
+volwidget:buttons(volbar:buttons())
+-- }}}
+
+-- {{{ Date and time
+local dateicon = wibox.widget.imagebox()
+dateicon:set_image(beautiful.widget_date)
+-- Initialize widget
+local datewidget = wibox.widget.textbox()
+-- Register widget
+vicious.register(datewidget, vicious.widgets.date, "%R", 61)
+-- /fab31
 for s = 1, screen.count() do
     -- Create a promptbox for each screen
     mypromptbox[s] = awful.widget.prompt()
@@ -282,18 +475,43 @@ for s = 1, screen.count() do
 
     -- Create the wibox
     mywibox[s] = awful.wibox({ position = "top", screen = s })
-
     -- Widgets that are aligned to the left
+    --
     local left_layout = wibox.layout.fixed.horizontal()
     left_layout:add(mylauncher)
     left_layout:add(mytaglist[s])
+--    left_layout:add(mylayoutbox[s])
+    left_layout:add(mylayoutbox[s])
+    left_layout:add(separator)
     left_layout:add(mypromptbox[s])
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
-    if s == 1 then right_layout:add(wibox.widget.systray()) end
+    right_layout:add(tzswidget)
+    right_layout:add(separator)
+    right_layout:add(volwidget)
+    right_layout:add(volbar)
+    right_layout:add(volicon)
+    right_layout:add(separator)
+    right_layout:add(upicon)
+    right_layout:add(netwidget)
+    right_layout:add(dnicon)
+    right_layout:add(separator)
+    right_layout:add(fs.s)
+    right_layout:add(fs.h)
+    right_layout:add(fs.r)
+    right_layout:add(fs.b)
+    right_layout:add(fsicon)
+    right_layout:add(separator)
+    right_layout:add(membar)
+    right_layout:add(memicon)
+    right_layout:add(separator)
+    right_layout:add(batwidget)
+    right_layout:add(baticon)
+    right_layout:add(separator)
+--    right_layout:add(cpugraph)
     right_layout:add(mytextclock)
-    right_layout:add(mylayoutbox[s])
+    if s == 1 then right_layout:add(wibox.widget.systray()) end
 
     -- Now bring it all together (with the tasklist in the middle)
     local layout = wibox.layout.align.horizontal()
@@ -302,6 +520,7 @@ for s = 1, screen.count() do
     layout:set_right(right_layout)
 
     mywibox[s]:set_widget(layout)
+
 end
 -- }}}
 
@@ -317,6 +536,31 @@ root.buttons(awful.util.table.join(
 globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
+-- fab31
+    awful.key({ modkey, "Shift" }, "Right",   function()
+        local i = nil
+        if ( #tags[client.focus.screen] == awful.tag.getidx() ) then
+            i = 1
+        else
+            i = awful.tag.getidx()+1
+        end
+        awful.client.movetotag(tags[client.focus.screen][i])
+        awful.tag.viewnext()
+        client.focus:raise()
+    end),
+    awful.key({ modkey, "Shift" }, "Left",   function()
+        local i = nil
+        if ( 1 == awful.tag.getidx() ) then
+            i = #tags[client.focus.screen]
+        else
+            i = awful.tag.getidx()-1
+        end
+            awful.client.movetotag(tags[client.focus.screen][i])
+            awful.tag.viewprev()
+            client.focus:raise()
+        end
+    ),
+-- /fab31
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
 
     awful.key({ modkey,           }, "j",
@@ -329,7 +573,7 @@ globalkeys = awful.util.table.join(
             awful.client.focus.byidx(-1)
             if client.focus then client.focus:raise() end
         end),
-    awful.key({ modkey,           }, "w", function () mymainmenu:show() end),
+-- fab31   awful.key({ modkey,           }, "w", function () mymainmenu:show() end),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
@@ -373,11 +617,66 @@ globalkeys = awful.util.table.join(
               end),
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end)
+    -- fab31
+
+    ,awful.key({modkey, "Alt"}, "l", sexec("xlock", false) ),
+    awful.key({ modkey}, "q", function () mymainmenu:show({keygrabber=true}) end),
+    awful.key({ modkey}, "z", function () if( not zic_prompt) then zicmenu:show({keygrabber=true}) end end),
+    awful.key({ modkey }, "t", sexec("thunar") ),
+    awful.key({ modkey }, "w", sexec("chromium") ),
+--    awful.key({ modkey }, "x", function() awful.client.movetotag( tags[client.focus.screen][7] ) end ),
+    awful.key({ modkey }, "Return",  sexec(term)),
+    awful.key({ modkey }, "z", function ()
+        if ( zic_prompt ) then
+            awful.prompt.run({ prompt = "Wasp: " }, mypromptbox[mouse.screen].widget,
+                function (...)
+                    p = io.popen('wasp '.. arg[1])
+                    txt = p:read()
+                    p:close()
+                    naughty.notify({title=txt})
+                end,
+                awful.completion.shell, awful.util.getdir("cache") .. "/wasp_history")
+            end
+    end),
+    --]
+    awful.key({ modkey }, "F2", function ()
+        awful.prompt.run({ prompt = "Run: " }, mypromptbox[mouse.screen].widget,
+            function (...) mypromptbox[mouse.screen].text:set_text( exec(unpack(arg), false) ) end,
+            awful.completion.shell, awful.util.getdir("cache") .. "/history")
+    end),
+    awful.key({ modkey }, "F3", function ()
+        awful.prompt.run({ prompt = "Dictionary: " }, mypromptbox[mouse.screen].widget,
+            function (words)
+                exec("gnome-dictionary --look-up='"..words.."'")
+            end)
+    end),
+    awful.key({ modkey }, "F4", function ()
+        awful.prompt.run({ prompt = "Task: " }, mypromptbox[mouse.screen].widget,
+            function (command)
+                if(command:len() > 2) then
+                    exec("task add "..command)
+                else
+                    local f = "/tmp/tasks.txt"
+                    _sexec("task > "..f)
+                    texec("less "..f)()
+                end
+            end)
+    end),
+    awful.key({ modkey }, "F5", function ()
+        awful.prompt.run({ prompt = "Lua: " }, mypromptbox[mouse.screen].widget,
+        awful.util.eval, nil, awful.util.getdir("cache") .. "/history_eval")
+    end)
+    
+    -- }}}
+
+-- /fab31
 )
 
 clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
-    awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
+    -- fab31
+    awful.key({ modkey,           }, "c",      function (c) c:kill()                         end),
+    -- /fab31
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
@@ -393,6 +692,7 @@ clientkeys = awful.util.table.join(
             c.maximized_horizontal = not c.maximized_horizontal
             c.maximized_vertical   = not c.maximized_vertical
         end)
+        
 )
 
 -- Compute the maximum number of digit we need, limited to 9
@@ -447,24 +747,54 @@ root.keys(globalkeys)
 -- }}}
 
 -- {{{ Rules
+-- fab31
+function ru(c,n,prop)
+        return {
+            rule = {class=c, name=n},
+            properties=prop,
+        }
+end
 awful.rules.rules = {
-    -- All clients will match this rule.
-    { rule = { },
-      properties = { border_width = beautiful.border_width,
-                     border_color = beautiful.border_normal,
-                     focus = awful.client.focus.filter,
-                     keys = clientkeys,
-                     buttons = clientbuttons } },
-    { rule = { class = "MPlayer" },
-      properties = { floating = true } },
-    { rule = { class = "pinentry" },
-      properties = { floating = true } },
-    { rule = { class = "gimp" },
-      properties = { floating = true } },
-    -- Set Firefox to always map on tags number 2 of screen 1.
-    -- { rule = { class = "Firefox" },
-    --   properties = { tag = tags[1][2] } },
+    -- default rules --
+    ru(nil,nil,{
+        focus            = true,
+        size_hints_honor = false,
+        keys             = clientkeys,
+        buttons          = clientbuttons,
+        border_width     = beautiful.border_width,
+        border_color     = beautiful.border_normal
+    }),
+    -- long rules --
+    {
+        { name = "alsamixer" },
+        properties = {
+            floating = true,
+            width = 100
+        },
+        callback = awful.placement.under_mouse
+    },
+
+    -- standard rules --
+    ru(nil, "alsamixer",            { floating=true, fullscreen=false}),
+    ru("Blender", "Blender",            { floating=true, fullscreen=true}),
+    ru("chromium", nil,            { tag=tags[S_MAIN][rtagnums.web] }),
+    ru("Chromium", ".*- chat -.*", { tag=tags[S_MAIN][rtagnums.im] }),
+    -- chat
+    ru("Xchat", nil,               { tag=tags[S_SEC][rtagnums.im] } ),
+    -- medias
+    ru("Audacious", nil,           { tag=tags[S_SEC][rtagnums.media] } ),
+    -- edit
+    ru("Gvim", nil,                { tag=tags[S_MAIN][rtagnums.edit] } ),
+    ru("Snaked", nil,              { tag=tags[S_MAIN][rtagnums.edit] } ),
+    -- fs
+    ru("Geeqie", nil,              { floating=true } ),
+    ru("ROX-Filer", nil,           { floating=true }),
+    -- hacks --
+    -- flashplugin
+    ru("Exe", "exe",               { floating=true, fullscreen=true } ),
 }
+
+-- /fab31
 -- }}}
 
 -- {{{ Signals
@@ -529,7 +859,14 @@ client.connect_signal("manage", function (c, startup)
     end
 end)
 
-client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
-client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
--- }}}
+-- Focus signal handlers --
+client.add_signal("focus",   function (c)
+    c.border_color = beautiful.border_focus
+    c.opacity = 1
+end)
+client.add_signal("unfocus", function (c)
+    c.border_color = beautiful.border_normal
+    c.opacity = 0.7
+end)
 
+-- }}}
