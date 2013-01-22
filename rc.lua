@@ -19,6 +19,8 @@ local scratch = require("scratch")
 local beautiful = require("beautiful")
 local zic_prompt = true
 
+local color = {red="#FF0000", green="#00FF00", blue="#0000FF", yellow="#FFFF00"}
+
 
 local nic = os.execute('ip addr|grep wlan0') == 0 and 'wlan0' or 'eth0'
 local awesome_pid = io.popen('echo $PPID', 'r'):read()
@@ -145,6 +147,14 @@ mymainmenu = awful.menu({
     }
 })
 
+function progress_maker()
+    local bar    = awful.widget.progressbar()
+    -- Progressbar properties
+    bar:set_vertical(true):set_ticks(true)
+    bar:set_height(12):set_width(8):set_ticks_size(2)
+    bar:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 20 }, stops = { { 0, color.red }, { 0.5, color.green }, { 1, color.yellow }} })
+    return bar
+end
 
 -- /fab31
 
@@ -351,8 +361,8 @@ cpugraph  = awful.widget.graph()
 tzswidget = wibox.widget.textbox()
 -- Graph properties
 cpugraph:set_width(40):set_height(14)
-cpugraph:set_background_color(beautiful.fg_off_widget)
-cpugraph:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 20 }, stops = { { 0, beautiful.fg_end_widget }, { 0.5, beautiful.fg_center_widget }, { 1, beautiful.fg_widget }}, angle=0})
+--cpugraph:set_background_color(beautiful.fg_off_widget)
+cpugraph:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 20 }, stops = { { 0, color.red }, { 0.5, color.green }, { 1, color.blue }}, angle=0}) -- still not working FIXME !
 
  -- Register widgets
 vicious.register(cpugraph,  vicious.widgets.cpu,      "$1")
@@ -372,12 +382,8 @@ vicious.register(batwidget, vicious.widgets.bat, "$1$2%", 61, "BAT0")
 memicon = wibox.widget.imagebox()
 memicon:set_image(beautiful.widget_mem)
 -- Initialize widget
-membar = awful.widget.progressbar()
+membar = progress_maker()
 -- Pogressbar properties
-membar:set_vertical(true):set_ticks(true)
-membar:set_height(12):set_width(8):set_ticks_size(2)
-membar:set_background_color(beautiful.fg_off_widget)
-membar:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 20 }, stops = { { 0, beautiful.fg_widget }, { 0.5, beautiful.fg_center_widget }, { 1, beautiful.fg_end_widget }}})
 -- Register widget
 vicious.register(membar, vicious.widgets.mem, "$1", 13)
 -- }}}
@@ -396,7 +402,7 @@ for _, w in pairs(fs) do
   w:set_height(14):set_width(5):set_ticks_size(2)
   w:set_border_color(beautiful.border_widget)
   w:set_background_color(beautiful.fg_off_widget)
-  w:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 20 }, stops = { { 0, beautiful.fg_widget }, { 0.5, beautiful.fg_center_widget }, { 1, beautiful.fg_end_widget }}})
+  w:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 20 }, stops = { { 0, color.red }, { 0.5, color.green }, { 1, color.yellow }} })
   -- Register buttons
   w:buttons(awful.util.table.join(
     awful.button({ }, 1, sexec("rox") )
@@ -427,13 +433,9 @@ vicious.register(netwidget, vicious.widgets.net, '<span color="'
 local volicon = wibox.widget.imagebox()
 volicon:set_image(beautiful.widget_vol)
 -- Initialize widgets
-local volbar    = awful.widget.progressbar()
+local volbar    = progress_maker()
 local volwidget = wibox.widget.textbox()
 -- Progressbar properties
-volbar:set_vertical(true):set_ticks(true)
-volbar:set_height(12):set_width(8):set_ticks_size(2)
-volbar:set_background_color(beautiful.fg_off_widget)
-volbar:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 20 }, stops = { { 0, beautiful.fg_widget }, { 0.5, beautiful.fg_center_widget }, { 1, beautiful.fg__endwidget }} })
 -- Enable caching
 vicious.cache(vicious.widgets.volume)
 -- Register widgets
@@ -481,7 +483,6 @@ for s = 1, screen.count() do
     left_layout:add(mylauncher)
     left_layout:add(mytaglist[s])
 --    left_layout:add(mylayoutbox[s])
-    left_layout:add(mylayoutbox[s])
     left_layout:add(separator)
     left_layout:add(mypromptbox[s])
 
@@ -512,6 +513,7 @@ for s = 1, screen.count() do
 --    right_layout:add(cpugraph)
     right_layout:add(mytextclock)
     if s == 1 then right_layout:add(wibox.widget.systray()) end
+    right_layout:add(mylayoutbox[s])
 
     -- Now bring it all together (with the tasklist in the middle)
     local layout = wibox.layout.align.horizontal()
@@ -860,11 +862,11 @@ client.connect_signal("manage", function (c, startup)
 end)
 
 -- Focus signal handlers --
-client.add_signal("focus",   function (c)
+client.connect_signal("focus",   function (c)
     c.border_color = beautiful.border_focus
     c.opacity = 1
 end)
-client.add_signal("unfocus", function (c)
+client.connect_signal("unfocus", function (c)
     c.border_color = beautiful.border_normal
     c.opacity = 0.7
 end)
