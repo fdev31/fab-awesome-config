@@ -582,6 +582,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end),
     awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end),
     awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end),
+--    awful.key({ modkey,  }, "s", function () scratch.pad.toggle() end),
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
     awful.key({ modkey,           }, "Tab",
         function ()
@@ -628,6 +629,9 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "w", sexec("chromium") ),
 --    awful.key({ modkey }, "x", function() awful.client.movetotag( tags[client.focus.screen][7] ) end ),
     awful.key({ modkey }, "Return",  sexec(term)),
+--    awful.key({ modkey }, "a", function () scratch.drop(term, "bottom", nil, nil, 0.30) end),
+--    awful.key({ modkey }, "a", function (c) scratch.pad.set(c, 0.60, 0.60, true) end),
+
     awful.key({ modkey }, "z", function ()
         if ( zic_prompt ) then
             awful.prompt.run({ prompt = "Wasp: " }, mypromptbox[mouse.screen].widget,
@@ -872,3 +876,47 @@ client.connect_signal("unfocus", function (c)
 end)
 
 -- }}}
+
+
+-- {{{ Arrange signal handler
+for s = 1, scount do screen[s]:connect_signal("arrange", function ()
+    local clients = awful.client.visible(s)
+    local layout = awful.layout.getname(awful.layout.get(s))
+
+    for _, c in pairs(clients) do -- Floaters are always on top
+        if   awful.client.floating.get(c) or layout == "floating"
+        then if not c.fullscreen then c.above       =  true  end
+        else                          c.above       =  false end
+    end
+  end)
+end
+-- }}}
+--
+naughty.config.presets.chat = naughty.config.presets.online
+naughty.config.presets.away = {
+    bg = "#eb4b1380",
+    fg = "#ffffff",
+}
+naughty.config.presets.xa = {
+    bg = "#65000080",
+    fg = "#ffffff",
+}
+naughty.config.presets.dnd = {
+    bg = "#65340080",
+    fg = "#ffffff",
+}
+naughty.config.presets.invisible = {
+    bg = "#ffffff80",
+    fg = "#000000",
+}
+naughty.config.presets.offline = {
+    bg = "#64636380",
+    fg = "#ffffff",
+}
+naughty.config.presets.requested = naughty.config.presets.offline
+naughty.config.presets.error = {
+    bg = "#ff000080",
+    fg = "#ffffff",
+}
+
+naughty.config.icon_dirs = { os.getenv("HOME") .. ".config/awesome/icons/",  "/usr/share/pixmaps/" }
