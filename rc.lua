@@ -92,7 +92,7 @@ function texec(cmd, opts)
         args = ' ' .. table.concat(res, ' ')
     end
     local t = function()
-        exec(term .. args .. " -e " .. cmd)
+        exec(terminal .. args .. " -e " .. cmd)
     end
     return t
 end
