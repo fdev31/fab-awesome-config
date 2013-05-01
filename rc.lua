@@ -643,12 +643,6 @@ globalkeys = awful.util.table.join(
                 awful.completion.shell, awful.util.getdir("cache") .. "/wasp_history")
             end
     end),
-    --]
-    awful.key({ modkey }, "F2", function ()
-        awful.prompt.run({ prompt = "Run: " }, mypromptbox[mouse.screen].widget,
-            function (...) mypromptbox[mouse.screen].text:set_text( exec(unpack(arg), false) ) end,
-            awful.completion.shell, awful.util.getdir("cache") .. "/history")
-    end),
     awful.key({ modkey }, "F3", function ()
         awful.prompt.run({ prompt = "Dictionary: " }, mypromptbox[mouse.screen].widget,
             function (words)
