@@ -628,7 +628,6 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "t", sexec("thunar") ),
     awful.key({ modkey }, "w", sexec("chromium") ),
 --    awful.key({ modkey }, "x", function() awful.client.movetotag( tags[client.focus.screen][7] ) end ),
-    awful.key({ modkey }, "Return",  sexec(term)),
 --    awful.key({ modkey }, "a", function () scratch.drop(term, "bottom", nil, nil, 0.30) end),
 --    awful.key({ modkey }, "a", function (c) scratch.pad.set(c, 0.60, 0.60, true) end),
 
