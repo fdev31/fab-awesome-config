@@ -7,7 +7,6 @@ require("awful.autofocus")
 -- Widget and layout library
 local wibox = require("wibox")
 -- Theme handling library
-local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
 local menubar = require("menubar")
@@ -19,7 +18,7 @@ local scratch = require("scratch")
 local beautiful = require("beautiful")
 local zic_prompt = true
 
-local color = {red="#FF0000", green="#00FF00", blue="#0000FF", yellow="#FFFF00"}
+local color = {red="#FF5555", green="#55FF55", blue="#5555FF", yellow="#FFFF00"}
 
 
 local nic = os.execute('ip addr|grep wlan0') == 0 and 'wlan0' or 'eth0'
@@ -55,6 +54,167 @@ end
 -- Themes define colours, icons, and wallpapers
 --
 beautiful.init("/usr/share/awesome/themes/default/theme.lua")
+
+-- THEME DEFINITION
+
+beautiful.confdir       = awful.util.getdir("config")
+beautiful.wallpaper_cmd = { "/usr/bin/nitrogen --restore" }
+--beautiful.wallpaper_cmd = { "awsetbg /usr/share/awesome/themes/zenburn/background1.png" }
+-- }}}
+
+
+-- {{{ Styles
+beautiful.font      = "Profont 8"
+
+-- {{{ Colors
+beautiful.fg_normal = "#DCDCCC"
+beautiful.fg_focus  = "#F0DFAF"
+beautiful.fg_urgent = "#CC9392"
+beautiful.bg_normal = "#3F3F3F"
+beautiful.bg_focus  = "#1E2320"
+beautiful.bg_urgent = beautiful.bg_normal
+-- }}}
+
+-- {{{ Borders
+beautiful.border_width  = 1
+beautiful.border_white  = "#6F6F6F"
+beautiful.border_focus = "#CD0000"
+beautiful.border_normal = beautiful.bg_normal
+beautiful.border_marked = beautiful.fg_urgent
+-- }}}
+
+-- {{{ Titlebars
+beautiful.titlebar_bg_focus  = beautiful.bg_normal
+beautiful.titlebar_bg_normal = beautiful.bg_normal
+-- beautiful.titlebar_[normal|focus]
+-- }}}
+
+-- {{{ Widgets
+beautiful.fg_widget        = "#AECF96"
+beautiful.fg_center_widget = "#88A175"
+beautiful.fg_end_widget    = "#FF5656"
+beautiful.fg_off_widget    = "#494B4F"
+beautiful.fg_netup_widget  = "#7F9F7F"
+beautiful.fg_netdn_widget  = beautiful.fg_urgent
+beautiful.bg_widget        = beautiful.bg_normal
+beautiful.border_widget    = beautiful.bg_normal
+-- }}}
+
+-- {{{ Mouse finder
+beautiful.mouse_finder_color = beautiful.fg_urgent
+-- beautiful.mouse_finder_[timeout|animate_timeout|radius|factor]
+-- }}}
+
+-- {{{ Tooltips
+-- beautiful.tooltip_[font|opacity|fg_color|bg_color|border_width|border_color]
+-- }}}
+
+-- {{{ Taglist and Tasklist
+-- beautiful.[taglist|tasklist]_[bg|fg]_[focus|urgent]
+-- }}}
+
+-- {{{ Menu
+-- beautiful.menu_[bg|fg]_[normal|focus]
+-- beautiful.menu_[height|width|border_color|border_width]
+-- }}}
+-- }}}
+
+
+-- {{{ Icons
+--
+-- {{{ Taglist icons
+beautiful.taglist_squares_sel   = beautiful.confdir .. "/icons/taglist/sel.png"
+beautiful.taglist_squares_unsel = beautiful.confdir .. "/icons/taglist/unsel.png"
+--beautiful.taglist_squares_resize = "false"
+-- }}}
+
+-- {{{ Misc icons
+--beautiful.awesome_icon           = beautiful.confdir .. "/icons/awesome.png"
+--beautiful.menu_submenu_icon      = "/usr/share/awesome/themes/default/submenu.png"
+--beautiful.tasklist_floating_icon = "/usr/share/awesome/themes/default/tasklist/floatingw.png"
+-- }}}
+
+-- {{{ Layout icons
+beautiful.layout_tile       = beautiful.confdir .. "/icons/layouts/tile.png"
+beautiful.layout_tileleft   = beautiful.confdir .. "/icons/layouts/tileleft.png"
+beautiful.layout_tilebottom = beautiful.confdir .. "/icons/layouts/tilebottom.png"
+beautiful.layout_tiletop    = beautiful.confdir .. "/icons/layouts/tiletop.png"
+beautiful.layout_fairv      = beautiful.confdir .. "/icons/layouts/fairv.png"
+beautiful.layout_fairh      = beautiful.confdir .. "/icons/layouts/fairh.png"
+beautiful.layout_spiral     = beautiful.confdir .. "/icons/layouts/spiral.png"
+beautiful.layout_dwindle    = beautiful.confdir .. "/icons/layouts/dwindle.png"
+beautiful.layout_max        = beautiful.confdir .. "/icons/layouts/max.png"
+beautiful.layout_fullscreen = beautiful.confdir .. "/icons/layouts/fullscreen.png"
+beautiful.layout_magnifier  = beautiful.confdir .. "/icons/layouts/magnifier.png"
+beautiful.layout_floating   = beautiful.confdir .. "/icons/layouts/floating.png"
+-- }}}
+
+-- {{{ Widget icons
+beautiful.widget_cpu    = beautiful.confdir .. "/icons/cpu.png"
+beautiful.widget_bat    = beautiful.confdir .. "/icons/bat.png"
+beautiful.widget_mem    = beautiful.confdir .. "/icons/mem.png"
+beautiful.widget_fs     = beautiful.confdir .. "/icons/disk.png"
+beautiful.widget_net    = beautiful.confdir .. "/icons/down.png"
+beautiful.widget_netup  = beautiful.confdir .. "/icons/up.png"
+beautiful.widget_wifi   = beautiful.confdir .. "/icons/wifi.png"
+beautiful.widget_mail   = beautiful.confdir .. "/icons/mail.png"
+beautiful.widget_vol    = beautiful.confdir .. "/icons/vol.png"
+beautiful.widget_org    = beautiful.confdir .. "/icons/cal.png"
+beautiful.widget_date   = beautiful.confdir .. "/icons/time.png"
+beautiful.widget_crypto = beautiful.confdir .. "/icons/crypto.png"
+beautiful.widget_sep    = beautiful.confdir .. "/icons/separator.png"
+beautiful.widget_temp   = beautiful.confdir .. "/icons/temp.png"
+-- }}}
+
+-- {{{ Titlebar icons
+beautiful.titlebar_close_button_focus  = beautiful.confdir .. "/icons/titlebar/close_focus.png"
+beautiful.titlebar_close_button_normal = beautiful.confdir .. "/icons/titlebar/close_normal.png"
+
+beautiful.titlebar_ontop_button_focus_active    = beautiful.confdir .. "/icons/titlebar/ontop_focus_active.png"
+beautiful.titlebar_ontop_button_normal_active   = beautiful.confdir .. "/icons/titlebar/ontop_normal_active.png"
+beautiful.titlebar_ontop_button_focus_inactive  = beautiful.confdir .. "/icons/titlebar/ontop_focus_inactive.png"
+beautiful.titlebar_ontop_button_normal_inactive = beautiful.confdir .. "/icons/titlebar/ontop_normal_inactive.png"
+
+beautiful.titlebar_sticky_button_focus_active    = beautiful.confdir .. "/icons/titlebar/sticky_focus_active.png"
+beautiful.titlebar_sticky_button_normal_active   = beautiful.confdir .. "/icons/titlebar/sticky_normal_active.png"
+beautiful.titlebar_sticky_button_focus_inactive  = beautiful.confdir .. "/icons/titlebar/sticky_focus_inactive.png"
+beautiful.titlebar_sticky_button_normal_inactive = beautiful.confdir .. "/icons/titlebar/sticky_normal_inactive.png"
+
+beautiful.titlebar_floating_button_focus_active    = beautiful.confdir .. "/icons/titlebar/floating_focus_active.png"
+beautiful.titlebar_floating_button_normal_active   = beautiful.confdir .. "/icons/titlebar/floating_normal_active.png"
+beautiful.titlebar_floating_button_focus_inactive  = beautiful.confdir .. "/icons/titlebar/floating_focus_inactive.png"
+beautiful.titlebar_floating_button_normal_inactive = beautiful.confdir .. "/icons/titlebar/floating_normal_inactive.png"
+
+beautiful.titlebar_maximized_button_focus_active    = beautiful.confdir .. "/icons/titlebar/maximized_focus_active.png"
+beautiful.titlebar_maximized_button_normal_active   = beautiful.confdir .. "/icons/titlebar/maximized_normal_active.png"
+beautiful.titlebar_maximized_button_focus_inactive  = beautiful.confdir .. "/icons/titlebar/maximized_focus_inactive.png"
+beautiful.titlebar_maximized_button_normal_inactive = beautiful.confdir .. "/icons/titlebar/maximized_normal_inactive.png"
+-- }}}
+-- }}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 -- This is used later as the default terminal and editor to run.
@@ -151,7 +311,7 @@ function progress_maker()
     local bar    = awful.widget.progressbar()
     -- Progressbar properties
     bar:set_vertical(true):set_ticks(true)
-    bar:set_height(12):set_width(8):set_ticks_size(2)
+    bar:set_height(10):set_width(8):set_ticks_size(1)
     bar:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 20 }, stops = { { 0, color.red }, { 0.5, color.green }, { 1, color.yellow }} })
     return bar
 end
@@ -354,19 +514,22 @@ separator:set_image(beautiful.widget_sep)
 -- }}}
 
 -- {{{ CPU usage and temperature
-cpuicon = wibox.widget.imagebox()
-cpuicon:set_image(beautiful.widget_cpu)
+--cpuicon = wibox.widget.imagebox()
+--cpuicon:set_image(beautiful.widget_cpu)
 -- Initialize widgets
 cpugraph  = awful.widget.graph()
-tzswidget = wibox.widget.textbox()
+--tzswidget = wibox.widget.textbox()
 -- Graph properties
-cpugraph:set_width(40):set_height(14)
+cpugraph:set_width(40)
 --cpugraph:set_background_color(beautiful.fg_off_widget)
-cpugraph:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 20 }, stops = { { 0, color.red }, { 0.5, color.green }, { 1, color.blue }}, angle=0}) -- still not working FIXME !
+--cpugraph:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 20 }, stops = { { 0, color.red }, { 0.5, color.green }, { 1, color.blue }}, angle=0}) -- still not working FIXME !
+cpugraph:set_background_color("#494B4F")
+cpugraph:set_color({ type = "linear", from = { 0, 0 }, to = { 10,0 }, stops = { {0, "#FF5656"}, {0.5, "#88A175"}, 
+                    {1, "#AECF96" }}})
 
  -- Register widgets
 vicious.register(cpugraph,  vicious.widgets.cpu,      "$1")
-vicious.register(tzswidget, vicious.widgets.thermal, " $1C", 19, "thermal_zone0")
+--vicious.register(tzswidget, vicious.widgets.thermal, " $1C", 19, "thermal_zone0")
 -- }}}
 
 -- {{{ Battery state
@@ -382,11 +545,8 @@ vicious.register(batwidget, vicious.widgets.bat, "$1$2%", 61, "BAT0")
 memicon = wibox.widget.imagebox()
 memicon:set_image(beautiful.widget_mem)
 -- Initialize widget
-membar = progress_maker()
--- Pogressbar properties
--- Register widget
+local membar = progress_maker()
 vicious.register(membar, vicious.widgets.mem, "$1", 13)
--- }}}
 
 -- {{{ File system usage
 fsicon = wibox.widget.imagebox()
@@ -400,8 +560,8 @@ fs = {
 for _, w in pairs(fs) do
   w:set_vertical(true):set_ticks(true)
   w:set_height(14):set_width(5):set_ticks_size(2)
-  w:set_border_color(beautiful.border_widget)
-  w:set_background_color(beautiful.fg_off_widget)
+--  w:set_border_color(beautiful.border_widget)
+--  w:set_background_color(beautiful.fg_off_widget)
   w:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 20 }, stops = { { 0, color.red }, { 0.5, color.green }, { 1, color.yellow }} })
   -- Register buttons
   w:buttons(awful.util.table.join(
@@ -425,8 +585,8 @@ upicon:set_image(beautiful.widget_netup)
 local netwidget = wibox.widget.textbox()
 -- Register widget
 vicious.register(netwidget, vicious.widgets.net, '<span color="'
-  .. beautiful.fg_urgent ..'">${'..nic..' down_kb}</span> <span color="'
-  .. beautiful.bg_normal ..'">${'..nic..' up_kb}</span>', 3)
+  .. color.yellow .. '">${'..nic..' down_kb}</span> <span color="'
+  .. color.green ..'">${'..nic..' up_kb}</span>', 3)
 -- }}}
 
 -- {{{ Volume level
@@ -488,31 +648,36 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
-    right_layout:add(tzswidget)
+--    right_layout:add(tzswidget)
     right_layout:add(separator)
+    right_layout:add(volicon)
     right_layout:add(volwidget)
     right_layout:add(volbar)
-    right_layout:add(volicon)
     right_layout:add(separator)
-    right_layout:add(upicon)
-    right_layout:add(netwidget)
     right_layout:add(dnicon)
+    right_layout:add(netwidget)
+    right_layout:add(upicon)
     right_layout:add(separator)
+    right_layout:add(fsicon)
     right_layout:add(fs.s)
     right_layout:add(fs.h)
     right_layout:add(fs.r)
+    right_layout:add(separator)
     right_layout:add(fs.b)
-    right_layout:add(fsicon)
+--    right_layout:add(separator)
     right_layout:add(separator)
-    right_layout:add(membar)
-    right_layout:add(memicon)
-    right_layout:add(separator)
-    right_layout:add(batwidget)
-    right_layout:add(baticon)
-    right_layout:add(separator)
---    right_layout:add(cpugraph)
-    right_layout:add(mytextclock)
+    right_layout:add(cpugraph)
+--
     if s == 1 then right_layout:add(wibox.widget.systray()) end
+
+    right_layout:add(separator)
+    right_layout:add(mytextclock)
+    right_layout:add(separator)
+    right_layout:add(memicon)
+    right_layout:add(membar)
+    right_layout:add(separator)
+
+    right_layout:add(baticon)
     right_layout:add(mylayoutbox[s])
 
     -- Now bring it all together (with the tasklist in the middle)
@@ -580,8 +745,7 @@ globalkeys = awful.util.table.join(
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
     awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end),
-    awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end),
-    awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end),
+    awful.key({ modkey,           }, "p", function () awful.screen.focus_relative( 1) end),
 --    awful.key({ modkey,  }, "s", function () scratch.pad.toggle() end),
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
     awful.key({ modkey,           }, "Tab",
@@ -611,6 +775,7 @@ globalkeys = awful.util.table.join(
     -- Prompt
     awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end),
 
+    --[[
     awful.key({ modkey }, "x",
               function ()
                   awful.prompt.run({ prompt = "Run Lua code: " },
@@ -618,11 +783,12 @@ globalkeys = awful.util.table.join(
                   awful.util.eval, nil,
                   awful.util.getdir("cache") .. "/history_eval")
               end),
+    --]]
     -- Menubar
-    awful.key({ modkey }, "p", function() menubar.show() end)
+    awful.key({ modkey }, "F2", function() menubar.show() end),
     -- fab31
 
-    ,awful.key({modkey, "Alt"}, "l", sexec("xlock", false) ),
+--    ,awful.key({modkey, "Alt"}, "l", sexec("xlock", false) ),
     awful.key({ modkey}, "q", function () mymainmenu:show({keygrabber=true}) end),
     awful.key({ modkey}, "z", function () if( not zic_prompt) then zicmenu:show({keygrabber=true}) end end),
     awful.key({ modkey }, "t", sexec("thunar") ),
