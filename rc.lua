@@ -13,7 +13,7 @@ local menubar = require("menubar")
 
 -- fab31
 local vicious = require("vicious")
---local scratch = require("scratch")
+local drop = require("drop")
 local beautiful = require("beautiful")
 local zic_prompt = true
 
@@ -743,7 +743,6 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
     awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end),
     awful.key({ modkey,           }, "p", function () awful.screen.focus_relative( 1) end),
---    awful.key({ modkey,  }, "s", function () scratch.pad.toggle() end),
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
     awful.key({ modkey,           }, "Tab",
         function ()
@@ -791,8 +790,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "t", sexec("thunar") ),
     awful.key({ modkey }, "w", sexec("chromium") ),
 --    awful.key({ modkey }, "x", function() awful.client.movetotag( tags[client.focus.screen][7] ) end ),
---    awful.key({ modkey }, "a", function () scratch.drop(term, "bottom", nil, nil, 0.30) end),
---    awful.key({ modkey }, "a", function (c) scratch.pad.set(c, 0.60, 0.60, true) end),
+    awful.key({ modkey }, "a", function () drop(terminal, "bottom") end),
 
     awful.key({ modkey }, "z", function ()
         if ( zic_prompt ) then
