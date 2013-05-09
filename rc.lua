@@ -953,6 +953,7 @@ awful.rules.rules = {
     -- hacks --
     -- flashplugin
     ru("Exe", "exe",               { floating=true, fullscreen=true } ),
+    ru("Plugin-container", nil,               { floating=true, fullscreen=true } ),
 }
 
 -- /fab31
