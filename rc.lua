@@ -12,9 +12,8 @@ local naughty = require("naughty")
 local menubar = require("menubar")
 
 -- fab31
-local revelation = require("revelation")
 local vicious = require("vicious")
-local scratch = require("scratch")
+--local scratch = require("scratch")
 local beautiful = require("beautiful")
 local zic_prompt = true
 
@@ -524,7 +523,7 @@ cpugraph:set_width(40)
 --cpugraph:set_background_color(beautiful.fg_off_widget)
 --cpugraph:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 20 }, stops = { { 0, color.red }, { 0.5, color.green }, { 1, color.blue }}, angle=0}) -- still not working FIXME !
 cpugraph:set_background_color("#494B4F")
-cpugraph:set_color({ type = "linear", from = { 0, 0 }, to = { 10,0 }, stops = { {0, "#FF5656"}, {0.5, "#88A175"}, 
+cpugraph:set_color({ type = "linear", from = { 0, 0 }, to = { 0,10 }, stops = { {0, "#FF5656"}, {0.5, "#88A175"}, 
                     {1, "#AECF96" }}})
 
  -- Register widgets
@@ -648,7 +647,14 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
+    right_layout:add(separator)
 --    right_layout:add(tzswidget)
+    if s == 1 then right_layout:add(wibox.widget.systray()) end
+
+    right_layout:add(mytextclock)
+    right_layout:add(memicon)
+    right_layout:add(membar)
+    right_layout:add(separator)
     right_layout:add(volicon)
     right_layout:add(volwidget)
     right_layout:add(volbar)
@@ -667,14 +673,6 @@ for s = 1, screen.count() do
     right_layout:add(separator)
     right_layout:add(cpugraph)
 --
-    if s == 1 then right_layout:add(wibox.widget.systray()) end
-
-    right_layout:add(separator)
-    right_layout:add(mytextclock)
-    right_layout:add(separator)
-    right_layout:add(memicon)
-    right_layout:add(membar)
-    right_layout:add(separator)
 
     right_layout:add(baticon)
     right_layout:add(mylayoutbox[s])
