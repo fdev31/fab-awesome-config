@@ -53,11 +53,12 @@ end
 -- Themes define colours, icons, and wallpapers
 --
 beautiful.init("/usr/share/awesome/themes/default/theme.lua")
+beautiful.wallpaper_cmd = { "feh --bg-max /home/fab/Images/918261-1024x600-arch3.jpg" }
 
 -- THEME DEFINITION
 
 beautiful.confdir       = awful.util.getdir("config")
-beautiful.wallpaper_cmd = { "/usr/bin/nitrogen --restore" }
+--beautiful.wallpaper_cmd = { "/usr/bin/nitrogen --restore" }
 --beautiful.wallpaper_cmd = { "awsetbg /usr/share/awesome/themes/zenburn/background1.png" }
 -- }}}
 
@@ -1078,3 +1079,8 @@ naughty.config.presets.error = {
 }
 
 naughty.config.icon_dirs = { os.getenv("HOME") .. ".config/awesome/icons/",  "/usr/share/pixmaps/" }
+
+os.execute('feh --bg-max /home/fab/Images/awesome_bg.jpg')
+if os.execute('ps nc -C compton | grep -v "PID TTY"') == nil then
+    os.execute('comp-switch')
+end
