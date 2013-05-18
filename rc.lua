@@ -20,7 +20,7 @@ local zic_prompt = true
 local color = {red="#FF5555", green="#55FF55", blue="#5555FF", yellow="#FFFF00"}
 
 
-local nic = os.execute('ip addr|grep wlan0') == 0 and 'wlan0' or 'eth0'
+local nic = os.execute('ip addr|grep UP|grep wlan0') == 0 and 'wlan0' or 'eth0'
 local awesome_pid = io.popen('echo $PPID', 'r'):read()
 -- /fab31
 
@@ -273,6 +273,7 @@ end
 app_items = {
     { "Inkscape", sexec('inkscape') },
     { "Gimp", sexec('gimp') },
+    { "UrbanTerror", sexec('cd /home/fab/grosdisk/home/fab/games/UrbanTerror42 ; ./Quake3-UrT.x86_64') },
     { "Midori", sexec('midori') },
     { "Firefox", sexec('firefox') },
     { "Chromium (mod w)", sexec('chromium') },
@@ -298,6 +299,7 @@ mymainmenu = awful.menu({
         { "applications", app_items, beautiful.sun},
         { "targets", connect_items},
         { "zic", zmitems},
+        { "switch composition", sexec("comp-switch") },
         { "manual", texec("man awesome") },
         { "edit config", eexec(awesome.conffile) },
         { "show logs", texec("tail -n 30 -f /proc/" .. awesome_pid .. "/fd/1 /proc/" .. awesome_pid .. "/fd/2") },
