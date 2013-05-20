@@ -34,6 +34,8 @@ if awesome.startup_errors then
                      text = awesome.startup_errors })
 end
 
+awful.util.spawn_with_shell("comp-switch")
+
 -- Handle runtime errors after startup
 do
     local in_error = false
@@ -897,7 +899,7 @@ client.connect_signal("focus",   function (c)
 end)
 client.connect_signal("unfocus", function (c)
     c.border_color = beautiful.border_normal
-    c.opacity = 0.7
+    c.opacity = 0.85
 end)
 
 -- }}}
