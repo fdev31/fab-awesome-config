@@ -33,6 +33,8 @@ if awesome.startup_errors then
                      text = awesome.startup_errors })
 end
 
+awful.util.spawn_with_shell("comp-switch")
+
 -- Handle runtime errors after startup
 do
     local in_error = false
