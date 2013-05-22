@@ -602,11 +602,17 @@ vicious.cache(vicious.widgets.volume)
 -- Register widgets
 vicious.register(volbar,    vicious.widgets.volume,  "$1",  2, "Master")
 vicious.register(volwidget, vicious.widgets.volume, " $1%", 2, "Master")
+-- Setup handlers
+os.execute('kill `cat /tmp/amixer_ctl.pid` >/dev/null ; mkfifo /tmp/amixer_ctl && echo $! > /tmp/amixer_ctl.pid')
+os.execute('amixer -s -M < /tmp/amixer_ctl &')
+local mixer = io.open('/tmp/amixer_ctl', 'a')
+
 -- Register buttons
+
 volbar:buttons(awful.util.table.join(
-   awful.button({ }, 1, texec("alsamixer", {t='alsamixer'}) ),
-   awful.button({ }, 4, sexec("amixer -q sset Master 3%+", false)),
-   awful.button({ }, 5, sexec("amixer -q sset Master 3%-", false))
+   awful.button({ }, 1, sexec("pavucontrol") ),
+   awful.button({ }, 4, function() mixer:write('sset Master 3%+\n') mixer:flush() end),
+   awful.button({ }, 5, function() mixer:write('sset Master 3%-\n') mixer:flush() end)
 )) -- Register assigned buttons
 volwidget:buttons(volbar:buttons())
 -- }}}
