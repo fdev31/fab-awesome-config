@@ -162,6 +162,7 @@ mymainmenu = awful.menu({
         { "targets", connect_items},
         { "zic", zmitems},
         { "switch composition", sexec("comp-switch") },
+        { "Radio", texec("mplayer -cache 128 http://broadcast.infomaniak.net:80/radionova-high.mp3") },
         { "manual", texec("man awesome") },
         { "edit config", eexec(awesome.conffile) },
         { "show logs", texec("tail -n 30 -f /proc/" .. awesome_pid .. "/fd/1 /proc/" .. awesome_pid .. "/fd/2") },
