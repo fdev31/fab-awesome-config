@@ -138,8 +138,8 @@ app_items = {
     { "UrbanTerror", sexec('cd /home/fab/grosdisk/home/fab/games/UrbanTerror42 ; ./Quake3-UrT.x86_64') },
     { "Midori", sexec('midori') },
     { "Firefox", sexec('firefox') },
-    { "Chromium (mod w)", sexec('chromium') },
-    { "Thunar (mod t)", sexec('thunar') },
+    { "Chromium", sexec('chromium') },
+    { "Thunar", sexec('thunar') },
     { "WeeChat", texec('weechat-curses') },
 }
 connect_items = {
@@ -151,8 +151,9 @@ connect_items = {
     { "Serial @115.2", texec('sudo screen /dev/ttyUSB0 115200') },
 }
 zmitems ={
-        {'toggle pause', sexec('wasp pause')},
-        {'zap', sexec('wasp next')},
+        {"Start Radio", texec("mplayer -cache 128 http://broadcast.infomaniak.net:80/radionova-high.mp3") },
+        {'zb: (un)pause', sexec('wasp pause')},
+        {'zb: zap', sexec('wasp next')},
     }
 
 zicmenu = awful.menu({items = zmitems})
@@ -161,13 +162,13 @@ mymainmenu = awful.menu({
         { "applications", app_items, beautiful.sun},
         { "targets", connect_items},
         { "zic", zmitems},
-        { "switch composition", sexec("comp-switch") },
-        { "Radio", texec("mplayer -cache 128 http://broadcast.infomaniak.net:80/radionova-high.mp3") },
         { "manual", texec("man awesome") },
+        { "comp' switch", sexec("comp-switch") },
         { "edit config", eexec(awesome.conffile) },
         { "show logs", texec("tail -n 30 -f /proc/" .. awesome_pid .. "/fd/1 /proc/" .. awesome_pid .. "/fd/2") },
-        { "restart", awesome.restart },
-        { "quit", awesome.quit },
+--        { "restart", awesome.restart },
+--        { "quit", awesome.quit },
+        { "suspend now", sexec('sudo pm-suspend') },
     }
 })
 
