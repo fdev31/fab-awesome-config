@@ -85,8 +85,8 @@ ieditor_cmd = terminal .. " -e " .. editor
 
 -- fab31
 terminal = "terminator"
-editor = os.getenv("EDITOR") or "nano"
-editor_cmd = terminal .. " -e " .. editor
+--editor = os.getenv("EDITOR") or "nano"
+editor_cmd = 'gvim -reverse '
 
 local home   = os.getenv("HOME")
 local exec   = awful.util.spawn
@@ -119,7 +119,7 @@ function texec(cmd, opts)
 end
 function eexec(w)
     local t = function()
-        exec(edit .. " " .. w)
+        exec(editor_cmd .. " " .. w)
     end
     return t
 end
