@@ -663,7 +663,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "t", sexec("thunar") ),
     awful.key({ modkey }, "w", sexec("chromium") ),
 --    awful.key({ modkey }, "x", function() awful.client.movetotag( tags[client.focus.screen][7] ) end ),
-    awful.key({ modkey }, "a", function () drop(terminal, "bottom") end),
+    awful.key({ modkey }, "a", function () drop(terminal, "bottom", "center", 1, 0.5, true) end),
 
     awful.key({ modkey }, "z", function ()
         if ( zic_prompt ) then
