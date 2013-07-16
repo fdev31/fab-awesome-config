@@ -475,14 +475,26 @@ vicious.register(volwidget, vicious.widgets.volume, " $1%", 2, "Master")
 -- Setup handlers
 os.execute('kill `cat /tmp/amixer_ctl.pid` >/dev/null ; mkfifo /tmp/amixer_ctl && echo $! > /tmp/amixer_ctl.pid')
 os.execute('amixer -s -M < /tmp/amixer_ctl &')
-local mixer = io.open('/tmp/amixer_ctl', 'a')
+
+local _up_vol = function(sense)
+    local _cmd = 'sset Master 3%' .. sense .. '\n'
+    return function()
+        mixer.fd:write(_cmd)
+        mixer.fd:flush()
+    end
+end
+mixer = {
+    fd = io.open('/tmp/amixer_ctl', 'a'),
+    up = _up_vol('+'),
+    down = _up_vol('-')
+};
 
 -- Register buttons
 
 volbar:buttons(awful.util.table.join(
    awful.button({ }, 1, sexec("pavucontrol") ),
-   awful.button({ }, 4, function() mixer:write('sset Master 3%+\n') mixer:flush() end),
-   awful.button({ }, 5, function() mixer:write('sset Master 3%-\n') mixer:flush() end)
+   awful.button({ }, 4, mixer.up),
+   awful.button({ }, 5, mixer.down)
 )) -- Register assigned buttons
 volwidget:buttons(volbar:buttons())
 -- }}}
@@ -576,8 +588,8 @@ root.buttons(awful.util.table.join(
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
-    awful.key({ }, "XF86AudioLowerVolume", function () awful.util.spawn("amixer -q sset Master 2dB-") end),
-    awful.key({ }, "XF86AudioRaiseVolume", function () awful.util.spawn("amixer -q sset Master 2dB+") end),
+    awful.key({ }, "XF86AudioLowerVolume", mixer.down),
+    awful.key({ }, "XF86AudioRaiseVolume", mixer.up),
 
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
