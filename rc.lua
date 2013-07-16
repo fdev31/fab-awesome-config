@@ -85,8 +85,8 @@ ieditor_cmd = terminal .. " -e " .. editor
 
 -- fab31
 terminal = "terminator"
-editor = os.getenv("EDITOR") or "nano"
-editor_cmd = terminal .. " -e " .. editor
+--editor = os.getenv("EDITOR") or "nano"
+editor_cmd = 'gvim -reverse '
 
 local home   = os.getenv("HOME")
 local exec   = awful.util.spawn
@@ -113,13 +113,13 @@ function texec(cmd, opts)
         args = ' ' .. table.concat(res, ' ')
     end
     local t = function()
-        exec(terminal .. args .. " -e " .. cmd)
+        exec(terminal .. args .. " -x " .. cmd)
     end
     return t
 end
 function eexec(w)
     local t = function()
-        exec(edit .. " " .. w)
+        exec(editor_cmd .. " " .. w)
     end
     return t
 end
@@ -138,8 +138,8 @@ app_items = {
     { "UrbanTerror", sexec('cd /home/fab/grosdisk/home/fab/games/UrbanTerror42 ; ./Quake3-UrT.x86_64') },
     { "Midori", sexec('midori') },
     { "Firefox", sexec('firefox') },
-    { "Chromium (mod w)", sexec('chromium') },
-    { "Thunar (mod t)", sexec('thunar') },
+    { "Chromium", sexec('chromium') },
+    { "Thunar", sexec('thunar') },
     { "WeeChat", texec('weechat-curses') },
 }
 connect_items = {
@@ -151,8 +151,9 @@ connect_items = {
     { "Serial @115.2", texec('sudo screen /dev/ttyUSB0 115200') },
 }
 zmitems ={
-        {'toggle pause', sexec('wasp pause')},
-        {'zap', sexec('wasp next')},
+        {"Start Radio", texec("mplayer -cache 128 http://broadcast.infomaniak.net:80/radionova-high.mp3") },
+        {'zb: (un)pause', sexec('wasp pause')},
+        {'zb: zap', sexec('wasp next')},
     }
 
 zicmenu = awful.menu({items = zmitems})
@@ -161,12 +162,13 @@ mymainmenu = awful.menu({
         { "applications", app_items, beautiful.sun},
         { "targets", connect_items},
         { "zic", zmitems},
-        { "switch composition", sexec("comp-switch") },
         { "manual", texec("man awesome") },
+        { "comp' switch", sexec("comp-switch") },
         { "edit config", eexec(awesome.conffile) },
         { "show logs", texec("tail -n 30 -f /proc/" .. awesome_pid .. "/fd/1 /proc/" .. awesome_pid .. "/fd/2") },
-        { "restart", awesome.restart },
-        { "quit", awesome.quit },
+--        { "restart", awesome.restart },
+--        { "quit", awesome.quit },
+        { "suspend now", sexec('sudo pm-suspend') },
     }
 })
 
@@ -239,7 +241,8 @@ _tags = {
     {"edit"  , _dflt}           , 
     {"web"   , _dflt}           , 
     {"im"    , _dflt}           , 
-    {"mail"  , rlayouts.max}    , 
+    {"fm"    , rlayouts.max}    , 
+    {"gfx"    , rlayouts.max}    , 
     {nil     , rlayouts.float}  , 
     {nil     , rlayouts.float}  , 
     {"rss"   , rlayouts.mag}    , 
@@ -266,8 +269,8 @@ _dflt = nil
 for s = 1, scount do -- for each screen
   tags[s] = awful.tag(tags.names, s, tags.layout) -- create tags
   for i, t in ipairs(tags[s]) do -- set some properties
-      awful.tag.setproperty(t , "mwfact" , i==5 and 0.13 or 0.5)
-      awful.tag.setproperty(t , "hide"   , (i==6 or i==7) and true)
+      awful.tag.setproperty(t , "mwfact" , 0.5)
+      awful.tag.setproperty(t , "hide"   , (i==7 or i==8) and true)
   end
 end
 
@@ -469,11 +472,17 @@ vicious.cache(vicious.widgets.volume)
 -- Register widgets
 vicious.register(volbar,    vicious.widgets.volume,  "$1",  2, "Master")
 vicious.register(volwidget, vicious.widgets.volume, " $1%", 2, "Master")
+-- Setup handlers
+os.execute('kill `cat /tmp/amixer_ctl.pid` >/dev/null ; mkfifo /tmp/amixer_ctl && echo $! > /tmp/amixer_ctl.pid')
+os.execute('amixer -s -M < /tmp/amixer_ctl &')
+local mixer = io.open('/tmp/amixer_ctl', 'a')
+
 -- Register buttons
+
 volbar:buttons(awful.util.table.join(
-   awful.button({ }, 1, texec("alsamixer", {t='alsamixer'}) ),
-   awful.button({ }, 4, sexec("amixer -q sset Master 3%+", false)),
-   awful.button({ }, 5, sexec("amixer -q sset Master 3%-", false))
+   awful.button({ }, 1, sexec("pavucontrol") ),
+   awful.button({ }, 4, function() mixer:write('sset Master 3%+\n') mixer:flush() end),
+   awful.button({ }, 5, function() mixer:write('sset Master 3%-\n') mixer:flush() end)
 )) -- Register assigned buttons
 volwidget:buttons(volbar:buttons())
 -- }}}
