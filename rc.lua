@@ -164,6 +164,7 @@ mymainmenu = awful.menu({
         { "targets", connect_items},
         { "zic", zmitems},
         { "switch composition", sexec("comp-switch") },
+        { "relayout", sexec("~/.screenlayout/default2.sh") },
         { "manual", texec("man awesome") },
         { "edit config", eexec(awesome.conffile) },
         { "show logs", texec("tail -n 30 -f /proc/" .. awesome_pid .. "/fd/1 /proc/" .. awesome_pid .. "/fd/2") },
