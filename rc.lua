@@ -677,7 +677,7 @@ globalkeys = awful.util.table.join(
     --]]
     -- Menubar
     awful.key({ modkey }, "F2", function() menubar.show() end),
-    awful.key({ "Control", "Shift"}, "l", sexec('xscreensaver-command -lock')),
+    awful.key({ "Control", "Shift"}, "l", sexec('slock')),
     -- fab31
 
 --    ,awful.key({modkey, "Alt"}, "l", sexec("xlock", false) ),
