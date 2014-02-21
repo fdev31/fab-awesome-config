@@ -677,6 +677,7 @@ globalkeys = awful.util.table.join(
     --]]
     -- Menubar
     awful.key({ modkey }, "F2", function() menubar.show() end),
+    awful.key({ modkey }, "y", sexec('synapse')),
     awful.key({ "Control", "Shift"}, "l", sexec('slock')),
     -- fab31
 
