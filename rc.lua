@@ -169,7 +169,7 @@ mymainmenu = awful.menu({
         { "edit config", eexec(awesome.conffile) },
         { "show logs", texec("tail -n 30 -f /proc/" .. awesome_pid .. "/fd/1 /proc/" .. awesome_pid .. "/fd/2") },
 --        { "restart", awesome.restart },
---        { "quit", awesome.quit },
+        { "quit", awesome.quit },
         { "suspend now", sexec('sudo pm-suspend') },
     }
 })
@@ -677,7 +677,8 @@ globalkeys = awful.util.table.join(
     --]]
     -- Menubar
     awful.key({ modkey }, "F2", function() menubar.show() end),
-    awful.key({ "Control", "Shift"}, "l", sexec('xscreensaver-command -lock')),
+    awful.key({ modkey }, "y", sexec('synapse')),
+    awful.key({ "Control", "Shift"}, "l", sexec('slock')),
     -- fab31
 
 --    ,awful.key({modkey, "Alt"}, "l", sexec("xlock", false) ),
