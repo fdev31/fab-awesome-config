@@ -687,7 +687,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "w", sexec("chromium") ),
     awful.key({ modkey }, "e", function() awful.menu.clients({ width=250 }) end ),
 --    awful.key({ modkey }, "x", function() awful.client.movetotag( tags[client.focus.screen][7] ) end ),
-    awful.key({ modkey }, "a", function () drop(terminal, "bottom", "center", 1, 0.5, true) end),
+    awful.key({ modkey }, "a", function () drop('xterm +rv', "bottom", "center", 1, 0.5, true) end),
 
     awful.key({ modkey }, "z", function ()
         if ( zic_prompt ) then
