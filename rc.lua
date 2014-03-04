@@ -836,8 +836,8 @@ awful.rules.rules = {
     },
 
     -- standard rules --
-    ru(nil, "alsamixer",            { floating=true, fullscreen=false}),
-    ru("Blender", "Blender",            { floating=true, fullscreen=true}),
+    ru(nil, "alsamixer",           { floating=true, fullscreen=false}),
+    ru("Blender", "Blender",       { floating=true, fullscreen=true}),
     ru("chromium", nil,            { tag=tags[S_MAIN][rtagnums.web] }),
     ru("Chromium", ".*- chat -.*", { tag=tags[S_MAIN][rtagnums.im] }),
     -- chat
@@ -853,7 +853,7 @@ awful.rules.rules = {
     -- hacks --
     -- flashplugin
     ru("Exe", "exe",               { floating=true, fullscreen=true } ),
-    ru("Plugin-container", nil,               { floating=true, fullscreen=true } ),
+    ru("Plugin-container", nil,    { floating=true, fullscreen=true } ),
 }
 
 -- /fab31
