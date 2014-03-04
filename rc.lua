@@ -36,6 +36,8 @@ end
 
 awful.util.spawn_with_shell("comp-switch")
 
+os.execute("procs start")
+
 -- Handle runtime errors after startup
 do
     local in_error = false
