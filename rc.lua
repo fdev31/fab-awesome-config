@@ -139,7 +139,7 @@ end
 app_items = {
     { "Inkscape", sexec('inkscape') },
     { "Gimp", sexec('gimp') },
-    { "UrbanTerror", sexec('cd /home/fab/grosdisk/home/fab/games/UrbanTerror42 ; ./Quake3-UrT.x86_64') },
+    { "UrbanTerror", sexec('cd /home/fab/grosdisk/home/fab/games/UrbanTerror42 ; comp-switch off ; ./Quake3-UrT.x86_64; comp-switch on') },
     { "Midori", sexec('midori') },
     { "Firefox", sexec('firefox') },
     { "Chromium", sexec('chromium') },
