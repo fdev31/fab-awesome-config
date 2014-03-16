@@ -1,3 +1,4 @@
+local UT_FOLDER = '/home/fab/grosdisk/home/fab/games/UrbanTerror42'
 
 -- Standard awesome library
 local gears = require("gears")
@@ -23,6 +24,7 @@ local color = {red="#FF5555", green="#55FF55", blue="#5555FF", yellow="#FFFF00"}
 
 local nic = os.execute('ip addr|grep UP|grep wlan0') == 0 and 'wlan0' or 'eth0'
 local awesome_pid = io.popen('echo $PPID', 'r'):read()
+
 -- /fab31
 
 -- {{{ Error handling
@@ -139,7 +141,7 @@ end
 app_items = {
     { "Inkscape", sexec('inkscape') },
     { "Gimp", sexec('gimp') },
-    { "UrbanTerror", sexec('cd /home/fab/grosdisk/home/fab/games/UrbanTerror42 ; ./Quake3-UrT.x86_64') },
+    { "UrbanTerror", sexec('cd ' .. UT_FOLDER .. ' ; comp-switch off ; ./Quake3-UrT.x86_64; comp-switch on') },
     { "Midori", sexec('midori') },
     { "Firefox", sexec('firefox') },
     { "Chromium", sexec('chromium') },
@@ -168,6 +170,7 @@ mymainmenu = awful.menu({
         { "zic", zmitems},
         { "manual", texec("man awesome") },
         { "comp' switch", sexec("comp-switch") },
+        { "shift' switch", sexec("shift-switch") },
         { "edit config", eexec(awesome.conffile) },
         { "show logs", texec("tail -n 30 -f /proc/" .. awesome_pid .. "/fd/1 /proc/" .. awesome_pid .. "/fd/2") },
 --        { "restart", awesome.restart },
@@ -839,8 +842,8 @@ awful.rules.rules = {
     -- volume properties
     ru(nil, ".* volume.*",         { floating=true, fullscreen=false}),
     ru(nil, "alsamixer",           { floating=true, fullscreen=false}),
-    -- www
-    ru("Chromium", nil, { tag=tags[S_MAIN][rtagnums.web] }),
+    -- www 
+    ru("Chromium", nil,            { tag=tags[S_MAIN][rtagnums.web] }),
     ru("Chromium", ".*- chat -.*", { tag=tags[S_MAIN][rtagnums.im] }),
     -- chat
     ru("Xchat", nil,               { tag=tags[S_SEC][rtagnums.im] } ),
