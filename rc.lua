@@ -744,6 +744,8 @@ clientkeys = awful.util.table.join(
             -- minimized, since minimized clients can't have the focus.
             c.minimized = true
         end),
+    awful.key({ modkey }, "s", function (c) c.sticky = not c.sticky end),
+    awful.key({ modkey, "Control"  }, "m", function(c) c.minimized = not c.minimized end),
     awful.key({ modkey,           }, "m",
         function (c)
             c.maximized_horizontal = not c.maximized_horizontal
@@ -830,12 +832,22 @@ awful.rules.rules = {
         },
         callback = awful.placement.under_mouse
     },
+    {
+        {class="Chromium", name="Developer Tools -"},
+        properties={floating=true},
+        callback = function( c )
+            local w_area = screen[ c.screen ].workarea
+            local winwidth = 340
+            c:struts( { right = winwidth } )
+            c:geometry( { x = w_area.width - winwidth, width = winwidth, y = w_area.y, height = w_area.height } )
+        end
+    },
 
     -- standard rules --
     ru(nil, "alsamixer",            { floating=true, fullscreen=false}),
     ru("Blender", "Blender",            { floating=true, fullscreen=true}),
-    ru("chromium", nil,            { tag=tags[S_MAIN][rtagnums.web] }),
     ru("Chromium", ".*- chat -.*", { tag=tags[S_MAIN][rtagnums.im] }),
+    ru("Chromium", nil,            { tag=tags[S_MAIN][rtagnums.web] }),
     -- chat
     ru("Xchat", nil,               { tag=tags[S_SEC][rtagnums.im] } ),
     -- medias
