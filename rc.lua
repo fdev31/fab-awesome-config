@@ -24,6 +24,8 @@ local color = {red="#FF5555", green="#55FF55", blue="#5555FF", yellow="#FFFF00"}
 
 local nic = os.execute('ip addr|grep UP|grep wlan0') == 0 and 'wlan0' or 'eth0'
 local awesome_pid = io.popen('echo $PPID', 'r'):read()
+
+awful.util.spawn_with_shell('shift-switch')
 -- /fab31
 
 -- {{{ Error handling
@@ -835,6 +837,16 @@ awful.rules.rules = {
             width = 100
         },
         callback = awful.placement.under_mouse
+    },
+    {
+        {class="Chromium", name="Developer Tools -"},
+        properties={floating=true},
+        callback = function( c )
+            local w_area = screen[ c.screen ].workarea
+            local winwidth = 340
+            c:struts( { right = winwidth } )
+            c:geometry( { x = w_area.width - winwidth, width = winwidth, y = w_area.y, height = w_area.height } )
+        end
     },
 
     -- standard rules --
