@@ -23,6 +23,8 @@ local color = {red="#FF5555", green="#55FF55", blue="#5555FF", yellow="#FFFF00"}
 
 local nic = os.execute('ip addr|grep UP|grep wlan0') == 0 and 'wlan0' or 'eth0'
 local awesome_pid = io.popen('echo $PPID', 'r'):read()
+
+awful.util.spawn_with_shell('redshift-gtk -l manual -l 43.3186:5.4084 &')
 -- /fab31
 
 -- {{{ Error handling
