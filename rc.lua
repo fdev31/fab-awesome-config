@@ -169,6 +169,7 @@ mymainmenu = awful.menu({
         { "zic", zmitems},
         { "manual", texec("man awesome") },
         { "comp' switch", sexec("comp-switch") },
+        { "shift' switch", sexec("shift-switch") },
         { "edit config", eexec(awesome.conffile) },
         { "show logs", texec("tail -n 30 -f /proc/" .. awesome_pid .. "/fd/1 /proc/" .. awesome_pid .. "/fd/2") },
 --        { "restart", awesome.restart },
