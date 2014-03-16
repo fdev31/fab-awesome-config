@@ -836,9 +836,11 @@ awful.rules.rules = {
     },
 
     -- standard rules --
+    -- volume properties
+    ru(nil, ".* volume.*",         { floating=true, fullscreen=false}),
     ru(nil, "alsamixer",           { floating=true, fullscreen=false}),
-    ru("Blender", "Blender",       { floating=true, fullscreen=true}),
-    ru("chromium", nil,            { tag=tags[S_MAIN][rtagnums.web] }),
+    -- www
+    ru("Chromium", nil, { tag=tags[S_MAIN][rtagnums.web] }),
     ru("Chromium", ".*- chat -.*", { tag=tags[S_MAIN][rtagnums.im] }),
     -- chat
     ru("Xchat", nil,               { tag=tags[S_SEC][rtagnums.im] } ),
@@ -847,6 +849,10 @@ awful.rules.rules = {
     -- edit
     ru("Gvim", nil,                { tag=tags[S_MAIN][rtagnums.edit] } ),
     ru("Snaked", nil,              { tag=tags[S_MAIN][rtagnums.edit] } ),
+    -- gfx
+    ru("Blender", nil,             { tag=tags[S_MAIN][rtagnums.gfx], floating=true, fullscreen=true } ),
+    ru("Blender", "Blender",       { floating=true, fullscreen=true}),
+    ru("Gimp", nil,                { tag=tags[S_MAIN][rtagnums.gfx] } ),
     -- fs
     ru("Geeqie", nil,              { floating=true } ),
     ru("ROX-Filer", nil,           { floating=true }),
