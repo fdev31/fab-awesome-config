@@ -842,6 +842,7 @@ awful.rules.rules = {
     ru("Blender", "Blender",       { floating=true, fullscreen=true}),
     ru("chromium", nil,            { tag=tags[S_MAIN][rtagnums.web] }),
     ru("Chromium", ".*- chat -.*", { tag=tags[S_MAIN][rtagnums.im] }),
+    ru("Firefox", nil,         { tag=tags[S_MAIN][rtagnums.web] }),
     -- chat
     ru("Xchat", nil,               { tag=tags[S_SEC][rtagnums.im] } ),
     -- medias
