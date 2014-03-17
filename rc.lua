@@ -36,7 +36,7 @@ if awesome.startup_errors then
                      text = awesome.startup_errors })
 end
 
-awful.util.spawn_with_shell("comp-switch")
+awful.util.spawn_with_shell("comp-switch on")
 
 os.execute("procs start &")
 
