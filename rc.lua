@@ -25,6 +25,7 @@ local color = {red="#FF5555", green="#55FF55", blue="#5555FF", yellow="#FFFF00"}
 
 local nic = os.execute('ip addr|grep UP|grep wlan0') == 0 and 'wlan0' or 'eth0'
 local awesome_pid = io.popen('echo $PPID', 'r'):read()
+
 -- /fab31
 
 -- {{{ Error handling
@@ -38,7 +39,7 @@ end
 
 awful.util.spawn_with_shell("comp-switch on")
 
-os.execute("procs start &")
+os.execute("procs start")
 
 -- Handle runtime errors after startup
 do
@@ -170,6 +171,7 @@ mymainmenu = awful.menu({
         { "zic", zmitems},
         { "manual", texec("man awesome") },
         { "comp' switch", sexec("comp-switch") },
+        { "shift' switch", sexec("shift-switch") },
         { "edit config", eexec(awesome.conffile) },
         { "show logs", texec("tail -n 30 -f /proc/" .. awesome_pid .. "/fd/1 /proc/" .. awesome_pid .. "/fd/2") },
 --        { "restart", awesome.restart },
@@ -838,9 +840,11 @@ awful.rules.rules = {
     },
 
     -- standard rules --
+    -- volume properties
+    ru(nil, ".* volume.*",         { floating=true, fullscreen=false}),
     ru(nil, "alsamixer",           { floating=true, fullscreen=false}),
-    ru("Blender", "Blender",       { floating=true, fullscreen=true}),
-    ru("chromium", nil,            { tag=tags[S_MAIN][rtagnums.web] }),
+    -- www 
+    ru("Chromium", nil,            { tag=tags[S_MAIN][rtagnums.web] }),
     ru("Chromium", ".*- chat -.*", { tag=tags[S_MAIN][rtagnums.im] }),
     ru("Firefox", nil,         { tag=tags[S_MAIN][rtagnums.web] }),
     -- chat
@@ -850,6 +854,10 @@ awful.rules.rules = {
     -- edit
     ru("Gvim", nil,                { tag=tags[S_MAIN][rtagnums.edit] } ),
     ru("Snaked", nil,              { tag=tags[S_MAIN][rtagnums.edit] } ),
+    -- gfx
+    ru("Blender", nil,             { tag=tags[S_MAIN][rtagnums.gfx], floating=true, fullscreen=true } ),
+    ru("Blender", "Blender",       { floating=true, fullscreen=true}),
+    ru("Gimp", nil,                { tag=tags[S_MAIN][rtagnums.gfx] } ),
     -- fs
     ru("Geeqie", nil,              { floating=true } ),
     ru("ROX-Filer", nil,           { floating=true }),
