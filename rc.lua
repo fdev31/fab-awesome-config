@@ -1,4 +1,5 @@
 local UT_FOLDER = '/home/fab/grosdisk/home/fab/games/UrbanTerror42'
+local WEB_BROWSER = 'firefox'
 
 -- Standard awesome library
 local gears = require("gears")
@@ -143,7 +144,7 @@ app_items = {
     { "UrbanTerror", sexec('cd ' .. UT_FOLDER .. ' ; comp-switch off ; ./Quake3-UrT.x86_64; comp-switch on') },
     { "Midori", sexec('midori') },
     { "Firefox", sexec('firefox') },
-    { "Chromium", sexec('chromium') },
+    { "Chromium", sexec(WEB_BROWSER) },
     { "Thunar", sexec('thunar') },
     { "WeeChat", texec('weechat-curses') },
 }
@@ -688,7 +689,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey}, "q", function () mymainmenu:show({keygrabber=true}) end),
     awful.key({ modkey}, "z", function () if( not zic_prompt) then zicmenu:show({keygrabber=true}) end end),
     awful.key({ modkey }, "t", sexec("thunar") ),
-    awful.key({ modkey }, "w", sexec("chromium") ),
+    awful.key({ modkey }, "w", sexec(WEB_BROWSER) ),
     awful.key({ modkey }, "e", function() awful.menu.clients({ width=250 }) end ),
 --    awful.key({ modkey }, "x", function() awful.client.movetotag( tags[client.focus.screen][7] ) end ),
     awful.key({ modkey }, "a", function () drop(terminal, "bottom", "center", 0.9, 0.9, false) end),
