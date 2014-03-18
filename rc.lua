@@ -1,4 +1,7 @@
 local UT_FOLDER = '/home/fab/grosdisk/home/fab/games/UrbanTerror42'
+local UT_OPTIONS = ''
+local UT_POSTRUN = ''
+
 local WEB_BROWSER = 'firefox'
 
 -- Standard awesome library
@@ -142,7 +145,7 @@ end
 app_items = {
     { "Inkscape", sexec('inkscape') },
     { "Gimp", sexec('gimp') },
-    { "UrbanTerror", sexec('cd ' .. UT_FOLDER .. ' ; comp-switch off ; ./Quake3-UrT.x86_64; comp-switch on') },
+    { "UrbanTerror", sexec('cd ' .. UT_FOLDER .. ' ; comp-switch off ; ./Quake3-UrT.x86_64 ' .. UT_OPTIONS .. ' ; comp-switch on ; ' .. UT_POSTRUN) },
     { "Midori", sexec('midori') },
     { "Firefox", sexec('firefox') },
     { "Chromium", sexec(WEB_BROWSER) },
