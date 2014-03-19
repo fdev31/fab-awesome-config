@@ -3,6 +3,7 @@ local UT_OPTIONS = ''
 local UT_POSTRUN = ''
 
 local WEB_BROWSER = 'firefox'
+local IS_LAPTOP = false
 
 -- Standard awesome library
 local gears = require("gears")
@@ -413,15 +414,17 @@ cpugraph:set_color({ type = "linear", from = { 0, 0 }, to = { 0,10 }, stops = { 
 vicious.register(cpugraph,  vicious.widgets.cpu,      "$1")
 --vicious.register(tzswidget, vicious.widgets.thermal, " $1C", 19, "thermal_zone0")
 -- }}}
+if IS_LAPTOP then
 
--- {{{ Battery state
-baticon = wibox.widget.imagebox()
-baticon:set_image(beautiful.widget_bat)
--- Initialize widget
-batwidget = wibox.widget.textbox()
--- Register widget
-vicious.register(batwidget, vicious.widgets.bat, "$1$2%", 61, "BAT0")
--- }}}
+    -- {{{ Battery state
+    baticon = wibox.widget.imagebox()
+    baticon:set_image(beautiful.widget_bat)
+    -- Initialize widget
+    batwidget = wibox.widget.textbox()
+    -- Register widget
+    vicious.register(batwidget, vicious.widgets.bat, "$1$2%", 61, "BAT0")
+    -- }}}
+end
 
 -- {{{ Memory usage
 memicon = wibox.widget.imagebox()
@@ -490,7 +493,9 @@ mixer = require('amixer')
 
 -- Setup backlight object
 --
-backlight = require('backlight')
+if IS_LAPTOP then
+    backlight = require('backlight')
+end
 
 -- Register buttons
 
@@ -567,7 +572,9 @@ for s = 1, screen.count() do
     right_layout:add(cpugraph)
 --
 
-    right_layout:add(baticon)
+    if IS_LAPTOP then
+        right_layout:add(baticon)
+    end
     right_layout:add(mylayoutbox[s])
 
     -- Now bring it all together (with the tasklist in the middle)
