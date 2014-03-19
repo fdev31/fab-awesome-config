@@ -488,6 +488,10 @@ vicious.register(volwidget, vicious.widgets.volume, " $1%", 2, "Master")
 --
 mixer = require('amixer')
 
+-- Setup backlight object
+--
+backlight = require('backlight')
+
 -- Register buttons
 
 volbar:buttons(awful.util.table.join(
@@ -589,6 +593,10 @@ root.buttons(awful.util.table.join(
 globalkeys = awful.util.table.join(
     awful.key({ }, "XF86AudioLowerVolume", mixer.down),
     awful.key({ }, "XF86AudioRaiseVolume", mixer.up),
+    awful.key({ }, "XF86AudioMute", mixer.toggle),
+
+    awful.key({ }, "XF86MonBrightnessUp", backlight.up),
+    awful.key({ }, "XF86MonBrightnessDown", backlight.down),
 
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
