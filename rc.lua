@@ -483,22 +483,10 @@ vicious.cache(vicious.widgets.volume)
 -- Register widgets
 vicious.register(volbar,    vicious.widgets.volume,  "$1",  2, "Master")
 vicious.register(volwidget, vicious.widgets.volume, " $1%", 2, "Master")
--- Setup handlers
-os.execute('kill `cat /tmp/amixer_ctl.pid` >/dev/null ; mkfifo /tmp/amixer_ctl && echo $! > /tmp/amixer_ctl.pid')
-os.execute('amixer -s -M < /tmp/amixer_ctl &')
 
-local _up_vol = function(sense)
-    local _cmd = 'sset Master 3%' .. sense .. '\n'
-    return function()
-        mixer.fd:write(_cmd)
-        mixer.fd:flush()
-    end
-end
-mixer = {
-    fd = io.open('/tmp/amixer_ctl', 'a'),
-    up = _up_vol('+'),
-    down = _up_vol('-')
-};
+-- Setup mixer object
+--
+mixer = require('amixer')
 
 -- Register buttons
 
