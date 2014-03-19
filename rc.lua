@@ -91,11 +91,13 @@ end
 
 -- This is used later as the default terminal and editor to run.
 terminal = "xterm"
+terminal_run = "xterm -e "
 editor = os.getenv("EDITOR") or "nano"
 ieditor_cmd = terminal .. " -e " .. editor
 
 -- fab31
-terminal = "terminator"
+--terminal = "terminator"
+--terminal_run = "terminator -x "
 --editor = os.getenv("EDITOR") or "nano"
 editor_cmd = 'gvim -reverse '
 
@@ -124,7 +126,7 @@ function texec(cmd, opts)
         args = ' ' .. table.concat(res, ' ')
     end
     local t = function()
-        exec(terminal .. args .. " -x " .. cmd)
+        exec(terminal_run " -x " .. cmd .. " " .. args)
     end
     return t
 end
@@ -315,7 +317,7 @@ end
 -- {{{ Menu
 -- Create a laucher widget and a main menu
 myawesomemenu = {
-   { "manual", terminal .. " -e man awesome" },
+   { "manual", terminal_run .. "man awesome" },
    { "edit config", editor_cmd .. " " .. awesome.conffile },
    { "restart", awesome.restart },
    { "quit", awesome.quit }
