@@ -4,6 +4,12 @@ local UT_POSTRUN = ''
 
 local WEB_BROWSER = 'firefox'
 local IS_LAPTOP = false
+local zic_prompt = true
+-- This is used later as the default terminal and editor to run.
+--terminal = "xterm"
+--terminal_run = "xterm -e "
+terminal = "terminator"
+terminal_run = "terminator -x "
 
 -- Standard awesome library
 local gears = require("gears")
@@ -22,11 +28,7 @@ local vicious = require("vicious")
 local drop = require("drop")
 local beautiful = require("beautiful")
 require('theme')
-local zic_prompt = true
-
 local color = {red="#FF5555", green="#55FF55", blue="#5555FF", yellow="#FFFF00"}
-
-
 local nic = os.execute('ip addr|grep UP|grep wlan0') == 0 and 'wlan0' or 'eth0'
 local awesome_pid = io.popen('echo $PPID', 'r'):read()
 
@@ -41,9 +43,7 @@ if awesome.startup_errors then
                      text = awesome.startup_errors })
 end
 
-awful.util.spawn_with_shell("comp-switch on")
 
-os.execute("procs start &")
 
 -- Handle runtime errors after startup
 do
@@ -61,39 +61,13 @@ do
 end
 -- }}}
 
+awful.util.spawn_with_shell("comp-switch on &")
+awful.util.spawn_with_shell("procs start &")
+
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
 --
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
--- This is used later as the default terminal and editor to run.
---terminal = "xterm"
---terminal_run = "xterm -e "
-terminal = "terminator"
-terminal_run = "terminator -x "
 editor = os.getenv("EDITOR") or "nano"
 ieditor_cmd = terminal .. " -e " .. editor
 
@@ -301,17 +275,6 @@ end
 if os.execute('ps nc -C compton | grep -v "PID TTY"') == nil then
     os.execute('comp-switch')
 end
--- }}}
-
--- {{{ Tags
--- Define a tag table which hold all screen tags.
--- fab31
--- tags = {}
--- for s = 1, screen.count() do
---     -- Each screen has its own tag table.
---     tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
--- end
--- /fab31
 -- }}}
 
 -- {{{ Menu
