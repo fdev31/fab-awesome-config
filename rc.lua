@@ -454,12 +454,15 @@ vicious.register(volwidget, vicious.widgets.volume, " $1%", 2, "Master")
 
 -- Setup mixer object
 --
-mixer = require('amixer')
+local mixer = require('amixer')
 
 -- Setup backlight object
---
+
+local backlight = nil
 if IS_LAPTOP then
     backlight = require('backlight')
+else
+    backlight = { up = nil, down = nil }
 end
 
 -- Register buttons
