@@ -1,4 +1,15 @@
 local UT_FOLDER = '/home/fab/grosdisk/home/fab/games/UrbanTerror42'
+local UT_OPTIONS = ''
+local UT_POSTRUN = ''
+
+local WEB_BROWSER = 'firefox'
+local IS_LAPTOP = false
+local zic_prompt = true
+-- This is used later as the default terminal and editor to run.
+--terminal = "xterm"
+--terminal_run = "xterm -e "
+terminal = "terminator"
+terminal_run = "terminator -x "
 
 -- Standard awesome library
 local gears = require("gears")
@@ -17,11 +28,7 @@ local vicious = require("vicious")
 local drop = require("drop")
 local beautiful = require("beautiful")
 require('theme')
-local zic_prompt = true
-
 local color = {red="#FF5555", green="#55FF55", blue="#5555FF", yellow="#FFFF00"}
-
-
 local nic = os.execute('ip addr|grep UP|grep wlan0') == 0 and 'wlan0' or 'eth0'
 local awesome_pid = io.popen('echo $PPID', 'r'):read()
 
@@ -35,9 +42,6 @@ if awesome.startup_errors then
                      title = "Oops, there were errors during startup!",
                      text = awesome.startup_errors })
 end
-
-awful.util.spawn_with_shell("comp-switch")
-awful.util.spawn_with_shell("shift-switch")
 
 os.execute("procs start")
 
@@ -56,6 +60,9 @@ do
     end)
 end
 -- }}}
+
+awful.util.spawn_with_shell("comp-switch on &")
+awful.util.spawn_with_shell("procs start &")
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
@@ -142,10 +149,10 @@ end
 app_items = {
     { "Inkscape", sexec('inkscape') },
     { "Gimp", sexec('gimp') },
-    { "UrbanTerror", sexec('cd ' .. UT_FOLDER .. ' ; comp-switch off ; ./Quake3-UrT.x86_64; comp-switch on') },
+    { "UrbanTerror", sexec('cd ' .. UT_FOLDER .. ' ; comp-switch off ; ./Quake3-UrT.x86_64 ' .. UT_OPTIONS .. ' ; comp-switch on ; ' .. UT_POSTRUN) },
     { "Midori", sexec('midori') },
     { "Firefox", sexec('firefox') },
-    { "Chromium", sexec('chromium') },
+    { "Chromium", sexec(WEB_BROWSER) },
     { "Thunar", sexec('thunar') },
     { "WeeChat", texec('weechat-curses') },
 }
