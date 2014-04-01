@@ -37,6 +37,7 @@ if awesome.startup_errors then
 end
 
 awful.util.spawn_with_shell("comp-switch")
+awful.util.spawn_with_shell("shift-switch")
 
 os.execute("procs start")
 
