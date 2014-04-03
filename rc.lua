@@ -17,8 +17,6 @@ local awful = require("awful")
 awful.rules = require("awful.rules")
 require("awful.autofocus")
 
-awful.util.spawn_with_shell("sh ~/.screenlayout/good.sh")
-
 -- Widget and layout library
 local wibox = require("wibox")
 -- Theme handling library
