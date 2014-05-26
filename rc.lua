@@ -101,7 +101,7 @@ function texec(cmd, opts)
         args = ' ' .. table.concat(res, ' ')
     end
     local t = function()
-        exec(terminal_run " -x " .. cmd .. " " .. args)
+        exec(terminal_run .. cmd .. " " .. args)
     end
     return t
 end
@@ -281,7 +281,7 @@ end
 -- {{{ Menu
 -- Create a laucher widget and a main menu
 myawesomemenu = {
-   { "manual", terminal_run .. "man awesome" },
+   { "manual", texec( "man awesome") },
    { "edit config", editor_cmd .. " " .. awesome.conffile },
    { "restart", awesome.restart },
    { "quit", awesome.quit }
