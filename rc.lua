@@ -73,6 +73,7 @@ editor = os.getenv("EDITOR") or "nano"
 ieditor_cmd = terminal .. " -e " .. editor
 
 -- fab31
+terminal = "terminator"
 --editor = os.getenv("EDITOR") or "nano"
 editor_cmd = 'gvim -reverse '
 
