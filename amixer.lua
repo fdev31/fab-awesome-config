@@ -1,7 +1,7 @@
 local id="0"
 local increment=4
 
-os.execute('kill `cat /tmp/amixer_ctl'..id..'.pid` >/dev/null ; mkfifo /tmp/amixer_ctl'..id..' && echo $! > /tmp/amixer_ctl'..id..'.pid')
+os.execute('kill `cat /tmp/amixer_ctl'..id..'.pid` >/dev/null 2>&1 ; mkfifo /tmp/amixer_ctl'..id..' && echo $! > /tmp/amixer_ctl'..id..'.pid')
 os.execute('amixer -qsM < /tmp/amixer_ctl'..id..' &')
 
 _fd = io.open('/tmp/amixer_ctl'..id, 'a')
