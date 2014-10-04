@@ -29,7 +29,7 @@ local drop = require("drop")
 local beautiful = require("beautiful")
 require('theme')
 local color = {red="#FF5555", green="#55FF55", blue="#5555FF", yellow="#FFFF00"}
-local nic = os.execute('ip addr|grep UP|grep wlan0') == 0 and 'wlan0' or 'eth0'
+local nic = io.popen("ip addr|grep UP|cut -d: -f2| sed 's/^ *//g' | grep -Ev '^(lo|tun|tap)'"):read()
 local awesome_pid = io.popen('echo $PPID', 'r'):read()
 
 -- /fab31
