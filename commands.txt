@@ -1,0 +1,3 @@
+comp-switch
+shift-switch
+syndaemon -t -k -i 0.7

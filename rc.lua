@@ -3,7 +3,7 @@ local UT_OPTIONS = ''
 local UT_POSTRUN = ''
 
 local WEB_BROWSER = 'firefox'
-local IS_LAPTOP = false
+local IS_LAPTOP = os.execute('laptop-detect')
 local zic_prompt = true
 -- This is used later as the default terminal and editor to run.
 --terminal = "xterm"
@@ -16,6 +16,7 @@ local gears = require("gears")
 local awful = require("awful")
 awful.rules = require("awful.rules")
 require("awful.autofocus")
+
 -- Widget and layout library
 local wibox = require("wibox")
 -- Theme handling library
@@ -31,6 +32,10 @@ require('theme')
 local color = {red="#FF5555", green="#55FF55", blue="#5555FF", yellow="#FFFF00"}
 local nic = io.popen("ip addr|grep UP|cut -d: -f2| sed 's/^ *//g' | grep -Ev '^(lo|tun|tap)'"):read()
 local awesome_pid = io.popen('echo $PPID', 'r'):read()
+local home   = os.getenv("HOME")
+
+globalkeys = {}
+modkey = "Mod4"
 
 -- /fab31
 
@@ -42,6 +47,8 @@ if awesome.startup_errors then
                      title = "Oops, there were errors during startup!",
                      text = awesome.startup_errors })
 end
+
+
 
 -- Handle runtime errors after startup
 do
@@ -59,39 +66,33 @@ do
 end
 -- }}}
 
-awful.util.spawn_with_shell("comp-switch on &")
-awful.util.spawn_with_shell("procs start &")
+
+local _cmds = io.open(home.."/.config/awesome/commands.txt", "r")
+if _cmds then
+    while true do
+        line = _cmds:read()
+        if line == nil then
+            break
+        end
+        awful.util.spawn_with_shell(line .. " &")
+    end
+    _cmds = nil
+end
+
+modules = require('specific_code')
+if modules.keys then
+    globalkeys = awful.util.table.join(globalkeys, modules.keys)
+end
+
+
+--awful.util.spawn_with_shell("comp-switch on &")
+--awful.util.spawn_with_shell("shift-switch &")
+--awful.util.spawn_with_shell("procs start &")
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
 --
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
--- This is used later as the default terminal and editor to run.
-terminal = "xterm"
 editor = os.getenv("EDITOR") or "nano"
 ieditor_cmd = terminal .. " -e " .. editor
 
@@ -100,7 +101,6 @@ terminal = "terminator"
 --editor = os.getenv("EDITOR") or "nano"
 editor_cmd = 'gvim -reverse '
 
-local home   = os.getenv("HOME")
 local exec   = awful.util.spawn
 local _sexec  = awful.util.spawn_with_shell
 local scount = screen.count()
@@ -125,7 +125,7 @@ function texec(cmd, opts)
         args = ' ' .. table.concat(res, ' ')
     end
     local t = function()
-        exec(terminal .. args .. " -x " .. cmd)
+        exec(terminal_run .. cmd .. " " .. args)
     end
     return t
 end
@@ -162,6 +162,12 @@ connect_items = {
     { "Serial @38.4",  texec('sudo screen /dev/ttyUSB0 38400')  },
     { "Serial @115.2", texec('sudo screen /dev/ttyUSB0 115200') },
 }
+light_levels = {
+    { "Low",  sexec('xbacklight -set 2')  },
+    { "Avg",  sexec('xbacklight -set 20')  },
+    { "Mid",  sexec('xbacklight -set 50')  },
+    { "High",  sexec('xbacklight -set 100')  },
+}
 zmitems ={
         {"Start Radio", texec("mplayer -cache 128 http://broadcast.infomaniak.net:80/radionova-high.mp3") },
         {'zb: (un)pause', sexec('wasp pause')},
@@ -173,6 +179,7 @@ mymainmenu = awful.menu({
     items = {
         { "applications", app_items, beautiful.sun},
         { "targets", connect_items},
+        { "light", light_levels},
         { "zic", zmitems},
         { "manual", texec("man awesome") },
         { "comp' switch", sexec("comp-switch") },
@@ -196,12 +203,6 @@ end
 
 -- /fab31
 
--- Default modkey.
--- Usually, Mod4 is the key with a logo between Control and Alt.
--- If you do not like this or do not have such a key,
--- I suggest you to remap Mod4 to another key using xmodmap or other tools.
--- However, you can use another modifier like Mod1, but it may interact with others.
-modkey = "Mod4"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 local layouts =
@@ -302,21 +303,10 @@ if os.execute('ps nc -C compton | grep -v "PID TTY"') == nil then
 end
 -- }}}
 
--- {{{ Tags
--- Define a tag table which hold all screen tags.
--- fab31
--- tags = {}
--- for s = 1, screen.count() do
---     -- Each screen has its own tag table.
---     tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
--- end
--- /fab31
--- }}}
-
 -- {{{ Menu
 -- Create a laucher widget and a main menu
 myawesomemenu = {
-   { "manual", terminal .. " -e man awesome" },
+   { "manual", texec( "man awesome") },
    { "edit config", editor_cmd .. " " .. awesome.conffile },
    { "restart", awesome.restart },
    { "quit", awesome.quit }
@@ -415,15 +405,17 @@ cpugraph:set_color({ type = "linear", from = { 0, 0 }, to = { 0,10 }, stops = { 
 vicious.register(cpugraph,  vicious.widgets.cpu,      "$1")
 --vicious.register(tzswidget, vicious.widgets.thermal, " $1C", 19, "thermal_zone0")
 -- }}}
+if IS_LAPTOP then
 
--- {{{ Battery state
-baticon = wibox.widget.imagebox()
-baticon:set_image(beautiful.widget_bat)
--- Initialize widget
-batwidget = wibox.widget.textbox()
--- Register widget
-vicious.register(batwidget, vicious.widgets.bat, "$1$2%", 61, "BAT0")
--- }}}
+    -- {{{ Battery state
+    baticon = wibox.widget.imagebox()
+    baticon:set_image(beautiful.widget_bat)
+    -- Initialize widget
+    batwidget = wibox.widget.textbox()
+    -- Register widget
+    vicious.register(batwidget, vicious.widgets.bat, "$1$2%", 61, "BAT0")
+    -- }}}
+end
 
 -- {{{ Memory usage
 memicon = wibox.widget.imagebox()
@@ -468,9 +460,11 @@ upicon:set_image(beautiful.widget_netup)
 -- Initialize widget
 local netwidget = wibox.widget.textbox()
 -- Register widget
-vicious.register(netwidget, vicious.widgets.net, '<span color="'
-  .. color.yellow .. '">${'..nic..' down_kb}</span> <span color="'
-  .. color.green ..'">${'..nic..' up_kb}</span>', 3)
+if nic then
+    vicious.register(netwidget, vicious.widgets.net, '<span color="'
+      .. color.yellow .. '">${'..nic..' down_kb}</span> <span color="'
+      .. color.green ..'">${'..nic..' up_kb}</span>', 3)
+end
 -- }}}
 
 -- {{{ Volume level
@@ -485,22 +479,19 @@ vicious.cache(vicious.widgets.volume)
 -- Register widgets
 vicious.register(volbar,    vicious.widgets.volume,  "$1",  2, "Master")
 vicious.register(volwidget, vicious.widgets.volume, " $1%", 2, "Master")
--- Setup handlers
-os.execute('kill `cat /tmp/amixer_ctl.pid` >/dev/null ; mkfifo /tmp/amixer_ctl && echo $! > /tmp/amixer_ctl.pid')
-os.execute('amixer -s -M < /tmp/amixer_ctl &')
 
-local _up_vol = function(sense)
-    local _cmd = 'sset Master 3%' .. sense .. '\n'
-    return function()
-        mixer.fd:write(_cmd)
-        mixer.fd:flush()
-    end
+-- Setup mixer object
+--
+local mixer = require('amixer')
+
+-- Setup backlight object
+
+local backlight = nil
+if IS_LAPTOP then
+    backlight = require('backlight')
+else
+    backlight = { up = nil, down = nil }
 end
-mixer = {
-    fd = io.open('/tmp/amixer_ctl', 'a'),
-    up = _up_vol('+'),
-    down = _up_vol('-')
-};
 
 -- Register buttons
 
@@ -577,7 +568,9 @@ for s = 1, screen.count() do
     right_layout:add(cpugraph)
 --
 
-    right_layout:add(baticon)
+    if IS_LAPTOP then
+        right_layout:add(baticon)
+    end
     right_layout:add(mylayoutbox[s])
 
     -- Now bring it all together (with the tasklist in the middle)
@@ -600,9 +593,13 @@ root.buttons(awful.util.table.join(
 -- }}}
 
 -- {{{ Key bindings
-globalkeys = awful.util.table.join(
+globalkeys = awful.util.table.join(globalkeys,
     awful.key({ }, "XF86AudioLowerVolume", mixer.down),
     awful.key({ }, "XF86AudioRaiseVolume", mixer.up),
+    awful.key({ }, "XF86AudioMute", mixer.toggle),
+
+    awful.key({ }, "XF86MonBrightnessUp", backlight.up),
+    awful.key({ }, "XF86MonBrightnessDown", backlight.down),
 
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
@@ -649,7 +646,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
     awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end),
     awful.key({ modkey,           }, "p", function () awful.screen.focus_relative( 1) end),
-    awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
+--    awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
     awful.key({ modkey,           }, "Tab",
         function ()
             awful.client.focus.history.previous()
@@ -696,7 +693,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey}, "q", function () mymainmenu:show({keygrabber=true}) end),
     awful.key({ modkey}, "z", function () if( not zic_prompt) then zicmenu:show({keygrabber=true}) end end),
     awful.key({ modkey }, "t", sexec("thunar") ),
-    awful.key({ modkey }, "w", sexec("chromium") ),
+    awful.key({ modkey }, "w", sexec(WEB_BROWSER) ),
     awful.key({ modkey }, "e", function() awful.menu.clients({ width=250 }) end ),
 --    awful.key({ modkey }, "x", function() awful.client.movetotag( tags[client.focus.screen][7] ) end ),
     awful.key({ modkey }, "a", function () drop(terminal, "bottom", "center", 0.9, 0.9, false) end),
@@ -851,6 +848,7 @@ awful.rules.rules = {
     -- www 
     ru("Chromium", nil,            { tag=tags[S_MAIN][rtagnums.web] }),
     ru("Chromium", ".*- chat -.*", { tag=tags[S_MAIN][rtagnums.im] }),
+    ru("Firefox", nil,         { tag=tags[S_MAIN][rtagnums.web] }),
     -- chat
     ru("Xchat", nil,               { tag=tags[S_SEC][rtagnums.im] } ),
     -- medias
@@ -943,7 +941,7 @@ client.connect_signal("focus",   function (c)
 end)
 client.connect_signal("unfocus", function (c)
     c.border_color = beautiful.border_normal
-    c.opacity = 0.7
+    c.opacity = 0.85
 end)
 
 -- }}}
