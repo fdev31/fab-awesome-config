@@ -1,3 +1,6 @@
 comp-switch
 shift-switch
 syndaemon -t -k -i 0.7
+xfce4-power-manager
+autocutsel -selection CLIPBOARD
+autocutsel -selection PRIMARY
