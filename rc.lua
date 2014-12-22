@@ -297,10 +297,6 @@ if beautiful.wallpaper then
     end
 end
 
--- enable composition
-if os.execute('ps nc -C compton | grep -v "PID TTY"') == nil then
-    os.execute('comp-switch')
-end
 -- }}}
 
 -- {{{ Menu
