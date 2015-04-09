@@ -155,8 +155,7 @@ app_items = {
     { "WeeChat", texec('weechat-curses') },
 }
 connect_items = {
-    { "Ssh wyoli",  texec('ssh wyoli')  },
-    { "Ssh ui",  texec('ssh ui.static.wyplay.int')  },
+    { "Ssh tow",  texec('ssh tow')  },
     { "Ssh wy",  texec('ssh wy')  },
     { "Serial @38.4",  texec('sudo screen /dev/ttyUSB0 38400')  },
     { "Serial @115.2", texec('sudo screen /dev/ttyUSB0 115200') },
