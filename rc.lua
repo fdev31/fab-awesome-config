@@ -493,8 +493,8 @@ end
 
 volbar:buttons(awful.util.table.join(
    awful.button({ }, 1, sexec("pavucontrol") ),
-   awful.button({ }, 4, mixer.up),
-   awful.button({ }, 5, mixer.down)
+   awful.button({ }, 4, function() mixer.up() vicious.force(vicious.widgets.volume) end ),
+   awful.button({ }, 5, function() mixer.down() vicious.force(vicious.widgets.volume) end )
 )) -- Register assigned buttons
 volwidget:buttons(volbar:buttons())
 -- }}}
@@ -590,8 +590,8 @@ root.buttons(awful.util.table.join(
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(globalkeys,
-    awful.key({ }, "XF86AudioLowerVolume", mixer.down),
-    awful.key({ }, "XF86AudioRaiseVolume", mixer.up),
+    awful.key({ }, "XF86AudioLowerVolume", function() mixer.down() vicious.force(vicious.widgets.volume) end),
+    awful.key({ }, "XF86AudioRaiseVolume", function() mixer.up() vicious.force(vicious.widgets.volume) end),
     awful.key({ }, "XF86AudioMute", mixer.toggle),
 
     awful.key({ }, "XF86MonBrightnessUp", backlight.up),
