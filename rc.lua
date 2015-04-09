@@ -155,10 +155,8 @@ app_items = {
     { "WeeChat", texec('weechat-curses') },
 }
 connect_items = {
-    { "Ssh ui",  texec('ssh ui.static.wyplay.int')  },
-    { "Ssh wopr",  texec('ssh wopr')  },
-    { "Ssh fabbox",  texec('ssh 172.16.10.31')  },
-    { "Ssh wyoli",  texec('ssh wyoli.wyplay.com')  },
+    { "Ssh tow",  texec('ssh tow')  },
+    { "Ssh wy",  texec('ssh wy')  },
     { "Serial @38.4",  texec('sudo screen /dev/ttyUSB0 38400')  },
     { "Serial @115.2", texec('sudo screen /dev/ttyUSB0 115200') },
 }
@@ -184,7 +182,7 @@ zicmenu = awful.menu({items = zmitems})
 mymainmenu = awful.menu({
     items = {
         { "applications", app_items, beautiful.sun},
-        { "targets", connect_items},
+        { "connect", connect_items},
         { "light", light_levels},
         { "zic", zmitems},
         { "manual", texec("man awesome") },
