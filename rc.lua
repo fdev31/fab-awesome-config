@@ -168,6 +168,12 @@ light_levels = {
     { "Mid",  sexec('xbacklight -set 50')  },
     { "High",  sexec('xbacklight -set 100')  },
 }
+screen_items = {
+    {"Comp switch", sexec('comp-switch')},
+    {"Shift switch", sexec('shift-switch')},
+    {"DPMS ON", sexec('xset s on +dpms')},
+    {"DPMS OFF", sexec('xset s off -dpms')}
+}
 zmitems ={
         {"Start Radio", texec("mplayer -cache 128 http://broadcast.infomaniak.net:80/radionova-high.mp3") },
         {'zb: (un)pause', sexec('wasp pause')},
@@ -182,13 +188,12 @@ mymainmenu = awful.menu({
         { "light", light_levels},
         { "zic", zmitems},
         { "manual", texec("man awesome") },
-        { "comp' switch", sexec("comp-switch") },
-        { "shift' switch", sexec("shift-switch") },
         { "edit config", eexec(awesome.conffile) },
         { "show logs", texec("tail -n 30 -f /proc/" .. awesome_pid .. "/fd/1 /proc/" .. awesome_pid .. "/fd/2") },
 --        { "restart", awesome.restart },
         { "quit", awesome.quit },
         { "suspend now", sexec('sudo pm-suspend') },
+        { 'screen', screen_items},
     }
 })
 
