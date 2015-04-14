@@ -43,8 +43,10 @@ local app_items = {
 }
 local connect_items = {
     { "VPN@Wy",  texec('systemctl restart openvpn@wy')  },
-    { "Ssh tow",  texec('ssh tow')  },
+    { "Ssh tow",  texec('ssh -p 222 fdev31.ddns.net')  },
+    { "Ssh wyoli",  texec('ssh wyoli')  },
     { "Ssh wy",  texec('ssh wy')  },
+    { "Ssh ui",  texec('ssh ui.static.wyplay.int')  },
     { "Serial @38.4",  texec('sudo screen /dev/ttyUSB0 38400')  },
     { "Serial @115.2", texec('sudo screen /dev/ttyUSB0 115200') },
 }
