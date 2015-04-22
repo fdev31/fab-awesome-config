@@ -1,4 +1,4 @@
-comp-switch
+comp-switch on
 shift-switch
 syndaemon -t -k -i 0.7
 xfce4-power-manager
