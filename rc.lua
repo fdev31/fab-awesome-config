@@ -66,6 +66,8 @@ do
 end
 -- }}}
 
+-- see compose in /usr/share/X11/xkb/rules/base.lst
+awful.util.spawn_with_shell('setxkbmap -option compose:prsc')
 
 local _cmds = io.open(home.."/.config/awesome/commands.txt", "r")
 if _cmds then
