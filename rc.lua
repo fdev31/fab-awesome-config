@@ -37,6 +37,8 @@ local home   = os.getenv("HOME")
 globalkeys = {}
 modkey = "Mod4"
 
+local screen_switched = false
+
 -- /fab31
 
 -- {{{ Error handling
@@ -650,7 +652,7 @@ globalkeys = awful.util.table.join(globalkeys,
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
     awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end),
-    awful.key({ modkey,           }, "p", function () awful.screen.focus_relative( 1) end),
+    awful.key({ modkey,           }, "p", function () screen_switched = true awful.screen.focus_relative( 1) end),
 --    awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
     awful.key({ modkey,           }, "Tab",
         function ()
@@ -946,7 +948,11 @@ client.connect_signal("focus",   function (c)
 end)
 client.connect_signal("unfocus", function (c)
     c.border_color = beautiful.border_normal
-    c.opacity = 0.85
+    if screen_switched then
+        screen_switched = false
+    else
+        c.opacity = 0.85
+    end
 end)
 
 -- }}}
