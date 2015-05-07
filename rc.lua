@@ -175,6 +175,7 @@ light_levels = {
     { "High",  sexec('xbacklight -set 100')  },
 }
 screen_items = {
+    {"WinInfo", texec("xproptitle")},
     {"Comp switch", sexec('comp-switch')},
     {"Shift switch", sexec('shift-switch')},
     {"DPMS ON", sexec('xset s on +dpms')},
