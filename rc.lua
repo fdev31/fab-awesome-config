@@ -869,6 +869,8 @@ awful.rules.rules = {
     ru("Blender", nil,             { tag=tags[S_MAIN][rtagnums.gfx], floating=true, fullscreen=true } ),
     ru("Blender", "Blender",       { floating=true, fullscreen=true}),
     ru("Gimp", nil,                { tag=tags[S_MAIN][rtagnums.gfx] } ),
+    -- sound
+    ru("Rdio", nil,                { tag=tags[S_SEC][rtagnums.media] } ),
     -- fs
     ru("Geeqie", nil,              { floating=true } ),
     ru("ROX-Filer", nil,           { floating=true }),
