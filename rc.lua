@@ -862,6 +862,7 @@ awful.rules.rules = {
     ru("Audacious", nil,           { tag=tags[S_SEC][rtagnums.media] } ),
     -- edit
     ru("Gvim", nil,                { tag=tags[S_MAIN][rtagnums.edit] } ),
+    ru("jetbrains-pycharm-ce", nil,{ tag=tags[S_MAIN][rtagnums.edit] } ),
     ru("Snaked", nil,              { tag=tags[S_MAIN][rtagnums.edit] } ),
     -- gfx
     ru("Blender", nil,             { tag=tags[S_MAIN][rtagnums.gfx], floating=true, fullscreen=true } ),
