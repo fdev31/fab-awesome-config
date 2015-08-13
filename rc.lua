@@ -151,6 +151,14 @@ function sexec(cmd)
 end
 -- Menus definition --
 
+netctl_menu = {}
+netctl = io.popen('netctl list')
+for line in netctl:lines() do
+    line = line:sub(3)
+    table.insert( netctl_menu, { line, sexec('sudo ifconfig w0 down ; sudo netctl stop-all && sudo netctl start '..line) } )
+end
+netctl:close()
+
 -- TODO: build menus from text files
 app_items = {
     { "Inkscape", sexec('inkscape') },
@@ -195,9 +203,10 @@ mymainmenu = awful.menu({
         { "connect", connect_items},
         { "light", light_levels},
         { "zic", zmitems},
-        { "manual", texec("man awesome") },
-        { "edit config", eexec(awesome.conffile) },
-        { "show logs", texec("tail -n 30 -f /proc/" .. awesome_pid .. "/fd/1 /proc/" .. awesome_pid .. "/fd/2") },
+        { "net", netctl_menu },
+--        { "manual", texec("man awesome") },
+--        { "edit config", eexec(awesome.conffile) },
+--        { "show logs", texec("tail -n 30 -f /proc/" .. awesome_pid .. "/fd/1 /proc/" .. awesome_pid .. "/fd/2") },
 --        { "restart", awesome.restart },
         { "quit", awesome.quit },
         { "suspend now", sexec('sudo pm-suspend') },
