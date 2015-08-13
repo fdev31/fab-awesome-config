@@ -171,7 +171,7 @@ app_items = {
 --    { "Thunar", sexec('thunar') },
 }
 connect_items = {
-    { "OpenVPN@Wyplay",  texec('systemctl restart openvpn@wy')  },
+    { "VPN@Wy",  texec('systemctl restart openvpn@wy')  },
     { "Ssh tow",  texec('ssh tow')  },
     { "Ssh wy",  texec('ssh wy')  },
     { "Serial @38.4",  texec('sudo screen /dev/ttyUSB0 38400')  },
