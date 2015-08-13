@@ -31,7 +31,6 @@ local beautiful = require("beautiful")
 require('theme')
 local color = {red="#FF5555", green="#55FF55", blue="#5555FF", yellow="#FFFF00"}
 local nic = io.popen("ip addr|grep UP|cut -d: -f2| sed 's/^ *//g' | grep -Ev '^(lo|tun|tap)'"):read()
-local awesome_pid = io.popen('echo $PPID', 'r'):read()
 local home   = os.getenv("HOME")
 
 globalkeys = {}
@@ -199,7 +198,6 @@ mymainmenu = awful.menu({
 --        { "zic", zmitems},
 --        { "manual", texec("man awesome") },
 --        { "edit config", eexec(awesome.conffile) },
---        { "show logs", texec("tail -n 30 -f /proc/" .. awesome_pid .. "/fd/1 /proc/" .. awesome_pid .. "/fd/2") },
 --        { "restart", awesome.restart },
 --        { "quit", awesome.quit },
 --        { "suspend now", sexec('sudo pm-suspend') },
