@@ -227,27 +227,12 @@ end
 
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
-local layouts =
-{
-    awful.layout.suit.floating,
-    awful.layout.suit.tile,
-    awful.layout.suit.tile.left,
-    awful.layout.suit.tile.bottom,
-    awful.layout.suit.tile.top,
-    awful.layout.suit.fair,
-    awful.layout.suit.fair.horizontal,
-    awful.layout.suit.spiral,
-    awful.layout.suit.spiral.dwindle,
-    awful.layout.suit.max,
-    awful.layout.suit.max.fullscreen,
-    awful.layout.suit.magnifier
-}
 
 -- fab31
 -- all used layouts should be defined ONCE here:
 rlayouts = {
     title  = awful.layout.suit.tile        , 
-    titleb = awful.layout.suit.tile.bottom , 
+    titlet = awful.layout.suit.tile.top    , 
     fair   = awful.layout.suit.fair        , 
     max    = awful.layout.suit.max         , 
     mag    = awful.layout.suit.magnifier   , 
@@ -255,13 +240,13 @@ rlayouts = {
 }
 
 -- build layouts from rlayouts
-layouts = {}
-n=1
-for i, o in pairs(rlayouts) do
-    layouts[n] = o
-    n=n+1
-end
-n=nil
+layouts = {
+    rlayouts.title,
+    rlayouts.titlet,
+    rlayouts.mag,
+    rlayouts.max,
+--    rlayouts.float,
+}
 
 -- Tags --
 tags = {
@@ -273,14 +258,14 @@ _dflt = rlayouts.title
 
 -- user-customizable tags: (name, layout)
 _tags = {
-    {"term"  , rlayouts.titleb} , 
+    {"term"  , rlayouts.titlet} , 
     {"edit"  , _dflt}           , 
     {"web"   , _dflt}           , 
     {"im"    , _dflt}           , 
     {"fm"    , rlayouts.max}    , 
     {"gfx"    , rlayouts.max}    , 
-    {nil     , rlayouts.float}  , 
-    {nil     , rlayouts.float}  , 
+--    {nil     , rlayouts.float}  , 
+--    {nil     , rlayouts.float}  , 
     {"rss"   , rlayouts.mag}    , 
     {"media" , _dflt}
 }
