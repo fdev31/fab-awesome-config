@@ -177,12 +177,6 @@ connect_items = {
     { "Serial @38.4",  texec('sudo screen /dev/ttyUSB0 38400')  },
     { "Serial @115.2", texec('sudo screen /dev/ttyUSB0 115200') },
 }
-light_levels = {
-    { "Low",  sexec('xbacklight -set 2')  },
-    { "Avg",  sexec('xbacklight -set 20')  },
-    { "Mid",  sexec('xbacklight -set 50')  },
-    { "High",  sexec('xbacklight -set 100')  },
-}
 screen_items = {
     {"WinInfo", texec("xproptitle")},
     {"Comp switch", sexec('comp-switch')},
@@ -201,7 +195,6 @@ mymainmenu = awful.menu({
     items = {
         { "applications", app_items, beautiful.sun},
         { "connect", connect_items},
-        { "light", light_levels},
         { "zic", zmitems},
         { "net", netctl_menu },
 --        { "manual", texec("man awesome") },
@@ -487,15 +480,6 @@ vicious.register(volwidget, vicious.widgets.volume, " $1%", 2, "Master")
 --
 local mixer = require('amixer')
 
--- Setup backlight object
-
-local backlight = nil
-if IS_LAPTOP then
-    backlight = require('backlight')
-else
-    backlight = { up = nil, down = nil }
-end
-
 -- Register buttons
 
 volbar:buttons(awful.util.table.join(
@@ -600,9 +584,6 @@ globalkeys = awful.util.table.join(globalkeys,
     awful.key({ }, "XF86AudioLowerVolume", function() mixer.down() vicious.force(vicious.widgets.volume) end),
     awful.key({ }, "XF86AudioRaiseVolume", function() mixer.up() vicious.force(vicious.widgets.volume) end),
     awful.key({ }, "XF86AudioMute", mixer.toggle),
-
-    awful.key({ }, "XF86MonBrightnessUp", backlight.up),
-    awful.key({ }, "XF86MonBrightnessDown", backlight.down),
 
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
