@@ -195,7 +195,7 @@ mymainmenu = awful.menu({
     items = {
         { "applications", app_items, beautiful.sun},
         { "connect", connect_items},
---        { "zic", zmitems},
+        { "zic", zmitems},
 --        { "manual", texec("man awesome") },
 --        { "edit config", eexec(awesome.conffile) },
 --        { "restart", awesome.restart },
