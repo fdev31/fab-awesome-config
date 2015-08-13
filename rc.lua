@@ -162,13 +162,14 @@ netctl:close()
 -- TODO: build menus from text files
 app_items = {
     { "Inkscape", sexec('inkscape') },
+    { "Blender", sexec('blender') },
     { "Gimp", sexec('gimp') },
-    { "UrbanTerror", sexec('cd ' .. UT_FOLDER .. ' ; comp-switch off ; ./Quake3-UrT.x86_64 ' .. UT_OPTIONS .. ' ; comp-switch on ; ' .. UT_POSTRUN) },
-    { "Midori", sexec('midori') },
-    { "Firefox", sexec('firefox') },
-    { "Chromium", sexec(WEB_BROWSER) },
-    { "Thunar", sexec('thunar') },
     { "WeeChat", texec('weechat-curses') },
+    { "UrbanTerror", sexec('cd ' .. UT_FOLDER .. ' ; comp-switch off ; ./Quake3-UrT.x86_64 ' .. UT_OPTIONS .. ' ; comp-switch on ; ' .. UT_POSTRUN) },
+--    { "Midori", sexec('midori') },
+--    { "Firefox", sexec('firefox') },
+--    { "Chromium", sexec(WEB_BROWSER) },
+--    { "Thunar", sexec('thunar') },
 }
 connect_items = {
     { "OpenVPN@Wyplay",  texec('systemctl restart openvpn@wy')  },
@@ -195,15 +196,15 @@ mymainmenu = awful.menu({
     items = {
         { "applications", app_items, beautiful.sun},
         { "connect", connect_items},
-        { "zic", zmitems},
-        { "net", netctl_menu },
+--        { "zic", zmitems},
 --        { "manual", texec("man awesome") },
 --        { "edit config", eexec(awesome.conffile) },
 --        { "show logs", texec("tail -n 30 -f /proc/" .. awesome_pid .. "/fd/1 /proc/" .. awesome_pid .. "/fd/2") },
 --        { "restart", awesome.restart },
-        { "quit", awesome.quit },
-        { "suspend now", sexec('sudo pm-suspend') },
+--        { "quit", awesome.quit },
+--        { "suspend now", sexec('sudo pm-suspend') },
         { 'screen', screen_items},
+        { "net", netctl_menu },
     }
 })
 
