@@ -1,6 +1,8 @@
 local id="0"
 local increment=4
 
+local control = "Master"
+
 os.execute('kill `cat /tmp/amixer_ctl'..id..'.pid` >/dev/null 2>&1 ; mkfifo /tmp/amixer_ctl'..id..' && echo $! > /tmp/amixer_ctl'..id..'.pid')
 os.execute('amixer -qsM < /tmp/amixer_ctl'..id..' &')
 
@@ -12,7 +14,7 @@ local _mixer_send = function(cmd)
 end
 
 local _up_vol = function(sense)
-    local _cmd = 'sset Master '..increment..'%' .. sense .. '\n'
+    local _cmd = 'sset '.. control .. " " ..increment..'%' .. sense .. '\n'
     return function()
         _mixer_send(_cmd)
     end
@@ -21,7 +23,7 @@ end
 return {
     up = _up_vol('+'),
     down = _up_vol('-'),
-    mute = function() _mixer_send('sset Master mute\n') end,
-    unmute = function() _mixer_send('sset Master unmute\n') end,
-    toggle = function() _mixer_send('sset Master toggle\n') end
+    mute = function() _mixer_send('sset '.. control .. ' mute\n') end,
+    unmute = function() _mixer_send('sset ' .. control .. ' unmute\n') end,
+    toggle = function() _mixer_send('sset ' .. control .. ' toggle\n') end
 }
