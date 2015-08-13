@@ -13,8 +13,26 @@ for line in netctl:lines() do
 end
 netctl:close()
 
+-- Setup backlight object
+
+backlight = nil
+
+if IS_LAPTOP then
+    backlight = require('backlight')
+else
+    backlight = { up = nil, down = nil }
+end
+
+local light_levels = {
+    { "Low",  sexec('xbacklight -set 2')  },
+    { "Avg",  sexec('xbacklight -set 20')  },
+    { "Mid",  sexec('xbacklight -set 50')  },
+    { "High",  sexec('xbacklight -set 100')  },
+}
+
+
 -- TODO: build menus from text files
-app_items = {
+local app_items = {
     { "Inkscape", sexec('inkscape') },
     { "Blender", sexec('blender') },
     { "Gimp", sexec('gimp') },
@@ -25,21 +43,21 @@ app_items = {
 --    { "Chromium", sexec(WEB_BROWSER) },
 --    { "Thunar", sexec('thunar') },
 }
-connect_items = {
+local connect_items = {
     { "VPN@Wy",  texec('systemctl restart openvpn@wy')  },
     { "Ssh tow",  texec('ssh tow')  },
     { "Ssh wy",  texec('ssh wy')  },
     { "Serial @38.4",  texec('sudo screen /dev/ttyUSB0 38400')  },
     { "Serial @115.2", texec('sudo screen /dev/ttyUSB0 115200') },
 }
-screen_items = {
+local screen_items = {
     {"WinInfo", texec("xproptitle")},
     {"Comp switch", sexec('comp-switch')},
     {"Shift switch", sexec('shift-switch')},
     {"DPMS ON", sexec('xset s on +dpms')},
     {"DPMS OFF", sexec('xset s off -dpms')}
 }
-zmitems ={
+local zmitems ={
     {"Start Radio", texec("mplayer -cache 128 http://broadcast.infomaniak.net:80/radionova-high.mp3") },
     {'zb: (un)pause', sexec('wasp pause')},
     {'zb: zap', sexec('wasp next')},
@@ -51,6 +69,7 @@ mymainmenu = awful.menu({
         { "applications", app_items, beautiful.sun},
         { "connect", connect_items},
         { "zic", zmitems},
+        { "light", light_levels},
         { 'screen', screen_items},
         { "net", netctl_menu },
     }

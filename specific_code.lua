@@ -1,6 +1,6 @@
 module = {}
 local awful = require('awful')
-local globalkeys = {}
+local mykeys = {}
 
 local screen_flipped = false
 
@@ -16,11 +16,11 @@ if io.open('/etc/hostname'):read() == 'xps' then
         end
     end
 
-    globalkeys = awful.util.table.join(
+    mykeys = awful.util.table.join(
         awful.key({ modkey,           }, "u", toggle_screen_orientation)
         )
 
 end
 
-module.keys = globalkeys
+module.keys = mykeys
 return module

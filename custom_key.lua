@@ -9,6 +9,8 @@ require('custom_conf')
 local k = {
 -- CUSTO
     awful.key({ modkey }, "F2", function() menubar.show() end),
+    awful.key({ }, "XF86MonBrightnessUp", backlight.up),
+    awful.key({ }, "XF86MonBrightnessDown", backlight.down),
 -- move client to tags
     awful.key({ modkey, "Shift" }, "Right",   function()
         local i = nil
