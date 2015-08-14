@@ -161,7 +161,7 @@ for s = 1, screen.count() do
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
     right_layout:add(separator)
-    if s == 1 then right_layout:add(wibox.widget.systray()) end
+    if s == S_MAIN then right_layout:add(wibox.widget.systray()) end
 
 -- CUSTO
     right_layout:add(mytextclock)
