@@ -52,11 +52,9 @@ editor_cmd = terminal .. " -e " .. editor
 -- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
 
---
--- CUSTOM
---
 require('custom_conf')
 require('theme')
+
 -- }}}
 
 -- {{{ Wallpaper
@@ -77,12 +75,7 @@ myawesomemenu = {
    { "quit", awesome.quit }
 }
 
--- CUSTO
-
 require('custom_menus')
-
--- END OF CUSTO
-
 
 mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
                                      menu = mymainmenu })
@@ -96,6 +89,7 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 mytextclock = awful.widget.textclock()
 
 -- Create a wibox for each screen and add it
+mywibox = {}
 mypromptbox = {}
 mylayoutbox = {}
 mytaglist = {}
@@ -289,25 +283,22 @@ clientbuttons = awful.util.table.join(
     awful.button({ modkey }, 3, awful.mouse.client.resize))
 
 
--- CUSTOM
 modules = require('specific_code')
 if modules.keys then
     globalkeys = awful.util.table.join(globalkeys, modules.keys)
 end
--- END OF CUSTO
+
 -- Set keys
 root.keys(globalkeys)
 -- }}}
 
 -- {{{ Rules
---- Rules to apply to new clients (through the "manage" signal).
--- CUSTOM
---
+-- Rules to apply to new clients (through the "manage" signal).
+
 local k = require('custom_client_key')
 clientkeys = awful.util.table.join(clientkeys, unpack(k.keys))
 
 rules = require('custom_rules')
-
 awful.rules.rules = rules.rules
 
 -- }}}
