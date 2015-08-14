@@ -71,8 +71,6 @@ local color = {red="#FF5555", green="#55FF55", blue="#5555FF", yellow="#FFFF00"}
 local nic = io.popen("netstat -rn |grep ^0.0.0.0 |awk '{print $8}'"):read()
 local home   = os.getenv("HOME")
 
-globalkeys = {}
-
 local screen_switched = false
  if IS_LAPTOP then
      awful.util.spawn_with_shell('setxkbmap -option compose:prsc')
