@@ -93,6 +93,7 @@ end
 
 editor = os.getenv("EDITOR") or "nano"
 terminal = "terminator"
+fancy_terminal = "terminology"
 editor_cmd = 'gvim -reverse '
 
 local exec   = awful.util.spawn
@@ -647,7 +648,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "t", sexec("thunar") ),
     awful.key({ modkey }, "w", sexec(WEB_BROWSER) ),
     awful.key({ modkey }, "e", function() awful.menu.clients({ width=250 }) end ),
-    awful.key({ modkey }, "a", function () drop(terminal, "bottom", "center", 0.9, 0.9, false) end),
+    awful.key({ modkey }, "a", function () drop(fancy_terminal, "bottom", "center", 0.9, 0.9, false) end),
     awful.key({ modkey }, "z", function ()
         if ( zic_prompt ) then
             awful.prompt.run({ prompt = "Wasp: " }, mypromptbox[mouse.screen].widget,
