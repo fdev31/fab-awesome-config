@@ -3,6 +3,13 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 require('custom_conf')
 
+function ru(c,n,prop)
+        return {
+            rule = {class=c, name=n},
+            properties=prop,
+        }
+end
+
 local rules = {
     ru(nil,nil,{
         focus            = true,

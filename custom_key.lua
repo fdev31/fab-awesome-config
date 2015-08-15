@@ -5,12 +5,6 @@ local wibox = require("wibox")
 local menubar = require("menubar")
 require('custom_conf')
 
-function ru(c,n,prop)
-        return {
-            rule = {class=c, name=n},
-            properties=prop,
-        }
-end
 
 local k = {
 -- CUSTO
