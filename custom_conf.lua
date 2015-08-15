@@ -39,6 +39,7 @@ end
 
 editor = os.getenv("EDITOR") or "nano"
 terminal = "terminator"
+terminal_run = "terminator -x "
 fancy_terminal = "terminology"
 editor_cmd = 'gvim -reverse '
 
