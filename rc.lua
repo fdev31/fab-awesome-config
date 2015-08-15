@@ -282,7 +282,6 @@ clientbuttons = awful.util.table.join(
     awful.button({ modkey }, 1, awful.mouse.client.move),
     awful.button({ modkey }, 3, awful.mouse.client.resize))
 
-
 modules = require('specific_code')
 if modules.keys then
     globalkeys = awful.util.table.join(globalkeys, modules.keys)
@@ -294,13 +293,8 @@ root.keys(globalkeys)
 
 -- {{{ Rules
 -- Rules to apply to new clients (through the "manage" signal).
-
-local k = require('custom_client_key')
-clientkeys = awful.util.table.join(clientkeys, unpack(k.keys))
-
-rules = require('custom_rules')
-awful.rules.rules = rules.rules
-
+clientkeys = awful.util.table.join(clientkeys, unpack(require('custom_client_key').keys))
+awful.rules.rules = require('custom_rules').rules
 -- }}}
 
 -- {{{ Signals
