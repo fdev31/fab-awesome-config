@@ -122,7 +122,7 @@ tags = {
     layout={}
 }
 
-_dflt = rlayouts.titlet
+_dflt = rlayouts.title
 
 -- user-customizable tags: (name, layout)
 _tags = {
@@ -130,7 +130,7 @@ _tags = {
     {"edit"  , _dflt           , nil } ,
     {"web"   , _dflt           , nil } ,
     {"im"    , clay.exp        , nil } ,
-    {"fm"    , rlayouts.mag    , nil } ,
+    {"fm"    , _dflt           , nil } ,
     {"gfx"   , rlayouts.mag    , nil } ,
     {nil     , _dflt           , nil } ,
     {nil     , _dflt           , nil } ,
@@ -161,3 +161,4 @@ end
 
 _tags = nil
 _dflt = nil
+
