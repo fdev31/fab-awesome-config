@@ -3,6 +3,8 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 require('custom_conf')
 
+local TRANS_LEVEL = 0.8
+
 function ru(c,n,prop)
         return {
             rule = {class=c, name=n},
@@ -28,6 +30,7 @@ local rules = {
         callback = awful.placement.under_mouse
     },
 
+    ru("terminology", nil,         { opacity=TRANS_LEVEL, fixed_trans=true }),
     -- standard rules --
     -- volume properties
     ru(nil, ".* volume.*",         { floating=true, fullscreen=false}),
@@ -59,17 +62,8 @@ local rules = {
     ru("Plugin-container", nil,    { floating=true, fullscreen=true } )
 }
 
--- Focus signal handlers --
-client.connect_signal("focus",   function (c)
-    c.opacity = 1
-end)
-client.connect_signal("unfocus", function (c)
-    if screen_switched then
-        screen_switched = false
-    else
-        c.opacity = 0.85
-    end
-end)
+--client.connect_signal("unfocus", function (c) c.opacity = TRANS_LEVEL end)
+--client.connect_signal("focus", function (c) if not c.fixed_trans then c.opacity = 1.0 end end)
 
 -- arrange handler
 
