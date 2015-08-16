@@ -82,6 +82,7 @@ beautiful.taglist_squares_unsel = beautiful.confdir .. "/icons/taglist/unsel.png
 -- }}}
 
 -- {{{ Layout icons
+beautiful.layout_gradient       = beautiful.confdir .. "/icons/layouts/gradient.png"
 beautiful.layout_tile       = beautiful.confdir .. "/icons/layouts/tile.png"
 beautiful.layout_tileleft   = beautiful.confdir .. "/icons/layouts/tileleft.png"
 beautiful.layout_tilebottom = beautiful.confdir .. "/icons/layouts/tilebottom.png"

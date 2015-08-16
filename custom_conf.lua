@@ -93,6 +93,8 @@ function progress_maker()
     return bar
 end
 
+local clay = require('custom_layouts')
+
 -- all used layouts should be defined ONCE here:
 rlayouts = {
     title  = awful.layout.suit.tile        , 
@@ -107,8 +109,10 @@ rlayouts = {
 layouts = {
     rlayouts.title,
     rlayouts.titlet,
+--    rlayouts.max,
+    clay.exp,
     rlayouts.mag,
-    rlayouts.max,
+--    rlayouts.title.bottom,
 --    rlayouts.float,
 }
 
@@ -118,20 +122,20 @@ tags = {
     layout={}
 }
 
-_dflt = rlayouts.title
+_dflt = rlayouts.titlet
 
 -- user-customizable tags: (name, layout)
 _tags = {
-    {"term"  , rlayouts.titlet} , 
-    {"edit"  , _dflt}           , 
-    {"web"   , _dflt}           , 
-    {"im"    , _dflt}           , 
-    {"fm"    , rlayouts.max}    , 
-    {"gfx"    , rlayouts.max}    , 
---    {nil     , rlayouts.float}  , 
---    {nil     , rlayouts.float}  , 
-    {"rss"   , rlayouts.mag}    , 
-    {"media" , _dflt}
+    {"term"  , rlayouts.titlet , nil } ,
+    {"edit"  , _dflt           , nil } ,
+    {"web"   , _dflt           , nil } ,
+    {"im"    , clay.exp        , nil } ,
+    {"fm"    , rlayouts.mag    , nil } ,
+    {"gfx"   , rlayouts.mag    , nil } ,
+    {nil     , _dflt           , nil } ,
+    {nil     , _dflt           , nil } ,
+    {"rss"   , rlayouts.mag    , nil } ,
+    {"media" , _dflt           , nil } 
 }
 
 -- rtagnums.tag_name == <index of the given tag>
@@ -145,8 +149,6 @@ for i,t in ipairs(_tags) do
     tags.layout[i] = t[2]
 end
 
-_tags = nil
-_dflt = nil
 -- END OF CUSTO &  definitions
 -- Create tags:
 for s = 1, scount do -- for each screen
@@ -156,3 +158,6 @@ for s = 1, scount do -- for each screen
       awful.tag.setproperty(t , "hide"   , (i==7 or i==8) and true)
   end
 end
+
+_tags = nil
+_dflt = nil

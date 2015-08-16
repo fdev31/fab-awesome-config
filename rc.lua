@@ -353,6 +353,9 @@ modules = require('specific_code')
 if modules.keys then
     globalkeys = awful.util.table.join(globalkeys, unpack(modules.keys))
 end
+if modules.client_keys then
+    clientbuttons = awful.util.table.join(clientbuttons, unpack(modules.client_keys))
+end
 
 -- Set keys
 root.keys(globalkeys)
