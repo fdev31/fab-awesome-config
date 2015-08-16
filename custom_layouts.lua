@@ -19,6 +19,9 @@ local function do_exp_loaded_h(p)
         local y_n = (horiz and 'x' or 'y')
 
         local height = math.floor( wa[height_n] * tag.getmwfact(p.tag) )
+        if #cls == 1 then
+            height = wa[height_n]
+        end
         local remains = wa[height_n] - height
 
         for k, c in ipairs(cls) do
