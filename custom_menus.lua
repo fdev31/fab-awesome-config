@@ -64,13 +64,17 @@ local zmitems ={
 }
 
 zicmenu = awful.menu({items = zmitems})
-mymainmenu = awful.menu({
-    items = {
-        { "applications", app_items, beautiful.sun},
-        { "connect", connect_items},
-        { "zic", zmitems},
-        { "light", light_levels},
-        { 'screen', screen_items},
-        { "net", netctl_menu },
-    }
-})
+
+menu_items = {
+    { "applications", app_items, beautiful.sun},
+    { "connect", connect_items},
+    { "zic", zmitems},
+    { 'screen', screen_items},
+    { "net", netctl_menu },
+}
+if IS_LAPTOP then
+    table.insert(menu_items, 3, {"light", light_levels})
+end
+
+mymainmenu = awful.menu({ items = menu_items })
+
