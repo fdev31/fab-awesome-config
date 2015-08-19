@@ -42,6 +42,7 @@ UT_OPTIONS = ''
 UT_POSTRUN = ''
 
 WEB_BROWSER = 'firefox'
+FILE_MANAGER = 'thunar'
 
 IS_LAPTOP = os.execute('laptop-detect')
 zic_prompt = true
