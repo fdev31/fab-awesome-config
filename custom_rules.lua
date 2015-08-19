@@ -44,8 +44,8 @@ local rules = {
     ru("jetbrains-pycharm-ce", nil,{ tag=awful.tag.gettags(S_MAIN)[rtagnums.edit] } ),
     ru("Snaked", nil,              { tag=awful.tag.gettags(S_MAIN)[rtagnums.edit] } ),
     -- gfx
-    ru("Blender", nil,             { tag=awful.tag.gettags(S_MAIN)[rtagnums.gfx], floating=true, fullscreen=true } ),
-    ru("Blender", "Blender",       { floating=true, fullscreen=true}),
+    ru("Blender", nil,             { tag=awful.tag.gettags(S_MAIN)[rtagnums.gfx] } ),
+    ru("Inkscape", nil,            { tag=awful.tag.gettags(S_MAIN)[rtagnums.gfx] } ),
     ru("Gimp", nil,                { tag=awful.tag.gettags(S_MAIN)[rtagnums.gfx] } ),
     -- sound
     ru("Rdio", nil,                { tag=awful.tag.gettags(S_SEC)[rtagnums.media] } ),
