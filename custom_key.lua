@@ -71,7 +71,7 @@ local k = {
                     exec("task add "..command)
                 else
                     local f = "/tmp/tasks.txt"
-                    _sexec("task > "..f)
+                    exec("task > "..f)
                     texec("less "..f)()
                 end
             end)

@@ -2,8 +2,15 @@ local awful = require("awful")
 local beautiful = require("beautiful")
 local naughty = require("naughty")
 local wibox = require("wibox")
-require('custom_conf')
 
+local progress_maker = function()
+    local bar    = awful.widget.progressbar()
+    -- Progressbar properties
+    bar:set_vertical(true):set_ticks(true)
+    bar:set_height(10):set_width(8):set_ticks_size(1)
+    bar:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 20 }, stops = { { 0, color.red }, { 0.5, color.green }, { 1, color.yellow }} })
+    return bar
+end
 
 mywibox = {}
 -- CUSTOM

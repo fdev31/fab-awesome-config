@@ -50,12 +50,13 @@ terminal = "terminator"
 terminal_run = "terminator -x "
 fancy_terminal = "terminology"
 editor_cmd = 'gvim -reverse '
+color = {red="#FF5555", green="#55FF55", blue="#5555FF", yellow="#FFFF00"}
 
 -- END OF CUSTOM DEFINITIONS
 
 vicious = require("vicious")
 drop = require("drop")
-color = {red="#FF5555", green="#55FF55", blue="#5555FF", yellow="#FFFF00"}
+
 nic = io.popen("netstat -rn |grep ^0.0.0.0 |awk '{print $8}'"):read()
 home   = os.getenv("HOME")
 screen_switched = false
@@ -78,6 +79,7 @@ end
  end
 
 local _cmds = io.open(home.."/.config/awesome/commands.txt", "r")
+-- TODO: manage PIDs to handle restart
 if _cmds then
     while true do
         line = _cmds:read()
@@ -90,11 +92,13 @@ if _cmds then
 end
 
 -- handy functions --
+--
+ -- shell exec
+exec  = awful.util.spawn_with_shell
 
-exec   = awful.util.spawn
-_sexec  = awful.util.spawn_with_shell
-
-
+-- following returns pointer to functions, to use in menus/keys
+--
+ -- terminal exec
 function texec(cmd, opts)
     local args = ' '
     if (opts) then
@@ -109,26 +113,21 @@ function texec(cmd, opts)
     end
     return t
 end
+
+ -- editor exec
 function eexec(w)
     local t = function()
         exec(editor_cmd .. " " .. w)
     end
     return t
 end
+
+ -- standard exec
 function sexec(cmd)
     local t = function()
-        _sexec(cmd)
+        exec(cmd)
     end
     return t
-end
-
-function progress_maker()
-    local bar    = awful.widget.progressbar()
-    -- Progressbar properties
-    bar:set_vertical(true):set_ticks(true)
-    bar:set_height(10):set_width(8):set_ticks_size(1)
-    bar:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 20 }, stops = { { 0, color.red }, { 0.5, color.green }, { 1, color.yellow }} })
-    return bar
 end
 
 -- END OF CUSTO &  definitions
