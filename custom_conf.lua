@@ -3,8 +3,8 @@ local awful = require("awful")
 -- all used layouts should be defined ONCE here:
 local _ = {
     DEFAULT = awful.layout.suit.tile      ,
-    title   = awful.layout.suit.tile      ,
     titlet  = awful.layout.suit.tile.top  ,
+    titleb  = awful.layout.suit.tile.bottom,
     fair    = awful.layout.suit.fair      ,
     max     = awful.layout.suit.max       ,
     mag     = awful.layout.suit.magnifier ,
@@ -14,23 +14,23 @@ local _ = {
 
 -- Available layouts (override defaults)
 layouts = {
-    _.title,
-    _.titlet,
+    _.DEFAULT,
     _.gradied,
+    _.titlet,
+    _.titleb,
     _.mag,
 }
 
 -- Tags --
 
--- user-customizable tags: (name, layout)
+-- user-customizable tags: (name, layout, options)
 local tags = {
-    {"term"  , _.titlet  , nil        },
+    {"term"  , _.titleb  , nil        },
     {"edit"  , _.DEFAULT , nil        },
     {"web"   , _.DEFAULT , nil        },
     {"im"    , _.gradied , {ncol=2}   },
     {"fm"    , _.DEFAULT , nil        },
     {"gfx"   , _.mag     , nil        },
-    {"rss"   , _.mag     , nil        },
     {"media" , _.DEFAULT , nil        },
     {"toto"  , _.DEFAULT , {hide=true}}
 }

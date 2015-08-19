@@ -3,8 +3,6 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 require('custom_conf')
 
-naughty.notify(UT_FOLDER)
-
 netctl_menu = {}
 netctl = io.popen('netctl list')
 for line in netctl:lines() do
