@@ -1,46 +1,41 @@
 local awful = require("awful")
-local clay = require('custom_layouts')
 
 -- all used layouts should be defined ONCE here:
---
-local LN = {
-    title  = awful.layout.suit.tile        , 
-    titlet = awful.layout.suit.tile.top    , 
-    fair   = awful.layout.suit.fair        , 
-    max    = awful.layout.suit.max         , 
-    mag    = awful.layout.suit.magnifier   , 
-    float  = awful.layout.suit.floating    , 
+local _ = {
+    DEFAULT = awful.layout.suit.tile      ,
+    title   = awful.layout.suit.tile      ,
+    titlet  = awful.layout.suit.tile.top  ,
+    fair    = awful.layout.suit.fair      ,
+    max     = awful.layout.suit.max       ,
+    mag     = awful.layout.suit.magnifier ,
+    float   = awful.layout.suit.floating  ,
+    gradied = require('custom_layouts').exp
 }
 
 -- Available layouts (override defaults)
 layouts = {
-    LN.title,
-    LN.titlet,
-    clay.exp,
-    LN.mag,
+    _.title,
+    _.titlet,
+    _.gradied,
+    _.mag,
 }
 
 -- Tags --
 
-local _dflt = LN.title
-
 -- user-customizable tags: (name, layout)
 local tags = {
-    {"term"  , LN.titlet , nil } ,
-    {"edit"  , _dflt           , nil } ,
-    {"web"   , _dflt           , nil } ,
-    {"im"    , clay.exp        , {ncol=2} } ,
-    {"fm"    , _dflt           , nil } ,
-    {"gfx"   , LN.mag    , nil } ,
-    {"rss"   , LN.mag    , nil } ,
-    {"media" , _dflt           , nil } ,
-    {"toto" , _dflt            , {hide=true} } ,
+    {"term"  , _.titlet  , nil        },
+    {"edit"  , _.DEFAULT , nil        },
+    {"web"   , _.DEFAULT , nil        },
+    {"im"    , _.gradied , {ncol=2}   },
+    {"fm"    , _.DEFAULT , nil        },
+    {"gfx"   , _.mag     , nil        },
+    {"rss"   , _.mag     , nil        },
+    {"media" , _.DEFAULT , nil        },
+    {"toto"  , _.DEFAULT , {hide=true}}
 }
-_dflt = nil
-LN = nil
+_ = nil
 
-
-WEB_BROWSER = 'firefox'
 
 UT_FOLDER = '/home/fab/grosdisk/home/fab/games/UrbanTerror42'
 UT_OPTIONS = ''
@@ -50,6 +45,13 @@ WEB_BROWSER = 'firefox'
 
 IS_LAPTOP = os.execute('laptop-detect')
 zic_prompt = true
+editor = os.getenv("EDITOR") or "nano"
+terminal = "terminator"
+terminal_run = "terminator -x "
+fancy_terminal = "terminology"
+editor_cmd = 'gvim -reverse '
+
+-- END OF CUSTOM DEFINITIONS
 
 vicious = require("vicious")
 drop = require("drop")
@@ -57,6 +59,16 @@ color = {red="#FF5555", green="#55FF55", blue="#5555FF", yellow="#FFFF00"}
 nic = io.popen("netstat -rn |grep ^0.0.0.0 |awk '{print $8}'"):read()
 home   = os.getenv("HOME")
 screen_switched = false
+
+scount = screen.count()
+
+if (scount == 1) then
+    S_MAIN = 1
+    S_SEC = 1
+else
+    S_SEC = 2
+    S_MAIN = 1
+end
 
 -- see compose in /usr/share/X11/xkb/rules/base.lst
  if IS_LAPTOP then
@@ -77,25 +89,11 @@ if _cmds then
     _cmds = nil
 end
 
-editor = os.getenv("EDITOR") or "nano"
-terminal = "terminator"
-terminal_run = "terminator -x "
-fancy_terminal = "terminology"
-editor_cmd = 'gvim -reverse '
+-- handy functions --
 
 exec   = awful.util.spawn
 _sexec  = awful.util.spawn_with_shell
-scount = screen.count()
 
-if (scount == 1) then
-    S_MAIN = 1
-    S_SEC = 1
-else
-    S_SEC = 2
-    S_MAIN = 1
-end
-
--- handy functions --
 
 function texec(cmd, opts)
     local args = ' '
