@@ -20,18 +20,14 @@ local function do_exp_loaded_h(p)
 
 
         local height = nil
-        if #cls == 1 then -- will be drawn as the only "small" one, need to compensate the width augmentation
-            height = wa[height_n]/2
-        else
-            height = math.floor( wa[height_n] * math.min(0.9, math.max(0.1, tag.getmwfact(p.tag))) )
-        end
+        local height = math.floor( wa[height_n] * (#cls==1 and 1.0 or math.min(0.98, math.max(0.02, tag.getmwfact(p.tag)))) )
         local remains = wa[height_n] - height
 
         for k, c in ipairs(cls) do
             local g = {}
             local bw = c.border_width*2
 
-            if nb_big > 1 then
+            if #cls == 1 or nb_big > 1 then
                 g[width_n] = wa[width_n] - bw
                 g[height_n] = height - bw
                 g[y_n] = wa[y_n] + cur_offset
