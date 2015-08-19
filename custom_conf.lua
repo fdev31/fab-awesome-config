@@ -1,4 +1,44 @@
 local awful = require("awful")
+local clay = require('custom_layouts')
+
+-- all used layouts should be defined ONCE here:
+--
+local LN = {
+    title  = awful.layout.suit.tile        , 
+    titlet = awful.layout.suit.tile.top    , 
+    fair   = awful.layout.suit.fair        , 
+    max    = awful.layout.suit.max         , 
+    mag    = awful.layout.suit.magnifier   , 
+    float  = awful.layout.suit.floating    , 
+}
+
+-- Available layouts (override defaults)
+layouts = {
+    LN.title,
+    LN.titlet,
+    clay.exp,
+    LN.mag,
+}
+
+-- Tags --
+
+local _dflt = LN.title
+
+-- user-customizable tags: (name, layout)
+local tags = {
+    {"term"  , LN.titlet , nil } ,
+    {"edit"  , _dflt           , nil } ,
+    {"web"   , _dflt           , nil } ,
+    {"im"    , clay.exp        , {ncol=2} } ,
+    {"fm"    , _dflt           , nil } ,
+    {"gfx"   , LN.mag    , nil } ,
+    {"rss"   , LN.mag    , nil } ,
+    {"media" , _dflt           , nil } ,
+    {"toto" , _dflt            , {hide=true} } ,
+}
+_dflt = nil
+LN = nil
+
 
 WEB_BROWSER = 'firefox'
 
@@ -93,46 +133,6 @@ function progress_maker()
     return bar
 end
 
-local clay = require('custom_layouts')
-
--- all used layouts should be defined ONCE here:
-local rlayouts = {
-    title  = awful.layout.suit.tile        , 
-    titlet = awful.layout.suit.tile.top    , 
-    fair   = awful.layout.suit.fair        , 
-    max    = awful.layout.suit.max         , 
-    mag    = awful.layout.suit.magnifier   , 
-    float  = awful.layout.suit.floating    , 
-}
-
--- build layouts from rlayouts
-layouts = {
-    rlayouts.title,
-    rlayouts.titlet,
---    rlayouts.max,
-    clay.exp,
-    rlayouts.mag,
---    rlayouts.title.bottom,
---    rlayouts.float,
-}
-
--- Tags --
-
-local _dflt = rlayouts.title
-
--- user-customizable tags: (name, layout)
-local tags = {
-    {"term"  , rlayouts.titlet , nil } ,
-    {"edit"  , _dflt           , nil } ,
-    {"web"   , _dflt           , nil } ,
-    {"im"    , clay.exp        , {ncol=2} } ,
-    {"fm"    , _dflt           , nil } ,
-    {"gfx"   , rlayouts.mag    , nil } ,
-    {"rss"   , rlayouts.mag    , nil } ,
-    {"media" , _dflt           , nil } ,
-    {"toto" , _dflt            , {hide=true} } ,
-}
-
 -- END OF CUSTO &  definitions
 --
 -- rtagnums.tag_name == <index of the given tag>
@@ -170,5 +170,4 @@ end
 
 _tags = nil
 tags = nil
-_dflt = nil
 
