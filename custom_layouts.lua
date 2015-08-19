@@ -48,44 +48,6 @@ local function do_exp_loaded_h(p)
     end
 end
 
-local function do_exp_loaded(p)
-    local wa = p.workarea
-    local cls = p.clients
-    local limit = tag.getncol(p.tag or tag.selected(p.screen))
-
-    if #cls > 0 then
-        local nb_big = math.min( #cls , limit)
-        local nb_small = #cls - nb_big + 1
-
-        local tot_cols = nb_small
-        local height = wa.height / 2
-        local cur_offset = 0
-
-        for k, c in ipairs(cls) do
-            local g = {}
-            local bw = c.border_width*2
-
-            if nb_big > 1 then
-                g.width = wa.width - bw
-                g.height = height - bw
-                g.y = wa.y + cur_offset
-                g.x = wa.x
-                nb_big = nb_big - 1
-                cur_offset = cur_offset + height
-                height = height / 2
-            else
-                g.width = wa.width / tot_cols - bw
-                g.height = (2*height) - bw
-                g.x = wa.x + g.width * (tot_cols - nb_small)
-                g.y = wa.y + cur_offset
-                nb_small = nb_small - 1
-            end
-
-            c:geometry(g)
-        end
-    end
-end
-
 local function do_loaded(p)
     local wa = p.workarea
     local cls = p.clients
