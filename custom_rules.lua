@@ -36,23 +36,23 @@ local rules = {
     ru(nil, ".* volume.*",         { floating=true, fullscreen=false}),
     ru(nil, "alsamixer",           { floating=true, fullscreen=false}),
     -- www 
-    ru("Chromium", nil,            { tag=tags[S_MAIN][rtagnums.web] }),
-    ru("Chromium", ".*- chat -.*", { tag=tags[S_MAIN][rtagnums.im] }),
-    ru("Firefox", nil,         { tag=tags[S_MAIN][rtagnums.web] }),
+    ru("Chromium", nil,            { tag=awful.tag.gettags(S_MAIN)[rtagnums.web] }),
+    ru("Chromium", ".*- chat -.*", { tag=awful.tag.gettags(S_MAIN)[rtagnums.im] }),
+    ru("Firefox", nil,         { tag=awful.tag.gettags(S_MAIN)[rtagnums.web] }),
     -- chat
-    ru("Xchat", nil,               { tag=tags[S_SEC][rtagnums.im] } ),
+    ru("Xchat", nil,               { tag=awful.tag.gettags(S_SEC)[rtagnums.im] } ),
     -- medias
-    ru("Audacious", nil,           { tag=tags[S_SEC][rtagnums.media] } ),
+    ru("Audacious", nil,           { tag=awful.tag.gettags(S_SEC)[rtagnums.media] } ),
     -- edit
-    ru("Gvim", nil,                { tag=tags[S_MAIN][rtagnums.edit] } ),
-    ru("jetbrains-pycharm-ce", nil,{ tag=tags[S_MAIN][rtagnums.edit] } ),
-    ru("Snaked", nil,              { tag=tags[S_MAIN][rtagnums.edit] } ),
+    ru("Gvim", nil,                { tag=awful.tag.gettags(S_MAIN)[rtagnums.edit] } ),
+    ru("jetbrains-pycharm-ce", nil,{ tag=awful.tag.gettags(S_MAIN)[rtagnums.edit] } ),
+    ru("Snaked", nil,              { tag=awful.tag.gettags(S_MAIN)[rtagnums.edit] } ),
     -- gfx
-    ru("Blender", nil,             { tag=tags[S_MAIN][rtagnums.gfx], floating=true, fullscreen=true } ),
+    ru("Blender", nil,             { tag=awful.tag.gettags(S_MAIN)[rtagnums.gfx], floating=true, fullscreen=true } ),
     ru("Blender", "Blender",       { floating=true, fullscreen=true}),
-    ru("Gimp", nil,                { tag=tags[S_MAIN][rtagnums.gfx] } ),
+    ru("Gimp", nil,                { tag=awful.tag.gettags(S_MAIN)[rtagnums.gfx] } ),
     -- sound
-    ru("Rdio", nil,                { tag=tags[S_SEC][rtagnums.media] } ),
+    ru("Rdio", nil,                { tag=awful.tag.gettags(S_SEC)[rtagnums.media] } ),
     -- fs
     ru("Geeqie", nil,              { floating=true } ),
     ru("ROX-Filer", nil,           { floating=true }),

@@ -117,9 +117,10 @@ layouts = {
 }
 
 -- Tags --
-tags = {
+xtags = {
     names={},
-    layout={}
+    layout={},
+    props={}
 }
 
 _dflt = rlayouts.title
@@ -129,13 +130,12 @@ _tags = {
     {"term"  , rlayouts.titlet , nil } ,
     {"edit"  , _dflt           , nil } ,
     {"web"   , _dflt           , nil } ,
-    {"im"    , clay.exp        , nil } ,
+    {"im"    , clay.exp        , {ncol=2} } ,
     {"fm"    , _dflt           , nil } ,
     {"gfx"   , rlayouts.mag    , nil } ,
-    {nil     , _dflt           , nil } ,
-    {nil     , _dflt           , nil } ,
     {"rss"   , rlayouts.mag    , nil } ,
-    {"media" , _dflt           , nil } 
+    {"media" , _dflt           , nil } ,
+    {"toto" , _dflt            , {hide=true} } ,
 }
 
 -- rtagnums.tag_name == <index of the given tag>
@@ -145,17 +145,26 @@ for i,t in ipairs(_tags) do
     if t[1] then
         rtagnums[t[1]] = i
     end
-    tags.names[i] = t[1] or i
-    tags.layout[i] = t[2]
+    xtags.names[i] = t[1] or i
+    xtags.layout[i] = t[2]
 end
 
 -- END OF CUSTO &  definitions
 -- Create tags:
 for s = 1, scount do -- for each screen
-  tags[s] = awful.tag(tags.names, s, tags.layout) -- create tags
-  for i, t in ipairs(tags[s]) do -- set some properties
+  local tag = awful.tag(xtags.names, s, xtags.layout) -- create tags
+  for i, t in ipairs(tag) do -- set some properties
       awful.tag.setproperty(t , "mwfact" , 0.5)
-      awful.tag.setproperty(t , "hide"   , (i==7 or i==8) and true)
+      local props = _tags[i][3]
+      if props then
+          if type(props) == 'function' then
+              props(t)
+          else -- table of properties
+              for pname, pval in pairs(props) do
+                  awful.tag.setproperty(t, pname, pval)
+              end
+          end
+      end
   end
 end
 

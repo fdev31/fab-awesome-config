@@ -300,7 +300,7 @@ clientkeys = awful.util.table.join(
 -- This should map on the top row of your keyboard, usually 1 to 9.
 keynumber = 0 -- Compute the maximum number of digit we need, limited to 9
 for s = 1, screen.count() do
-   keynumber = math.min(9, math.max(#tags[s], keynumber))
+   keynumber = math.min(9, math.max(#awful.tag.gettags(s), keynumber))
 end
 for i = 1, keynumber do
     globalkeys = awful.util.table.join(globalkeys,
