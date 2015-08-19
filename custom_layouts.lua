@@ -18,9 +18,12 @@ local function do_exp_loaded_h(p)
         local x_n = (horiz and 'y' or 'x')
         local y_n = (horiz and 'x' or 'y')
 
-        local height = math.floor( wa[height_n] * tag.getmwfact(p.tag) )
-        if #cls == 1 then
-            height = wa[height_n]
+
+        local height = nil
+        if #cls == 1 then -- will be drawn as the only "small" one, need to compensate the width augmentation
+            height = wa[height_n]/2
+        else
+            height = math.floor( wa[height_n] * math.min(0.9, math.max(0.1, tag.getmwfact(p.tag))) )
         end
         local remains = wa[height_n] - height
 
