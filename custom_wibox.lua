@@ -2,6 +2,16 @@ local awful = require("awful")
 local beautiful = require("beautiful")
 local naughty = require("naughty")
 local wibox = require("wibox")
+-- Setup mixer object
+local mixer = require('amixer')
+
+local PROCESS_MON_BUTTON = awful.util.table.join( awful.button({ }, 1, texec(PROCESS_MONITOR) ))
+local NETWORK_MON_BUTTON = awful.util.table.join( awful.button({ }, 1, texec(NETWORK_MONITOR) ))
+local MIXER_BUTTON = awful.util.table.join(
+   awful.button({ }, 1, sexec("pavucontrol") ),
+   awful.button({ }, 4, function() mixer.up() vicious.force(vicious.widgets.volume) end ),
+   awful.button({ }, 5, function() mixer.down() vicious.force(vicious.widgets.volume) end )
+)
 
 local progress_maker = function(col, width, height, ticks)
     local color = col or {top=color.red, mid=color.yellow, base=color.green}
@@ -23,15 +33,9 @@ local progress_maker = function(col, width, height, ticks)
 end
 
 mywibox = {}
--- CUSTOM
--- Wibox --
 
--- {{{ Widgets configuration
---
--- {{{ Reusable separator
 separator = wibox.widget.imagebox()
 separator:set_image(beautiful.widget_sep)
--- }}}
 
 -- {{{ CPU usage and temperature
 -- Initialize widgets
@@ -41,12 +45,12 @@ cpugraph:set_width(40)
 cpugraph:set_background_color("#494B4F")
 cpugraph:set_color({ type = "linear", from = { 0, 0 }, to = { 0,20 }, stops = { {0, "#FF5656"}, {0.5, "#88A175"}, 
                     {1, "#AECF96" }}})
-
+cpugraph:buttons(PROCESS_MON_BUTTON)
  -- Register widgets
 vicious.register(cpugraph,  vicious.widgets.cpu,      "$1")
---vicious.register(tzswidget, vicious.widgets.thermal, " $1C", 19, "thermal_zone0")
 -- }}}
-if IS_LAPTOP then
+
+if IS_LAPTOP then -- Battery
     -- {{{ Battery state
     baticon = wibox.widget.imagebox()
     baticon:set_image(beautiful.widget_bat)
@@ -58,17 +62,19 @@ if IS_LAPTOP then
 end
 
 -- {{{ Memory usage
-memicon = wibox.widget.imagebox()
+local memicon = wibox.widget.imagebox()
+memicon:buttons(PROCESS_MON_BUTTON)
 memicon:set_image(beautiful.widget_mem)
 -- Initialize widget
 local membar = progress_maker()
+membar:buttons(PROCESS_MON_BUTTON)
 vicious.register(membar, vicious.widgets.mem, "$1", 13)
 
 -- {{{ File system usage
-fsicon = wibox.widget.imagebox()
-fsicon:set_image(beautiful.widget_fs)
+local fsicon = wibox.widget.imagebox()
 -- Initialize widgets
-fs = {
+fsicon:set_image(beautiful.widget_fs)
+local fs = {
   r = progress_maker(nil, 6),
   h = progress_maker(nil, 6),
   t = progress_maker(nil, 6),
@@ -93,8 +99,11 @@ local dnicon = wibox.widget.imagebox()
 local upicon = wibox.widget.imagebox()
 dnicon:set_image(beautiful.widget_net)
 upicon:set_image(beautiful.widget_netup)
+dnicon:buttons(NETWORK_MON_BUTTON)
+upicon:buttons(NETWORK_MON_BUTTON)
 -- Initialize widget
 local netwidget = wibox.widget.textbox()
+netwidget:buttons(NETWORK_MON_BUTTON)
 -- Register widget
 if nic then
     vicious.register(netwidget, vicious.widgets.net, '<span color="'
@@ -104,29 +113,19 @@ end
 -- }}}
 
 -- {{{ Volume level
-local volicon = wibox.widget.imagebox()
-volicon:set_image(beautiful.widget_vol)
 -- Initialize widgets
+local volicon = wibox.widget.imagebox()
 local volbar    = progress_maker({top=color.green, mid=color.yellow, base=color.blue}, 4)
 local volwidget = wibox.widget.textbox()
--- Progressbar properties
+volicon:set_image(beautiful.widget_vol)
+volicon:buttons(MIXER_BUTTON)
 -- Enable caching
 vicious.cache(vicious.widgets.volume)
 -- Register widgets
 vicious.register(volbar,    vicious.widgets.volume,  "$1",  2, "Master")
 vicious.register(volwidget, vicious.widgets.volume, " $1%", 2, "Master")
-
--- Setup mixer object
---
-local mixer = require('amixer')
-
 -- Register buttons
-
-volbar:buttons(awful.util.table.join(
-   awful.button({ }, 1, sexec("pavucontrol") ),
-   awful.button({ }, 4, function() mixer.up() vicious.force(vicious.widgets.volume) end ),
-   awful.button({ }, 5, function() mixer.down() vicious.force(vicious.widgets.volume) end )
-)) -- Register assigned buttons
+volbar:buttons(MIXER_BUTTON) -- Register assigned buttons
 volwidget:buttons(volbar:buttons())
 -- }}}
 

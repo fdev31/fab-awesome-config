@@ -43,6 +43,8 @@ UT_POSTRUN = ''
 
 WEB_BROWSER = 'firefox'
 FILE_MANAGER = 'thunar'
+NETWORK_MONITOR = 'sudo iptraf-ng'
+PROCESS_MONITOR = 'top'
 
 IS_LAPTOP = os.execute('laptop-detect')
 zic_prompt = true
