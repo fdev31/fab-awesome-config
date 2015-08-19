@@ -43,8 +43,7 @@ cpugraph  = awful.widget.graph()
 -- Graph properties
 cpugraph:set_width(40)
 cpugraph:set_background_color("#494B4F")
-cpugraph:set_color({ type = "linear", from = { 0, 0 }, to = { 0,20 }, stops = { {0, "#FF5656"}, {0.5, "#88A175"}, 
-                    {1, "#AECF96" }}})
+cpugraph:set_color({ type = "linear", from = { 0, 0 }, to = { 50,0 }, stops = { {1, "#000000"}, {0, "#ffffff" }}})
 cpugraph:buttons(PROCESS_MON_BUTTON)
  -- Register widgets
 vicious.register(cpugraph,  vicious.widgets.cpu,      "$1")
