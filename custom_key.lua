@@ -8,43 +8,36 @@ require('custom_conf')
 
 local k = {
 -- CUSTO
-    awful.key({ modkey }, "F2", function() menubar.show() end),
     awful.key({ }, "XF86MonBrightnessUp", backlight.up),
     awful.key({ }, "XF86MonBrightnessDown", backlight.down),
--- move client to tags
-    awful.key({ modkey, "Shift" }, "Right",   function()
-        local i = nil
-        if ( #tags[client.focus.screen] == awful.tag.getidx() ) then
-            i = 1
-        else
-            i = awful.tag.getidx()+1
-        end
-        awful.client.movetotag(tags[client.focus.screen][i])
-        awful.tag.viewnext()
-        client.focus:raise()
-    end),
-    awful.key({ modkey, "Shift" }, "Left",   function()
-        local i = nil
-        if ( 1 == awful.tag.getidx() ) then
-            i = #tags[client.focus.screen]
-        else
-            i = awful.tag.getidx()-1
-        end
-            awful.client.movetotag(tags[client.focus.screen][i])
-            awful.tag.viewprev()
-            client.focus:raise()
-        end
-    ),
-    awful.key({ modkey,           }, "p", function () screen_switched = true awful.screen.focus_relative( 1) end),
-    awful.key({ modkey }, "y", sexec('synapse')),
-    awful.key({ "Control", "Shift"}, "l", sexec('slock')),
 
-    awful.key({ modkey}, "q", function () mymainmenu:show({keygrabber=true}) end),
-    awful.key({ modkey}, "z", function () if( not zic_prompt) then zicmenu:show({keygrabber=true}) end end),
-    awful.key({ modkey }, "t", sexec("thunar") ),
-    awful.key({ modkey }, "w", sexec(WEB_BROWSER) ),
-    awful.key({ modkey }, "e", function() awful.menu.clients({ width=250 }) end ),
-    awful.key({ modkey }, "a", function () drop(fancy_terminal, "bottom", "center", 0.9, 0.9, false) end),
+    awful.key({ modkey ,           } , "Left"  , c_viewprev )         ,
+    awful.key({ modkey ,           } , "Right" , c_viewnext )         ,
+    awful.key({ modkey , "Shift"   } , "Right" , c_grabnext )         ,
+    awful.key({ modkey , "Shift"   } , "Left"  , c_grabprev )         ,
+    awful.key({ modkey             } , "y"     , sexec('synapse'))    ,
+    awful.key({ "Control", "Shift" } , "l"     , sexec('slock'))      ,
+    awful.key({ modkey             } , "t"     , sexec("thunar") )    ,
+    awful.key({ modkey             } , "w"     , sexec(WEB_BROWSER) ) ,
+
+    awful.key({ modkey } , "p", function ()
+        screen_switched = true awful.screen.focus_relative( 1)
+    end),
+    awful.key({ modkey }, "F2", function()
+        menubar.show() 
+    end),
+    awful.key({ modkey }, "q", function ()
+        mymainmenu:show({keygrabber=true}) 
+    end),
+    awful.key({ modkey }, "z", function () 
+        if( not zic_prompt) then zicmenu:show({keygrabber=true}) end 
+    end),
+    awful.key({ modkey }, "e", function()
+        awful.menu.clients({ width=250 }) 
+    end),
+    awful.key({ modkey }, "a", function ()
+        drop(fancy_terminal, "bottom", "center", 0.9, 0.9, false) 
+    end),
     awful.key({ modkey }, "z", function ()
         if ( zic_prompt ) then
             awful.prompt.run({ prompt = "Wasp: " }, mypromptbox[mouse.screen].widget,
