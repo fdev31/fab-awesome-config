@@ -96,7 +96,7 @@ end
 local clay = require('custom_layouts')
 
 -- all used layouts should be defined ONCE here:
-rlayouts = {
+local rlayouts = {
     title  = awful.layout.suit.tile        , 
     titlet = awful.layout.suit.tile.top    , 
     fair   = awful.layout.suit.fair        , 
@@ -117,16 +117,11 @@ layouts = {
 }
 
 -- Tags --
-xtags = {
-    names={},
-    layout={},
-    props={}
-}
 
-_dflt = rlayouts.title
+local _dflt = rlayouts.title
 
 -- user-customizable tags: (name, layout)
-_tags = {
+local tags = {
     {"term"  , rlayouts.titlet , nil } ,
     {"edit"  , _dflt           , nil } ,
     {"web"   , _dflt           , nil } ,
@@ -138,24 +133,29 @@ _tags = {
     {"toto" , _dflt            , {hide=true} } ,
 }
 
+-- END OF CUSTO &  definitions
+--
 -- rtagnums.tag_name == <index of the given tag>
+--
 rtagnums = {}
+local _tags = {
+    names={},
+    layout={},
+    props={}
+}
 
-for i,t in ipairs(_tags) do
-    if t[1] then
-        rtagnums[t[1]] = i
-    end
-    xtags.names[i] = t[1] or i
-    xtags.layout[i] = t[2]
+for i,t in ipairs(tags) do
+    rtagnums[t[1]] = i
+    _tags.names[i] = t[1] or i
+    _tags.layout[i] = t[2]
 end
 
--- END OF CUSTO &  definitions
 -- Create tags:
 for s = 1, scount do -- for each screen
-  local tag = awful.tag(xtags.names, s, xtags.layout) -- create tags
+  local tag = awful.tag(_tags.names, s, _tags.layout) -- create tags
   for i, t in ipairs(tag) do -- set some properties
       awful.tag.setproperty(t , "mwfact" , 0.5)
-      local props = _tags[i][3]
+      local props = tags[i][3]
       if props then
           if type(props) == 'function' then
               props(t)
@@ -169,5 +169,6 @@ for s = 1, scount do -- for each screen
 end
 
 _tags = nil
+tags = nil
 _dflt = nil
 
