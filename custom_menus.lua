@@ -36,10 +36,6 @@ local app_items = {
     { "Gimp", sexec('gimp') },
     { "WeeChat", texec('weechat-curses') },
     { "UrbanTerror", sexec('cd ' .. UT_FOLDER .. ' ; comp-switch off ; ./Quake3-UrT.x86_64 ' .. UT_OPTIONS .. ' ; comp-switch on ; ' .. UT_POSTRUN) },
---    { "Midori", sexec('midori') },
---    { "Firefox", sexec('firefox') },
---    { "Chromium", sexec(WEB_BROWSER) },
---    { "Thunar", sexec('thunar') },
 }
 local connect_items = {
     { "VPN@Wy",  texec('systemctl restart openvpn@wy')  },

@@ -3,7 +3,8 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local wibox = require("wibox")
 
-local progress_maker = function()
+local progress_maker = function(col)
+    local color = col or color
     local bar    = awful.widget.progressbar()
     -- Progressbar properties
     bar:set_vertical(true):set_ticks(true)
@@ -77,7 +78,7 @@ for _, w in pairs(fs) do
   w:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 20 }, stops = { { 0, color.red }, { 0.5, color.green }, { 1, color.yellow }} })
   -- Register buttons
   w:buttons(awful.util.table.join(
-    awful.button({ }, 1, sexec("rox") )
+    awful.button({ }, 1, sexec(FILE_MANAGER) )
   ))
 end -- Enable caching
 vicious.cache(vicious.widgets.fs)
@@ -107,7 +108,7 @@ end
 local volicon = wibox.widget.imagebox()
 volicon:set_image(beautiful.widget_vol)
 -- Initialize widgets
-local volbar    = progress_maker()
+local volbar    = progress_maker({yellow='#555555', green='#00AA00', red='#00FF00'})
 local volwidget = wibox.widget.textbox()
 -- Progressbar properties
 -- Enable caching
@@ -171,13 +172,13 @@ for s = 1, screen.count() do
     if s == S_MAIN then right_layout:add(wibox.widget.systray()) end
 
 -- CUSTO
-    right_layout:add(mytextclock)
-    right_layout:add(memicon)
-    right_layout:add(membar)
-    right_layout:add(separator)
     right_layout:add(volicon)
     right_layout:add(volwidget)
     right_layout:add(volbar)
+    right_layout:add(separator)
+    right_layout:add(mytextclock)
+    right_layout:add(memicon)
+    right_layout:add(membar)
     right_layout:add(separator)
     right_layout:add(dnicon)
     right_layout:add(netwidget)
