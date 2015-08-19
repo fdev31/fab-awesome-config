@@ -51,7 +51,8 @@ terminal = "terminator"
 terminal_run = "terminator -x "
 fancy_terminal = "terminology"
 editor_cmd = 'gvim -reverse '
-color = {red="#FF5555", green="#55FF55", blue="#5555FF", yellow="#FFFF00"}
+
+color = {red="#ec3780", green="#80ecac", blue="#80b5ec", yellow="#eaec80"}
 
 -- END OF CUSTOM DEFINITIONS
 

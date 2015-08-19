@@ -3,13 +3,22 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local wibox = require("wibox")
 
-local progress_maker = function(col)
-    local color = col or color
-    local bar    = awful.widget.progressbar()
+local progress_maker = function(col, width, height, ticks)
+    local color = col or {top=color.red, mid=color.yellow, base=color.green}
+    local bar   = awful.widget.progressbar()
     -- Progressbar properties
-    bar:set_vertical(true):set_ticks(true)
-    bar:set_height(10):set_width(8):set_ticks_size(1)
-    bar:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 20 }, stops = { { 0, color.red }, { 0.5, color.green }, { 1, color.yellow }} })
+    bar:set_vertical(true):set_ticks(ticks)
+    bar:set_height(height or 10):set_width(width or 8):set_ticks_size(1)
+    bar:set_color({
+        type = "linear",
+        from = { 0, 0 },
+        to = { 0, 20},
+        stops = {
+            { 0, color.top },
+            { 0.5, color.mid },
+            { 1, color.base }
+        }
+    })
     return bar
 end
 
@@ -25,17 +34,12 @@ separator:set_image(beautiful.widget_sep)
 -- }}}
 
 -- {{{ CPU usage and temperature
---cpuicon = wibox.widget.imagebox()
---cpuicon:set_image(beautiful.widget_cpu)
 -- Initialize widgets
 cpugraph  = awful.widget.graph()
---tzswidget = wibox.widget.textbox()
 -- Graph properties
 cpugraph:set_width(40)
---cpugraph:set_background_color(beautiful.fg_off_widget)
---cpugraph:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 20 }, stops = { { 0, color.red }, { 0.5, color.green }, { 1, color.blue }}, angle=0}) -- still not working FIXME !
 cpugraph:set_background_color("#494B4F")
-cpugraph:set_color({ type = "linear", from = { 0, 0 }, to = { 0,10 }, stops = { {0, "#FF5656"}, {0.5, "#88A175"}, 
+cpugraph:set_color({ type = "linear", from = { 0, 0 }, to = { 0,20 }, stops = { {0, "#FF5656"}, {0.5, "#88A175"}, 
                     {1, "#AECF96" }}})
 
  -- Register widgets
@@ -43,7 +47,6 @@ vicious.register(cpugraph,  vicious.widgets.cpu,      "$1")
 --vicious.register(tzswidget, vicious.widgets.thermal, " $1C", 19, "thermal_zone0")
 -- }}}
 if IS_LAPTOP then
-
     -- {{{ Battery state
     baticon = wibox.widget.imagebox()
     baticon:set_image(beautiful.widget_bat)
@@ -66,27 +69,23 @@ fsicon = wibox.widget.imagebox()
 fsicon:set_image(beautiful.widget_fs)
 -- Initialize widgets
 fs = {
-  b = awful.widget.progressbar(), r = awful.widget.progressbar(),
-  h = awful.widget.progressbar(), s = awful.widget.progressbar()
+  r = progress_maker(nil, 6),
+  h = progress_maker(nil, 6),
+  t = progress_maker(nil, 6),
 }
 -- Progressbar properties
 for _, w in pairs(fs) do
-  w:set_vertical(true):set_ticks(true)
-  w:set_height(14):set_width(5):set_ticks_size(2)
---  w:set_border_color(beautiful.border_widget)
---  w:set_background_color(beautiful.fg_off_widget)
-  w:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 20 }, stops = { { 0, color.red }, { 0.5, color.green }, { 1, color.yellow }} })
   -- Register buttons
+  w:set_border_color('#333333')
   w:buttons(awful.util.table.join(
     awful.button({ }, 1, sexec(FILE_MANAGER) )
   ))
 end -- Enable caching
 vicious.cache(vicious.widgets.fs)
 -- Register widgets
-vicious.register(fs.b, vicious.widgets.fs, "${/boot used_p}", 599)
 vicious.register(fs.r, vicious.widgets.fs, "${/ used_p}",     599)
 vicious.register(fs.h, vicious.widgets.fs, "${/home used_p}", 599)
-vicious.register(fs.s, vicious.widgets.fs, "${/mnt/storage used_p}", 599)
+vicious.register(fs.t, vicious.widgets.fs, "${/tmp used_p}", 599)
 -- }}}
 
 -- {{{ Network usage
@@ -108,7 +107,7 @@ end
 local volicon = wibox.widget.imagebox()
 volicon:set_image(beautiful.widget_vol)
 -- Initialize widgets
-local volbar    = progress_maker({yellow='#555555', green='#00AA00', red='#00FF00'})
+local volbar    = progress_maker({top=color.green, mid=color.yellow, base=color.blue}, 4)
 local volwidget = wibox.widget.textbox()
 -- Progressbar properties
 -- Enable caching
@@ -173,24 +172,22 @@ for s = 1, screen.count() do
 
 -- CUSTO
     right_layout:add(volicon)
-    right_layout:add(volwidget)
     right_layout:add(volbar)
+    right_layout:add(volwidget)
     right_layout:add(separator)
     right_layout:add(mytextclock)
-    right_layout:add(memicon)
-    right_layout:add(membar)
     right_layout:add(separator)
     right_layout:add(dnicon)
     right_layout:add(netwidget)
     right_layout:add(upicon)
     right_layout:add(separator)
     right_layout:add(fsicon)
-    right_layout:add(fs.s)
-    right_layout:add(fs.h)
     right_layout:add(fs.r)
+    right_layout:add(fs.h)
+    right_layout:add(fs.t)
     right_layout:add(separator)
-    right_layout:add(fs.b)
-    right_layout:add(separator)
+    right_layout:add(memicon)
+    right_layout:add(membar)
     right_layout:add(cpugraph)
 
     if IS_LAPTOP then

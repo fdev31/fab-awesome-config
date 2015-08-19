@@ -5,15 +5,19 @@ require('custom_conf')
 
 local TRANS_LEVEL = 0.8
 
-function ru(c,n,prop)
-        return {
+function ru(c,n,prop, callback)
+        local p = {
             rule = {class=c, name=n},
             properties=prop,
         }
+        if callback then
+            p.callback = callback
+        end
+        return p
 end
 
 local rules = {
-    ru(nil,nil,{
+    ru(nil,nil,{ -- defaults
         focus            = true,
         size_hints_honor = false,
         keys             = clientkeys,
@@ -21,24 +25,16 @@ local rules = {
         border_width     = beautiful.border_width,
         border_color     = beautiful.border_normal
     }),
-    {
-        { name = "alsamixer" },
-        properties = {
-            floating = true,
-            width = 100
-        },
-        callback = awful.placement.under_mouse
-    },
-
-    ru("terminology", nil,         { opacity=TRANS_LEVEL, fixed_trans=true }),
     -- standard rules --
     -- volume properties
-    ru(nil, ".* volume.*",         { floating=true, fullscreen=false}),
-    ru(nil, "alsamixer",           { floating=true, fullscreen=false}),
+    ru("[pP]avucontrol", ".* volume.*",         { floating=true, fullscreen=false}),
+    ru(nil, "alsamixer",           { width=100, floating=true}, awful.placement.under_mouse),
+    -- term
+    ru("terminology", nil,         { opacity=TRANS_LEVEL, fixed_trans=true }),
     -- www 
     ru("Chromium", nil,            { tag=awful.tag.gettags(S_MAIN)[rtagnums.web] }),
     ru("Chromium", ".*- chat -.*", { tag=awful.tag.gettags(S_MAIN)[rtagnums.im] }),
-    ru("Firefox", nil,         { tag=awful.tag.gettags(S_MAIN)[rtagnums.web] }),
+    ru("Firefox", nil,             { tag=awful.tag.gettags(S_MAIN)[rtagnums.web] }),
     -- chat
     ru("Xchat", nil,               { tag=awful.tag.gettags(S_SEC)[rtagnums.im] } ),
     -- medias
