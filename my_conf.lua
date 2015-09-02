@@ -1,8 +1,9 @@
-UT_FOLDER = '/home/fab/grosdisk/home/fab/games/UrbanTerror42'
-UT_OPTIONS = ''
-UT_POSTRUN = ''
+UT_FOLDER = '/home/fab/games/UrbanTerror42'
+UT_OPTIONS = '+connect ut.wyplay.int'
+UT_POSTRUN = 'sh ~/.screenlayout/good.sh'
 
-WEB_BROWSER = 'midori'
+
+WEB_BROWSER = 'palemoon'
 FILE_MANAGER = 'thunar'
 NETWORK_MONITOR = 'sudo iptraf-ng'
 PROCESS_MONITOR = 'top'
