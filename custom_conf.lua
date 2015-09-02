@@ -41,7 +41,7 @@ UT_FOLDER = '/home/fab/grosdisk/home/fab/games/UrbanTerror42'
 UT_OPTIONS = ''
 UT_POSTRUN = ''
 
-WEB_BROWSER = 'firefox'
+WEB_BROWSER = 'midori'
 FILE_MANAGER = 'thunar'
 NETWORK_MONITOR = 'sudo iptraf-ng'
 PROCESS_MONITOR = 'top'
