@@ -172,6 +172,12 @@ end
 _tags = nil
 tags = nil
 
+awful.tag.viewidx(rtagnums.web-1, 1)
+
+if scount > 1 then
+    awful.tag.viewidx(rtagnums.im-1, 2)
+end
+
 
 function c_grabnext(screen)
     return c_viewidx(1, screen, true)
