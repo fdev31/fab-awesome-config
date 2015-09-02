@@ -41,9 +41,10 @@ separator:set_image(beautiful.widget_sep)
 -- Initialize widgets
 cpugraph  = awful.widget.graph()
 -- Graph properties
-cpugraph:set_width(40)
+local w=40
+cpugraph:set_width(w)
 cpugraph:set_background_color("#494B4F")
-cpugraph:set_color({ type = "linear", from = { 0, 0 }, to = { 50,0 }, stops = { {1, "#000000"}, {0, "#ffffff" }}})
+cpugraph:set_color({ type = "linear", from = { 0, -w/8 }, to = { w*0.2, w/2 }, stops = { {1, "#556688"}, {0, "#ff3333" }}})
 cpugraph:buttons(PROCESS_MON_BUTTON)
  -- Register widgets
 vicious.register(cpugraph,  vicious.widgets.cpu,      "$1")
