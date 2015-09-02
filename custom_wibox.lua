@@ -50,13 +50,14 @@ vicious.register(cpugraph,  vicious.widgets.cpu,      "$1")
 -- }}}
 
 if IS_LAPTOP then -- Battery
+    local batname = io.popen("ls -d /sys/class/power_supply/BAT* | sed 's/.*\\///'"):read()
     -- {{{ Battery state
     baticon = wibox.widget.imagebox()
     baticon:set_image(beautiful.widget_bat)
     -- Initialize widget
     batwidget = wibox.widget.textbox()
     -- Register widget
-    vicious.register(batwidget, vicious.widgets.bat, "$1$2%", 61, "BAT0")
+    vicious.register(batwidget, vicious.widgets.bat, "$1$2%", 61, batname)
     -- }}}
 end
 
