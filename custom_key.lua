@@ -3,10 +3,14 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local wibox = require("wibox")
 local menubar = require("menubar")
+local mixer = require('amixer')
 require('custom_conf')
 
 
 local k = {
+    awful.key({ }, "XF86AudioLowerVolume", function() mixer.down() vicious.force(vicious.widgets.volume) end),
+    awful.key({ }, "XF86AudioRaiseVolume", function() mixer.up() vicious.force(vicious.widgets.volume) end),
+    awful.key({ }, "XF86AudioMute", mixer.toggle),
 -- CUSTO
     awful.key({ }, "XF86MonBrightnessUp", backlight.up),
     awful.key({ }, "XF86MonBrightnessDown", backlight.down),
