@@ -65,6 +65,7 @@ menu_items = {
     { "zic", zmitems},
     { 'screen', screen_items},
     { "net", netctl_menu },
+    { "quit", awesome.quit },
 }
 if IS_LAPTOP then
     table.insert(menu_items, 3, {"light", light_levels})
