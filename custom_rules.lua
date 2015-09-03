@@ -38,6 +38,7 @@ local rules = {
     ru("Midori", nil,              { tag=awful.tag.gettags(S_MAIN)[rtagnums.web] }),
     -- chat
     ru("Xchat", nil,               { tag=awful.tag.gettags(S_SEC)[rtagnums.im] } ),
+    ru("Thunderbird", nil,         { tag=awful.tag.gettags(S_SEC)[rtagnums.im] } ),
     -- medias
     ru("Audacious", nil,           { tag=awful.tag.gettags(S_SEC)[rtagnums.media] } ),
     -- edit
