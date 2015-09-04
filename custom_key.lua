@@ -20,7 +20,7 @@ local k = {
     awful.key({ modkey , "Shift"   } , "Right" , c_grabnext )         ,
     awful.key({ modkey , "Shift"   } , "Left"  , c_grabprev )         ,
     awful.key({ modkey             } , "y"     , sexec('synapse'))    ,
-    awful.key({ "Control", "Shift" } , "l"     , sexec('slock'))      ,
+    awful.key({ "Control", "Shift" } , "l"     , sexec('screenlocker.sh')) ,
     awful.key({ modkey             } , "t"     , sexec(FILE_MANAGER) )    ,
     awful.key({ modkey             } , "w"     , sexec(WEB_BROWSER) ) ,
 
