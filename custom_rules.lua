@@ -36,6 +36,7 @@ local rules = {
     ru("Chromium", ".*- chat -.*", { tag=awful.tag.gettags(S_MAIN)[rtagnums.im] }),
     ru("Firefox", nil,             { tag=awful.tag.gettags(S_MAIN)[rtagnums.web] }),
     ru("Midori", nil,              { tag=awful.tag.gettags(S_MAIN)[rtagnums.web] }),
+    ru("Pale moon", nil,           { tag=awful.tag.gettags(S_MAIN)[rtagnums.web] }),
     -- chat
     ru("Xchat", nil,               { tag=awful.tag.gettags(S_SEC)[rtagnums.im] } ),
     ru("Thunderbird", nil,         { tag=awful.tag.gettags(S_SEC)[rtagnums.im] } ),
