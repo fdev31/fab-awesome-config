@@ -23,7 +23,7 @@ beautiful.bg_urgent = beautiful.bg_normal
 -- }}}
 
 -- {{{ Borders
-beautiful.border_width  = 1
+beautiful.border_width  = 0
 beautiful.border_white  = "#6F6F6F"
 beautiful.border_focus = "#CD0000"
 beautiful.border_normal = beautiful.bg_normal
