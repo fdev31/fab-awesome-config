@@ -82,19 +82,6 @@ end
      awful.util.spawn_with_shell('setxkbmap -option compose:menu')
  end
 
-local _cmds = io.open(home.."/.config/awesome/commands.txt", "r")
--- TODO: manage PIDs to handle restart
-if _cmds then
-    while true do
-        line = _cmds:read()
-        if line == nil then
-            break
-        end
-        awful.util.spawn_with_shell(line .. " &")
-    end
-    _cmds = nil
-end
-
 -- handy functions --
 --
  -- shell exec
