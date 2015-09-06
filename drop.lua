@@ -39,6 +39,7 @@ local drop = {} -- module scratch.drop
 
 local dropdown = {}
 
+
 -- Create a new window for the drop-down application when it doesn't
 -- exist, or toggle between hidden and visible states when it does
 function toggle(prog, vert, horiz, width, height, sticky, screen)
@@ -48,6 +49,7 @@ function toggle(prog, vert, horiz, width, height, sticky, screen)
     height = height or 0.25
     sticky = sticky or false
     screen = screen or capi.mouse.screen
+    local screen = 1 -- force single screen usage
 
     -- Determine signal usage in this version of awesome
     local attach_signal = capi.client.connect_signal    or capi.client.add_signal
