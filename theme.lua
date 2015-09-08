@@ -101,6 +101,7 @@ theme.font      = "Profont 8"
 theme.taglist_squares_sel   = confdir .. "/icons/taglist/sel.png"
 theme.taglist_squares_unsel = confdir .. "/icons/taglist/unsel.png"
 theme.layout_gradient       = confdir .. "/icons/layouts/gradient.png"
+theme.bg_focus      = theme.bg_normal
 
 theme.widget_cpu    = confdir .. "/icons/cpu.png"
 theme.widget_bat    = confdir .. "/icons/bat.png"
