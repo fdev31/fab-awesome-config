@@ -44,7 +44,7 @@ cpugraph  = awful.widget.graph()
 local w=40
 cpugraph:set_width(w)
 cpugraph:set_background_color("#494B4F")
-cpugraph:set_color({ type = "linear", from = { 0, -w/8 }, to = { w*0.2, w/2 }, stops = { {1, "#556688"}, {0, "#ff3333" }}})
+cpugraph:set_color({ type = "linear", from = { 0, -w/8 }, to = { w*0.2, w/2 }, stops = { {1, "#7799DD"}, {0, "#ff3333" }}})
 cpugraph:buttons(PROCESS_MON_BUTTON)
  -- Register widgets
 vicious.register(cpugraph,  vicious.widgets.cpu,      "$1")
@@ -176,8 +176,8 @@ for s = 1, screen.count() do
 
     right_layout:add(separator)
 
-    right_layout:add(cpugraph)
     right_layout:add(membar)
+    right_layout:add(cpugraph)
     if IS_LAPTOP then
         right_layout:add(baticon)
         right_layout:add(batwidget)

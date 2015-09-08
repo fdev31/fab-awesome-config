@@ -1,173 +1,121 @@
-local beautiful = require("beautiful")
-local awful = require("awful")
+---------------------------
+-- Default awesome theme --
+---------------------------
 
-beautiful.init("/usr/share/awesome/themes/default/theme.lua")
+theme = {}
 
--- THEME DEFINITION
+theme.font          = "sans 8"
 
-beautiful.confdir       = awful.util.getdir("config")
-beautiful.wallpaper = '/home/fab/Images/awesome_bg.jpg'
--- }}}
+theme.bg_normal     = "#222222"
+theme.bg_focus      = "#535d6c"
+theme.bg_urgent     = "#ff0000"
+theme.bg_minimize   = "#444444"
+theme.bg_systray    = theme.bg_normal
 
+theme.fg_normal     = "#aaaaaa"
+theme.fg_focus      = "#ffffff"
+theme.fg_urgent     = "#ffffff"
+theme.fg_minimize   = "#ffffff"
 
--- {{{ Styles
-beautiful.font      = "Profont 8"
+theme.border_width  = 1
+theme.border_normal = "#000000"
+theme.border_focus  = "#535d6c"
+theme.border_marked = "#91231c"
 
--- {{{ Colors
-beautiful.fg_normal = "#DCDCCC"
-beautiful.fg_focus  = "#F0DFAF"
-beautiful.fg_urgent = "#CC9392"
-beautiful.bg_normal = "#3F3F3F"
-beautiful.bg_focus  = "#1E2320"
-beautiful.bg_urgent = beautiful.bg_normal
--- }}}
+-- There are other variable sets
+-- overriding the default one when
+-- defined, the sets are:
+-- taglist_[bg|fg]_[focus|urgent|occupied|empty]
+-- tasklist_[bg|fg]_[focus|urgent]
+-- titlebar_[bg|fg]_[normal|focus]
+-- tooltip_[font|opacity|fg_color|bg_color|border_width|border_color]
+-- mouse_finder_[color|timeout|animate_timeout|radius|factor]
+-- Example:
+--theme.taglist_bg_focus = "#ff0000"
 
--- {{{ Borders
-beautiful.border_width  = 0
-beautiful.border_white  = "#6F6F6F"
-beautiful.border_focus = "#CD0000"
-beautiful.border_normal = beautiful.bg_normal
-beautiful.border_marked = beautiful.fg_urgent
--- }}}
+-- Display the taglist squares
+theme.taglist_squares_sel   = "/usr/share/awesome/themes/default/taglist/squarefw.png"
+theme.taglist_squares_unsel = "/usr/share/awesome/themes/default/taglist/squarew.png"
 
--- {{{ Titlebars
-beautiful.titlebar_bg_focus  = beautiful.bg_normal
-beautiful.titlebar_bg_normal = beautiful.bg_normal
--- beautiful.titlebar_[normal|focus]
--- }}}
+-- Variables set for theming the menu:
+-- menu_[bg|fg]_[normal|focus]
+-- menu_[border_color|border_width]
+theme.menu_submenu_icon = "/usr/share/awesome/themes/default/submenu.png"
+theme.menu_height = 15
+theme.menu_width  = 100
 
--- {{{ Widgets
-beautiful.fg_widget        = "#AECF96"
-beautiful.fg_center_widget = "#88A175"
-beautiful.fg_end_widget    = "#FF5656"
-beautiful.fg_off_widget    = "#494B4F"
-beautiful.fg_netup_widget  = "#7F9F7F"
-beautiful.fg_netdn_widget  = beautiful.fg_urgent
-beautiful.bg_widget        = beautiful.bg_normal
-beautiful.border_widget    = beautiful.bg_normal
--- }}}
+-- You can add as many variables as
+-- you wish and access them by using
+-- beautiful.variable in your rc.lua
+--theme.bg_widget = "#cc0000"
 
--- {{{ Mouse finder
-beautiful.mouse_finder_color = beautiful.fg_urgent
--- beautiful.mouse_finder_[timeout|animate_timeout|radius|factor]
--- }}}
+-- Define the image to load
+theme.titlebar_close_button_normal = "/usr/share/awesome/themes/default/titlebar/close_normal.png"
+theme.titlebar_close_button_focus  = "/usr/share/awesome/themes/default/titlebar/close_focus.png"
 
--- {{{ Tooltips
--- beautiful.tooltip_[font|opacity|fg_color|bg_color|border_width|border_color]
--- }}}
+theme.titlebar_ontop_button_normal_inactive = "/usr/share/awesome/themes/default/titlebar/ontop_normal_inactive.png"
+theme.titlebar_ontop_button_focus_inactive  = "/usr/share/awesome/themes/default/titlebar/ontop_focus_inactive.png"
+theme.titlebar_ontop_button_normal_active = "/usr/share/awesome/themes/default/titlebar/ontop_normal_active.png"
+theme.titlebar_ontop_button_focus_active  = "/usr/share/awesome/themes/default/titlebar/ontop_focus_active.png"
 
--- {{{ Taglist and Tasklist
--- beautiful.[taglist|tasklist]_[bg|fg]_[focus|urgent]
--- }}}
+theme.titlebar_sticky_button_normal_inactive = "/usr/share/awesome/themes/default/titlebar/sticky_normal_inactive.png"
+theme.titlebar_sticky_button_focus_inactive  = "/usr/share/awesome/themes/default/titlebar/sticky_focus_inactive.png"
+theme.titlebar_sticky_button_normal_active = "/usr/share/awesome/themes/default/titlebar/sticky_normal_active.png"
+theme.titlebar_sticky_button_focus_active  = "/usr/share/awesome/themes/default/titlebar/sticky_focus_active.png"
 
--- {{{ Menu
--- beautiful.menu_[bg|fg]_[normal|focus]
--- beautiful.menu_[height|width|border_color|border_width]
--- }}}
--- }}}
+theme.titlebar_floating_button_normal_inactive = "/usr/share/awesome/themes/default/titlebar/floating_normal_inactive.png"
+theme.titlebar_floating_button_focus_inactive  = "/usr/share/awesome/themes/default/titlebar/floating_focus_inactive.png"
+theme.titlebar_floating_button_normal_active = "/usr/share/awesome/themes/default/titlebar/floating_normal_active.png"
+theme.titlebar_floating_button_focus_active  = "/usr/share/awesome/themes/default/titlebar/floating_focus_active.png"
 
+theme.titlebar_maximized_button_normal_inactive = "/usr/share/awesome/themes/default/titlebar/maximized_normal_inactive.png"
+theme.titlebar_maximized_button_focus_inactive  = "/usr/share/awesome/themes/default/titlebar/maximized_focus_inactive.png"
+theme.titlebar_maximized_button_normal_active = "/usr/share/awesome/themes/default/titlebar/maximized_normal_active.png"
+theme.titlebar_maximized_button_focus_active  = "/usr/share/awesome/themes/default/titlebar/maximized_focus_active.png"
 
--- {{{ Icons
---
--- {{{ Taglist icons
-beautiful.taglist_squares_sel   = beautiful.confdir .. "/icons/taglist/sel.png"
-beautiful.taglist_squares_unsel = beautiful.confdir .. "/icons/taglist/unsel.png"
---beautiful.taglist_squares_resize = "false"
--- }}}
+theme.wallpaper = "/usr/share/awesome/themes/default/background.png"
 
--- {{{ Misc icons
---beautiful.awesome_icon           = beautiful.confdir .. "/icons/awesome.png"
---beautiful.menu_submenu_icon      = "/usr/share/awesome/themes/default/submenu.png"
---beautiful.tasklist_floating_icon = "/usr/share/awesome/themes/default/tasklist/floatingw.png"
--- }}}
+-- You can use your own layout icons like this:
+theme.layout_fairh = "/usr/share/awesome/themes/default/layouts/fairhw.png"
+theme.layout_fairv = "/usr/share/awesome/themes/default/layouts/fairvw.png"
+theme.layout_floating  = "/usr/share/awesome/themes/default/layouts/floatingw.png"
+theme.layout_magnifier = "/usr/share/awesome/themes/default/layouts/magnifierw.png"
+theme.layout_max = "/usr/share/awesome/themes/default/layouts/maxw.png"
+theme.layout_fullscreen = "/usr/share/awesome/themes/default/layouts/fullscreenw.png"
+theme.layout_tilebottom = "/usr/share/awesome/themes/default/layouts/tilebottomw.png"
+theme.layout_tileleft   = "/usr/share/awesome/themes/default/layouts/tileleftw.png"
+theme.layout_tile = "/usr/share/awesome/themes/default/layouts/tilew.png"
+theme.layout_tiletop = "/usr/share/awesome/themes/default/layouts/tiletopw.png"
+theme.layout_spiral  = "/usr/share/awesome/themes/default/layouts/spiralw.png"
+theme.layout_dwindle = "/usr/share/awesome/themes/default/layouts/dwindlew.png"
 
--- {{{ Layout icons
-beautiful.layout_gradient       = beautiful.confdir .. "/icons/layouts/gradient.png"
-beautiful.layout_tile       = beautiful.confdir .. "/icons/layouts/tile.png"
-beautiful.layout_tileleft   = beautiful.confdir .. "/icons/layouts/tileleft.png"
-beautiful.layout_tilebottom = beautiful.confdir .. "/icons/layouts/tilebottom.png"
-beautiful.layout_tiletop    = beautiful.confdir .. "/icons/layouts/tiletop.png"
-beautiful.layout_fairv      = beautiful.confdir .. "/icons/layouts/fairv.png"
-beautiful.layout_fairh      = beautiful.confdir .. "/icons/layouts/fairh.png"
-beautiful.layout_spiral     = beautiful.confdir .. "/icons/layouts/spiral.png"
-beautiful.layout_dwindle    = beautiful.confdir .. "/icons/layouts/dwindle.png"
-beautiful.layout_max        = beautiful.confdir .. "/icons/layouts/max.png"
-beautiful.layout_fullscreen = beautiful.confdir .. "/icons/layouts/fullscreen.png"
-beautiful.layout_magnifier  = beautiful.confdir .. "/icons/layouts/magnifier.png"
-beautiful.layout_floating   = beautiful.confdir .. "/icons/layouts/floating.png"
--- }}}
+theme.awesome_icon = "/usr/share/awesome/icons/awesome16.png"
 
--- {{{ Widget icons
-beautiful.widget_cpu    = beautiful.confdir .. "/icons/cpu.png"
-beautiful.widget_bat    = beautiful.confdir .. "/icons/bat.png"
-beautiful.widget_mem    = beautiful.confdir .. "/icons/mem.png"
-beautiful.widget_fs     = beautiful.confdir .. "/icons/disk.png"
-beautiful.widget_net    = beautiful.confdir .. "/icons/down.png"
-beautiful.widget_netup  = beautiful.confdir .. "/icons/up.png"
-beautiful.widget_wifi   = beautiful.confdir .. "/icons/wifi.png"
-beautiful.widget_mail   = beautiful.confdir .. "/icons/mail.png"
-beautiful.widget_vol    = beautiful.confdir .. "/icons/vol.png"
-beautiful.widget_org    = beautiful.confdir .. "/icons/cal.png"
-beautiful.widget_date   = beautiful.confdir .. "/icons/time.png"
-beautiful.widget_crypto = beautiful.confdir .. "/icons/crypto.png"
-beautiful.widget_sep    = beautiful.confdir .. "/icons/separator.png"
-beautiful.widget_temp   = beautiful.confdir .. "/icons/temp.png"
--- }}}
+-- Define the icon theme for application icons. If not set then the icons 
+-- from /usr/share/icons and /usr/share/icons/hicolor will be used.
+theme.icon_theme = nil
+theme.border_width = 0
+theme.wallpaper = '/home/fab/Images/awesome_bg.jpg'
+local confdir       = os.getenv('HOME') .. '/.config/awesome'
+theme.font      = "Profont 8"
+theme.taglist_squares_sel   = confdir .. "/icons/taglist/sel.png"
+theme.taglist_squares_unsel = confdir .. "/icons/taglist/unsel.png"
+theme.layout_gradient       = confdir .. "/icons/layouts/gradient.png"
 
--- {{{ Titlebar icons
-beautiful.titlebar_close_button_focus  = beautiful.confdir .. "/icons/titlebar/close_focus.png"
-beautiful.titlebar_close_button_normal = beautiful.confdir .. "/icons/titlebar/close_normal.png"
+theme.widget_cpu    = confdir .. "/icons/cpu.png"
+theme.widget_bat    = confdir .. "/icons/bat.png"
+theme.widget_mem    = confdir .. "/icons/mem.png"
+theme.widget_fs     = confdir .. "/icons/disk.png"
+theme.widget_net    = confdir .. "/icons/down.png"
+theme.widget_netup  = confdir .. "/icons/up.png"
+theme.widget_wifi   = confdir .. "/icons/wifi.png"
+theme.widget_mail   = confdir .. "/icons/mail.png"
+theme.widget_vol    = confdir .. "/icons/vol.png"
+theme.widget_org    = confdir .. "/icons/cal.png"
+theme.widget_date   = confdir .. "/icons/time.png"
+theme.widget_crypto = confdir .. "/icons/crypto.png"
+theme.widget_sep    = confdir .. "/icons/separator.png"
+theme.widget_temp   = confdir .. "/icons/temp.png"
 
-beautiful.titlebar_ontop_button_focus_active    = beautiful.confdir .. "/icons/titlebar/ontop_focus_active.png"
-beautiful.titlebar_ontop_button_normal_active   = beautiful.confdir .. "/icons/titlebar/ontop_normal_active.png"
-beautiful.titlebar_ontop_button_focus_inactive  = beautiful.confdir .. "/icons/titlebar/ontop_focus_inactive.png"
-beautiful.titlebar_ontop_button_normal_inactive = beautiful.confdir .. "/icons/titlebar/ontop_normal_inactive.png"
-
-beautiful.titlebar_sticky_button_focus_active    = beautiful.confdir .. "/icons/titlebar/sticky_focus_active.png"
-beautiful.titlebar_sticky_button_normal_active   = beautiful.confdir .. "/icons/titlebar/sticky_normal_active.png"
-beautiful.titlebar_sticky_button_focus_inactive  = beautiful.confdir .. "/icons/titlebar/sticky_focus_inactive.png"
-beautiful.titlebar_sticky_button_normal_inactive = beautiful.confdir .. "/icons/titlebar/sticky_normal_inactive.png"
-
-beautiful.titlebar_floating_button_focus_active    = beautiful.confdir .. "/icons/titlebar/floating_focus_active.png"
-beautiful.titlebar_floating_button_normal_active   = beautiful.confdir .. "/icons/titlebar/floating_normal_active.png"
-beautiful.titlebar_floating_button_focus_inactive  = beautiful.confdir .. "/icons/titlebar/floating_focus_inactive.png"
-beautiful.titlebar_floating_button_normal_inactive = beautiful.confdir .. "/icons/titlebar/floating_normal_inactive.png"
-
-beautiful.titlebar_maximized_button_focus_active    = beautiful.confdir .. "/icons/titlebar/maximized_focus_active.png"
-beautiful.titlebar_maximized_button_normal_active   = beautiful.confdir .. "/icons/titlebar/maximized_normal_active.png"
-beautiful.titlebar_maximized_button_focus_inactive  = beautiful.confdir .. "/icons/titlebar/maximized_focus_inactive.png"
-beautiful.titlebar_maximized_button_normal_inactive = beautiful.confdir .. "/icons/titlebar/maximized_normal_inactive.png"
--- }}}
--- }}}
-
-
-local naughty = require("naughty")
-naughty.config.presets.chat = naughty.config.presets.online
-naughty.config.presets.away = {
-    bg = "#eb4b1380",
-    fg = "#ffffff",
-}
-naughty.config.presets.xa = {
-    bg = "#65000080",
-    fg = "#ffffff",
-}
-naughty.config.presets.dnd = {
-    bg = "#65340080",
-    fg = "#ffffff",
-}
-naughty.config.presets.invisible = {
-    bg = "#ffffff80",
-    fg = "#000000",
-}
-naughty.config.presets.offline = {
-    bg = "#64636380",
-    fg = "#ffffff",
-}
-naughty.config.presets.requested = naughty.config.presets.offline
-naughty.config.presets.error = {
-    bg = "#ff000080",
-    fg = "#ffffff",
-}
-
-naughty.config.icon_dirs = { os.getenv("HOME") .. ".config/awesome/icons/",  "/usr/share/pixmaps/" }
-
+return theme
+-- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:textwidth=80
