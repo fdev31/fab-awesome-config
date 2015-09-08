@@ -58,7 +58,9 @@ local rules = {
     -- hacks --
     -- flashplugin
     ru("Exe", "exe",               { floating=true, fullscreen=true } ),
-    ru("Plugin-container", nil,    { floating=true, fullscreen=true } )
+    ru("Plugin-container", nil,    { floating=true, fullscreen=true } ),
+    -- logging xterm
+    ru('TermLog', nil, {tag=awful.tag.gettags(S_SEC)[rtagnums.logs], opacity=0.7 } ),
 }
 
 --client.connect_signal("unfocus", function (c) c.opacity = TRANS_LEVEL end)

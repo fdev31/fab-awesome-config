@@ -29,13 +29,13 @@ local tags = {
     {"edit"  , _.DEFAULT , nil        },
     {"web"   , _.DEFAULT , nil        },
     {"im"    , _.gradied , {ncol=2}   },
+    {"logs"  , _.DEFAULT , {ncol=1, mwfact=0.5}   },
     {"fm"    , _.DEFAULT , nil        },
     {"gfx"   , _.mag     , nil        },
     {"media" , _.DEFAULT , nil        },
     {"toto"  , _.DEFAULT , {hide=true}}
 }
 _ = nil
-
 
 UT_FOLDER = '/home/fab/grosdisk/home/fab/games/UrbanTerror42'
 UT_OPTIONS = ''
