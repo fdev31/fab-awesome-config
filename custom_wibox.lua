@@ -169,29 +169,37 @@ for s = 1, screen.count() do
     local right_layout = wibox.layout.fixed.horizontal()
 -- CUSTO
     right_layout:add(separator)
+
     right_layout:add(dnicon)
     right_layout:add(netwidget)
     right_layout:add(upicon)
 
-    right_layout:add(cpugraph)
-    right_layout:add(membar)
     right_layout:add(separator)
 
+    right_layout:add(cpugraph)
+    right_layout:add(membar)
     if IS_LAPTOP then
         right_layout:add(baticon)
         right_layout:add(batwidget)
     end
+    right_layout:add(separator)
 
     right_layout:add(volicon)
     right_layout:add(volbar)
     right_layout:add(volwidget)
+
+    right_layout:add(separator)
+
     right_layout:add(fsicon)
     right_layout:add(fs.r)
     right_layout:add(fs.h)
     right_layout:add(fs.t)
 
     right_layout:add(separator)
+
     right_layout:add(mytextclock)
+
+    right_layout:add(separator)
 
     if s == S_MAIN then right_layout:add(wibox.widget.systray()) end
 
