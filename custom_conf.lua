@@ -123,9 +123,9 @@ end
 
 -- END OF CUSTO &  definitions
 --
--- rtagnums.tag_name == <index of the given tag>
+-- tagidx.tag_name == <index of the given tag>
 --
-rtagnums = {}
+tagidx = {}
 local _tags = {
     names={},
     layout={},
@@ -133,7 +133,7 @@ local _tags = {
 }
 
 for i,t in ipairs(tags) do
-    rtagnums[t[1]] = i
+    tagidx[t[1]] = i
     _tags.names[i] = t[1] or i
     _tags.layout[i] = t[2]
 end
@@ -159,10 +159,10 @@ end
 _tags = nil
 tags = nil
 
-awful.tag.viewidx(rtagnums.web-1, 1)
+awful.tag.viewidx(tagidx.web-1, 1)
 
 if scount > 1 then
-    awful.tag.viewidx(rtagnums.im-1, 2)
+    awful.tag.viewidx(tagidx.im-1, 2)
 end
 
 
