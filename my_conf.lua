@@ -14,6 +14,8 @@ terminal = "terminator"
 terminal_run = "terminator -x "
 fancy_terminal = "terminology"
 editor_cmd = 'gvim -reverse '
+-- nic='eth0'
+nic = io.popen("netstat -rn |grep ^0.0.0.0 |awk '{print $8}'"):read()
 
 -- Tags --
 local awful = require("awful")

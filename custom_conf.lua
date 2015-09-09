@@ -4,7 +4,6 @@ local awful = require("awful")
 vicious = require("vicious")
 drop = require("drop")
 
-nic = io.popen("netstat -rn |grep ^0.0.0.0 |awk '{print $8}'"):read()
 home   = os.getenv("HOME")
 screen_switched = false
 
