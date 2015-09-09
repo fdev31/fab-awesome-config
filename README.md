@@ -75,6 +75,8 @@ Most default shortcuts available, plus:
 
 ## Development platform
 
+Awesome 3.5.6
+
 ### Hardwares
 
 - Laptop with optional second screen
