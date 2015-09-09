@@ -49,6 +49,7 @@ local connect_items = {
     { "Ssh ui",  texec('ssh ui.static.wyplay.int')  },
     { "Serial @38.4",  texec('sudo screen /dev/ttyUSB0 38400')  },
     { "Serial @115.2", texec('sudo screen /dev/ttyUSB0 115200') },
+    { "Telnet STB",    texec('telnet $(cat ~/tmp/STB_IP.txt)') },
 }
 local screen_items = {
     {"WinInfo", texec("xproptitle")},
