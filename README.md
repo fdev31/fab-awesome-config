@@ -19,7 +19,7 @@ while offering simpler and faster access to most common configuration items.
     - core (generic) features in `custom_*.lua` files
     - configuration in `my_*.lua` files
 - nice theme & shortcuts based on default theme
-- compton (surface compositor) integration (sample file) provided
+- compton surface compositor integration (sample file provided)
 - dual screen frendly
 - laptop friendly
     - backlight support
