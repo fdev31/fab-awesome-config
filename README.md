@@ -3,6 +3,10 @@
 Mostly re-using awesome's default shortcuts & theme, this is an attempt to add more modularity
 while offering simpler and faster access to most common configuration items.
 
+![screenshot](./raw/master/shot1.jpg)
+
+![screenshot](./raw/master/shot2.jpg)
+
 ## Features
 
 - optional vicious widgets 
@@ -16,14 +20,15 @@ while offering simpler and faster access to most common configuration items.
 - hidden-tag ready functions
 - friendlier configuration
     - convenient shortcuts
-    - core (generic) features in `custom_*.lua` files
     - configuration in `my_*.lua` files
-- nice theme & shortcuts based on default theme
+    - generic features in `custom_*.lua` files
+- nice theme & shortcuts based on default theme, 
 - compton surface compositor integration (sample file provided)
 - dual screen frendly
 - laptop friendly
     - backlight support
 - sound keys support
+- one more layout, vertical screen friendly
 
 ## Keyboard shortcuts
 
