@@ -25,6 +25,8 @@ while offering simpler and faster access to most common configuration items.
 
 ## Keyboard shortcuts
 
+Most default shortcuts available, plus:
+
 `Mod+A`
     Shell popup
 
