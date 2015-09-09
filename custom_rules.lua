@@ -42,7 +42,7 @@ local rules = {
     ru("Thunderbird", nil,         { tag=awful.tag.gettags(S_SEC)[tagidx.im] } ),
     -- medias
     ru("Audacious", nil,           { tag=awful.tag.gettags(S_SEC)[tagidx.media] } ),
-    ru("Midori", ".* – Rdio",      { tag=awful.tag.gettags(S_SEC)[rtagnums.web] } ),
+    ru("Midori", ".* – Rdio",      { tag=awful.tag.gettags(S_SEC)[tagidx.web] } ),
 
     -- edit
     ru("Gvim", nil,                { tag=awful.tag.gettags(S_MAIN)[tagidx.edit] } ),
