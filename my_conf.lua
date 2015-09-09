@@ -7,6 +7,7 @@ FILE_MANAGER = 'thunar'
 NETWORK_MONITOR = 'sudo iptraf-ng'
 PROCESS_MONITOR = 'top'
 
+-- misc settings
 IS_LAPTOP = os.execute('laptop-detect')
 zic_prompt = true
 editor = os.getenv("EDITOR") or "nano"
@@ -14,8 +15,6 @@ terminal = "terminator"
 terminal_run = "terminator -x "
 fancy_terminal = "terminology"
 editor_cmd = 'gvim -reverse '
--- nic='eth0'
-nic = io.popen("netstat -rn |grep ^0.0.0.0 |awk '{print $8}'"):read()
 
 -- Tags --
 local awful = require("awful")
@@ -55,5 +54,12 @@ tags = {
     {"toto"  , _.DEFAULT , {hide=true}}
 }
 _ = nil
+
+-- wibox widgets
+ENABLE_NET_WID    = true
+ENABLE_CPURAM_WID = true
+ENABLE_VOL_WID    = true
+ENABLE_HDD_WID    = true
+ENABLE_DATE_WID   = true
 
 return _ENV

@@ -7,7 +7,11 @@ netctl_menu = {}
 netctl = io.popen('netctl list')
 for line in netctl:lines() do
     line = line:sub(3)
-    table.insert( netctl_menu, { line, sexec('sudo ifconfig w0 down ; sudo netctl stop-all && sudo netctl start '..line) } )
+    table.insert( netctl_menu, { line, function()
+        exec('sudo ifconfig w0 down ; sudo netctl stop-all && sudo netctl start '..line)
+        set_nic()
+    end
+    } )
 end
 netctl:close()
 

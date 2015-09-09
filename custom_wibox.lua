@@ -3,6 +3,7 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local wibox = require("wibox")
 -- Setup mixer object
+--
 local mixer = require('amixer')
 
 local PROCESS_MON_BUTTON = awful.util.table.join( awful.button({ }, 1, texec(PROCESS_MONITOR) ))
@@ -107,9 +108,12 @@ local netwidget = wibox.widget.textbox()
 netwidget:buttons(NETWORK_MON_BUTTON)
 -- Register widget
 if nic then
-    vicious.register(netwidget, vicious.widgets.net, '<span color="'
-      .. color.yellow .. '">${'..nic..' down_kb}</span> <span color="'
-      .. color.green ..'">${'..nic..' up_kb}</span>', 3)
+    vicious.register(netwidget, vicious.widgets.net, function(wid, args) 
+        return'<span color="'
+          .. color.yellow .. '">'..args['{'..nic..' down_kb}']..'</span> <span color="'
+          .. color.green ..'">'..args['{'..nic..' up_kb}']..'</span>'
+      end
+      , 3)
 end
 -- }}}
 
@@ -170,36 +174,42 @@ for s = 1, screen.count() do
 -- CUSTO
     right_layout:add(separator)
 
-    right_layout:add(dnicon)
-    right_layout:add(netwidget)
-    right_layout:add(upicon)
-
-    right_layout:add(separator)
-
-    right_layout:add(membar)
-    right_layout:add(cpugraph)
-    if IS_LAPTOP then
-        right_layout:add(baticon)
-        right_layout:add(batwidget)
+    if ENABLE_NET_WID then
+        right_layout:add(dnicon)
+        right_layout:add(netwidget)
+        right_layout:add(upicon)
+        right_layout:add(separator)
     end
-    right_layout:add(separator)
 
-    right_layout:add(volicon)
-    right_layout:add(volbar)
-    right_layout:add(volwidget)
+    if ENABLE_CPURAM_WID then
+        right_layout:add(membar)
+        right_layout:add(cpugraph)
+        if IS_LAPTOP then
+            right_layout:add(baticon)
+            right_layout:add(batwidget)
+        end
+        right_layout:add(separator)
+    end
 
-    right_layout:add(separator)
+    if ENABLE_VOL_WID then
+        right_layout:add(volicon)
+        right_layout:add(volbar)
+        right_layout:add(volwidget)
+        right_layout:add(separator)
+    end
 
-    right_layout:add(fsicon)
-    right_layout:add(fs.r)
-    right_layout:add(fs.h)
-    right_layout:add(fs.t)
+    if ENABLE_HDD_WID then
+        right_layout:add(fsicon)
+        right_layout:add(fs.r)
+        right_layout:add(fs.h)
+        right_layout:add(fs.t)
+        right_layout:add(separator)
+    end
 
-    right_layout:add(separator)
-
-    right_layout:add(mytextclock)
-
-    right_layout:add(separator)
+    if ENABLE_DATE_WID then
+        right_layout:add(mytextclock)
+        right_layout:add(separator)
+    end
 
     if s == S_MAIN then right_layout:add(wibox.widget.systray()) end
 
