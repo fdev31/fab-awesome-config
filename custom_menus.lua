@@ -50,6 +50,7 @@ local connect_items = {
     { "Serial @38.4",  texec('sudo screen /dev/ttyUSB0 38400')  },
     { "Serial @115.2", texec('sudo screen /dev/ttyUSB0 115200') },
     { "Telnet STB",    texec('telnet $(cat ~/tmp/STB_IP.txt)') },
+    { "WebConsole",    texec('chromium http://$(cat ~/tmp/STB_IP.txt):8080/') },
 }
 local screen_items = {
     {"WinInfo", texec("xproptitle")},
