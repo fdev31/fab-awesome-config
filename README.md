@@ -20,6 +20,8 @@ while offering simpler and faster access to most common configuration items.
     - configuration in `my_*.lua` files
 - nice theme & shortcuts based on default theme
 - compton (surface compositor) integration (sample file) provided
+- dual screen frendly
+- laptop friendly
 
 ## Keyboard shortcuts
 
@@ -61,4 +63,16 @@ while offering simpler and faster access to most common configuration items.
 
 `Mod+y`
     Launch *synapse*
+
+## Development platform
+
+### Hardwares
+
+- Laptop with optional second screen
+- Fixed computer, dual screen
+- Fixed computer, single screen
+
+### OS
+
+Archlinux
 
