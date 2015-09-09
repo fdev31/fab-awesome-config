@@ -22,6 +22,8 @@ while offering simpler and faster access to most common configuration items.
 - compton (surface compositor) integration (sample file) provided
 - dual screen frendly
 - laptop friendly
+    - backlight support
+- sound keys support
 
 ## Keyboard shortcuts
 
