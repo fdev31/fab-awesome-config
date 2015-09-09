@@ -3,9 +3,9 @@
 Mostly re-using awesome's default shortcuts & theme, this is an attempt to add more modularity
 while offering simpler and faster access to most common configuration items.
 
-![screenshot](./raw/master/shot1.jpg)
+![screenshot](../../raw/master/shot1.jpg)
 
-![screenshot](./raw/master/shot2.jpg)
+![screenshot](../../raw/master/shot2.jpg)
 
 ## Features
 
