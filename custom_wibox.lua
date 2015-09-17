@@ -107,15 +107,17 @@ upicon:buttons(NETWORK_MON_BUTTON)
 local netwidget = wibox.widget.textbox()
 netwidget:buttons(NETWORK_MON_BUTTON)
 -- Register widget
-if nic then
+if ENABLE_NET_WID then
     vicious.register(netwidget, vicious.widgets.net, function(wid, args) 
-        return'<span color="'
-          .. color.yellow .. '">'..args['{'..nic..' down_kb}']..'</span> <span color="'
-          .. color.green ..'">'..args['{'..nic..' up_kb}']..'</span>'
+        if nic then
+            return'<span color="'
+              .. color.yellow .. '">'..args['{'..nic..' down_kb}']..'</span>  ' .. nic .. '  <span color="'
+              .. color.green ..'">'..args['{'..nic..' up_kb}']..'</span>'
+          end
+          return 'N/A'
       end
       , 3)
 end
--- }}}
 
 -- {{{ Volume level
 -- Initialize widgets

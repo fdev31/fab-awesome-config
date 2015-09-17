@@ -9,7 +9,21 @@ for line in netctl:lines() do
     line = line:sub(3)
     table.insert( netctl_menu, { line, function()
         exec('sudo ifconfig w0 down ; sudo netctl stop-all && sudo netctl start '..line)
-        set_nic()
+        nic = false
+        local refresh_nic = timer({ timeout = 1 })
+        local refresh_limit = 30
+        refresh_nic:connect_signal("timeout", function ()
+            if nic or refresh_limit == 0 then
+                refresh_nic:stop()
+                if refresh_limit ~= 0 then
+                    naughty.notify({title='Connected using '..nic})
+                end
+                return
+            end
+            set_nic()
+            refresh_limit = refresh_limit - 1
+        end)
+        refresh_nic:start()
     end
     } )
 end
