@@ -60,18 +60,10 @@ local app_items = {
     { "Blender", sexec('blender') },
     { "Gimp", sexec('gimp') },
     { "WeeChat", texec('weechat-curses') },
-    { "UrbanTerror", sexec('cd ' .. UT_FOLDER .. ' ; comp-switch off ; ./Quake3-UrT.x86_64 ' .. UT_OPTIONS .. ' ; comp-switch on ; ' .. UT_POSTRUN) },
 }
 local connect_items = {
-    { "VPN@Wy",  texec('systemctl restart openvpn@wy')  },
-    { "Ssh tow",  texec('ssh -p 222 fdev31.ddns.net')  },
-    { "Ssh wyoli",  texec('ssh wyoli')  },
-    { "Ssh wy",  texec('ssh wy')  },
-    { "Ssh ui",  texec('ssh ui.static.wyplay.int')  },
-    { "Serial @38.4",  texec('sudo screen /dev/ttyUSB0 38400')  },
-    { "Serial @115.2", texec('sudo screen /dev/ttyUSB0 115200') },
-    { "Telnet STB",    texec('telnet $(cat ~/tmp/STB_IP.txt)') },
-    { "WebConsole",    exec('chromium http://$(cat ~/tmp/STB_IP.txt):8080/') },
+    { "Ssh tow",  texec('tow')  },
+    { "Telnet target",    texec('telnet $(cat ~/tmp/TARGET_IP.txt)') },
 }
 local screen_items = {
     {"WinInfo", texec("xproptitle")},
