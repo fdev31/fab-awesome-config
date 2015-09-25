@@ -6,8 +6,9 @@ require('custom_conf')
 netctl_menu = {}
 netctl = io.popen('netctl list')
 
+local refresh_nic = timer({ timeout = 1 })
+
 function nic_display()
-    local refresh_nic = timer({ timeout = 1 })
     local refresh_limit = 30
     refresh_nic:connect_signal("timeout", function ()
         if nic or refresh_limit == 0 then
@@ -20,6 +21,7 @@ function nic_display()
         set_nic()
         refresh_limit = refresh_limit - 1
     end)
+    refresh_nic:stop()
     refresh_nic:start()
 end
 for line in netctl:lines() do

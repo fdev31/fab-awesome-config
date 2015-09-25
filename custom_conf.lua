@@ -187,4 +187,4 @@ end
 function set_nic()
     nic = io.popen("netstat -rn |grep ^0.0.0.0 |awk '{print $8}'"):read()
 end
-set_nic()
+
