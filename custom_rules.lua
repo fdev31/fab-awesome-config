@@ -30,10 +30,11 @@ local rules = {
     ru("[pP]avucontrol", ".* volume.*",         { floating=true, fullscreen=false}),
     ru(nil, "alsamixer",           { width=100, floating=true}, awful.placement.under_mouse),
     -- term
-    ru("terminology", nil,         { opacity=TRANS_LEVEL, fixed_trans=true }),
+--    ru("terminology", nil,         { opacity=TRANS_LEVEL, fixed_trans=true }),
     -- www 
     ru("Chromium", nil,            { tag=awful.tag.gettags(S_MAIN)[tagidx.web] }),
     ru("Chromium", ".*- chat -.*", { tag=awful.tag.gettags(S_MAIN)[tagidx.im] }),
+    ru("Chromium", "Floating YouTube.*", { opacity=1.0, fixed_trans=true, floating=true, sticky=true }),
     ru("Firefox", nil,             { tag=awful.tag.gettags(S_MAIN)[tagidx.web] }),
     ru("Midori", nil,              { tag=awful.tag.gettags(S_MAIN)[tagidx.web] }),
     ru("Pale moon", nil,           { tag=awful.tag.gettags(S_MAIN)[tagidx.web] }),

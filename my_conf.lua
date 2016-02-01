@@ -9,7 +9,7 @@ zic_prompt = true
 editor = os.getenv("EDITOR") or "nano"
 terminal = "terminator"
 terminal_run = "terminator -x "
-fancy_terminal = "terminology"
+fancy_terminal = "terminator -x"
 editor_cmd = 'gvim -reverse '
 
 -- Tags --
