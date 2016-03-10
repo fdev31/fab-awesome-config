@@ -1,3 +1,4 @@
+
 local awful = require("awful")
 local beautiful = require("beautiful")
 local naughty = require("naughty")
@@ -129,8 +130,8 @@ volicon:buttons(MIXER_BUTTON)
 -- Enable caching
 vicious.cache(vicious.widgets.volume)
 -- Register widgets
-vicious.register(volbar,    vicious.widgets.volume,  "$1",  2, "Master")
-vicious.register(volwidget, vicious.widgets.volume, " $1%", 2, "Master")
+vicious.register(volbar,    vicious.widgets.volume,  "$1",  2, "Master -c "..mixer.card_no)
+vicious.register(volwidget, vicious.widgets.volume, " $1%", 2, "Master -c "..mixer.card_no)
 -- Register buttons
 volbar:buttons(MIXER_BUTTON) -- Register assigned buttons
 volwidget:buttons(volbar:buttons())
