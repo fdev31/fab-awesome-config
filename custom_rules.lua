@@ -56,7 +56,6 @@ local rules = {
     -- sound
     ru("Rdio", nil,                { tag=awful.tag.gettags(S_SEC)[tagidx.media] } ),
     -- fs
-    ru("Geeqie", nil,              { floating=true } ),
     ru("ROX-Filer", nil,           { floating=true }),
     -- hacks --
     -- flashplugin
@@ -64,6 +63,11 @@ local rules = {
     ru("Plugin-container", nil,    { floating=true, fullscreen=true } ),
     -- logging xterm
     ru('TermLog', nil, {tag=awful.tag.gettags(S_SEC)[tagidx.logs], opacity=0.7 } ),
+--    ru("Geeqie", nil,              { floating=true } ),
+    -- geeqie
+    { match = { "Full screen...Geeqie"              },  intrusive = true, border_width = 0, fullscreen = 1, ontop=true },
+    { match = { "Tools...Geeqie"                    },
+      keys = awful.util.table.join(awful.key({}, "Escape", function(c)  getclient("id", c.group_id + 2):kill() end))   },
 }
 
 --client.connect_signal("unfocus", function (c) c.opacity = TRANS_LEVEL end)
