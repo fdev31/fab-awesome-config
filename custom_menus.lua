@@ -85,6 +85,7 @@ menu_items = {
     { "connect", connect_items},
     { "zic", zmitems},
     { 'screen', screen_items},
+    { 'wacom', sexec('/home/fab/wacom_sculpt.sh')},
     { "net", netctl_menu },
     { "quit", awesome.quit },
 }
