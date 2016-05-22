@@ -33,12 +33,16 @@ if io.open('/etc/hostname'):read() == 'xps' then
             os.execute('xinput disable 11')
             screen_flipped = true
         end},
+        {"Deported input", function()
+            os.execute('ssh -f -N -L 24800:localhost:24800 popo')
+            texec('synergyc -f localhost')()
+        end}
     }
 
     local screensmenu = awful.menu({items = screensitems})
 
     mykeys = {
-        awful.key({ modkey,           }, "u", 
+        awful.key({ modkey,           }, "g", 
         function ()
             if screen_flipped then reset_default_scr() else screensmenu:show({keygrabber=true}) end
         end)
