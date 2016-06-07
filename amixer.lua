@@ -1,10 +1,10 @@
-local id="0"
+local id="1"
 local increment=4
 
 local control = "Master"
 
 os.execute('kill `cat /tmp/amixer_ctl'..id..'.pid` >/dev/null 2>&1 ; mkfifo /tmp/amixer_ctl'..id..' && echo $! > /tmp/amixer_ctl'..id..'.pid')
-os.execute('sync ; amixer -c 0 -qsM < /tmp/amixer_ctl'..id..' &')
+os.execute('sync ; amixer -qsM < /tmp/amixer_ctl'..id..' &')
 
 _fd = io.open('/tmp/amixer_ctl'..id, 'a')
 
