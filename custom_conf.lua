@@ -13,8 +13,8 @@ if (scount == 1) then
     S_MAIN = 1
     S_SEC = 1
 else
-    S_SEC = 2
-    S_MAIN = 1
+    S_SEC = 1
+    S_MAIN = 2
 end
 
 
