@@ -60,6 +60,7 @@ local app_items = {
     { "Blender", sexec('blender') },
     { "Gimp", sexec('gimp') },
     { "WeeChat", texec('weechat-curses') },
+    { "Steam", sexec("Steam") },
 }
 local connect_items = {
     { "Ssh tow",  texec('tow')  },
