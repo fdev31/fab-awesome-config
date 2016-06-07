@@ -46,12 +46,6 @@ else
     backlight = { up = nil, down = nil }
 end
 
-local light_levels = {
-    { "Low",  sexec('xbacklight -set 2')  },
-    { "Avg",  sexec('xbacklight -set 20')  },
-    { "Mid",  sexec('xbacklight -set 50')  },
-    { "High",  sexec('xbacklight -set 100')  },
-}
 
 
 -- TODO: build menus from text files
@@ -65,13 +59,10 @@ local app_items = {
 local connect_items = {
     { "Ssh tow",  texec('tow')  },
     { "Telnet target",    texec('telnet $(cat ~/tmp/TARGET_IP.txt)') },
-}
-local screen_items = {
-    {"WinInfo", texec("xproptitle")},
-    {"Comp switch", sexec('comp-switch')},
-    {"Shift switch", sexec('shift-switch')},
-    {"DPMS ON", sexec('xset s on +dpms')},
-    {"DPMS OFF", sexec('xset s off -dpms')}
+    {"remote input", function()
+        texec('ssh -f -N -L 24800:localhost:24800 popo')
+        texec('synergyc -f localhost')()
+    end}
 }
 local zmitems ={
     {"Start Radio", texec("mplayer -cache 128 http://broadcast.infomaniak.net:80/radionova-high.mp3") },
@@ -85,13 +76,9 @@ menu_items = {
     { "applications", app_items, beautiful.sun},
     { "connect", connect_items},
     { "zic", zmitems},
-    { 'screen', screen_items},
     { "net", netctl_menu },
     { "quit", awesome.quit },
 }
-if IS_LAPTOP then
-    table.insert(menu_items, 3, {"light", light_levels})
-end
 
 mymainmenu = awful.menu({ items = menu_items })
 
