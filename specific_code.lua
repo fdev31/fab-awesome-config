@@ -28,6 +28,8 @@ local screensitems = {
         {"Sculpt", sexec("~/wacom_sculpt.sh")},
         {"Grease", sexec("~/wacom_grease.sh")},
         {"Krita", sexec("~/wacom_krita.sh")},
+        {"Left screen", sexec("~/wacom_left_screen.sh")},
+        {"Rightscreen", sexec("~/wacom_right_screen.sh")},
     }},
     {"Touchpad" ,{
         {"On",function()
