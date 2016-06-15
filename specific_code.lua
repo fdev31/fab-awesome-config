@@ -22,30 +22,25 @@ local screen_config = {"DVI-I-1", "DP-1", "HDMI-0"}
 
 function set_active_screen(config) 
     local xrandr_opts = {'xrandr'}
-    local primary = 1
-    if config[2] then
-        primary = 2
-    elseif not config[1] then
-        primary = 3
-    end
 
-    for i, x in ipairs(config) do
+    -- primary screen detection
+    local primary = config[2] and 2 or (config[3] and 3 or 1)
+
+    -- build xrandr options
+    for i, disp in ipairs(config) do
         xrandr_opts[#xrandr_opts+1] = '--output ' .. screen_config[i]
-        if config[i-1] then
+        if i ~= 1 then
             xrandr_opts[#xrandr_opts+1] = '--right-of ' .. screen_config[i-1]
         end
-
-        if x then
-            xrandr_opts[#xrandr_opts+1] = '--auto'
-        else
-            xrandr_opts[#xrandr_opts+1] = '--off'
-        end
+        
+        xrandr_opts[#xrandr_opts+1] = disp and '--auto' or '--off'
 
         if i == primary then
             xrandr_opts[#xrandr_opts+1] = '--primary'
         end
     end
 
+    -- create function for this setting
     local set_mode = function()
         exec(table.concat(xrandr_opts, ' '))
         set_wacom_screen(primary)
