@@ -30,6 +30,12 @@ while offering simpler and faster access to most common configuration items.
 - sound keys support
 - one more layout, vertical screen friendly
 
+## Variables
+
+### Multi-screen
+
+S_Main: main screen
+
 ## Keyboard shortcuts
 
 Most default shortcuts available, plus:
