@@ -78,6 +78,9 @@ local screensitems = {
     {"Touchpad" ,{
         {"On",function()
             exec('synclient TouchpadOff=0') 
+            exec('synclient TapButton3=2') 
+            exec('synclient TapButton2=3') 
+            exec('synclient TapButton1=1') 
             exec('xinput enable 11') end
         },
         {"Off", function()
