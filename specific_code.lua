@@ -9,46 +9,25 @@ local light_levels = {
     { "High",  sexec('xbacklight -set 100')  },
 }
 
+local screen_config = {"eDP1", "HDMI-1"} -- list sreens in desired order here
+
+local xrandr = require('xrandrlib')
+xrandr.init_screens(screen_config)
+
+local screen_aliases = {}
+screen_aliases['eDP1'] = 'Built-in'
+screen_aliases['HDMI-1'] = 'Ext-HDMI'
+
 local screen_flipped = false
+
 
 function set_wacom_screen(screen_nr)
     local offset = (screen_nr - 1) * 1920
-    for i=10,13 do
+    for i=10,20 do
         exec("xsetwacom --set " .. i .. "MapToOutput 1920x1080+" .. offset .. "+0")
     end
 end
 
-local screen_config = {"DVI-I-1", "DP-1", "HDMI-0"}
-
-function set_active_screen(config) 
-    local xrandr_opts = {'xrandr'}
-
-    -- primary screen detection
-    local primary = config[2] and 2 or (config[3] and 3 or 1)
-
-    -- build xrandr options
-    for i, disp in ipairs(config) do
-        xrandr_opts[#xrandr_opts+1] = '--output ' .. screen_config[i]
-        if i ~= 1 then
-            xrandr_opts[#xrandr_opts+1] = '--right-of ' .. screen_config[i-1]
-        end
-        
-        xrandr_opts[#xrandr_opts+1] = disp and '--auto' or '--off'
-
-        if i == primary then
-            xrandr_opts[#xrandr_opts+1] = '--primary'
-        end
-    end
-
-    -- create function for this setting
-    local set_mode = function()
-        exec(table.concat(xrandr_opts, ' '))
-        set_wacom_screen(primary)
-    end
-    return set_mode
-end
-
---set_active_screen({true, true, false})
 
 local reset_default_scr = function() 
     screen_flipped = false
@@ -60,41 +39,32 @@ local reset_default_scr = function()
 end
 
 --if io.open('/etc/hostname'):read() == 'xps' then
-
-local screensitems = {
-    {"Layouts", {
-        {"Single", set_active_screen({false, true, false})},
-        {"Dual", set_active_screen({true, true, false})},
-        {"Triple", set_active_screen({true, true, true})},
-        {"Cinema", set_active_screen({false, false, true})},
-    }},
-    {"Tablet" ,{
-        {"Sculpt", sexec("~/wacom_sculpt.sh")},
-        {"Grease", sexec("~/wacom_grease.sh")},
-        {"Krita", sexec("~/wacom_krita.sh")},
-        {"Left screen", sexec("~/wacom_left_screen.sh")},
-        {"Rightscreen", sexec("~/wacom_right_screen.sh")},
-    }},
-    {"Touchpad" ,{
-        {"On",function()
-            exec('synclient TouchpadOff=0') 
-            exec('synclient TapButton3=2') 
-            exec('synclient TapButton2=3') 
-            exec('synclient TapButton1=1') 
-            exec('xinput enable 11') end
-        },
-        {"Off", function()
-            exec('synclient TouchpadOff=1')
-            exec('xinput disable 11')
-        end
-        }
-    }},
-    {"Blank", {
+local layouts = {
+ {"Blank", {
         {"ON", sexec('xset s on +dpms')},
         {"OFF", sexec('xset s off -dpms')}
     }},
-    {"Light", light_levels},
-    {"Orientation", {
+    {"Light", light_levels}
+}
+
+local naughty = require('naughty')
+
+for i, name in pairs(screen_config) do
+    local screen_opts = {}
+    table.insert(screen_opts, {'on', function()
+        xrandr.switch_on( name )
+    end})
+    table.insert(screen_opts, {'off', function()
+        xrandr.switch_off( name )
+    end})
+    table.insert(screen_opts, {'master', function()
+        xrandr.set_master( name )
+        xrandr.switch_on( name )
+    end})
+    table.insert(layouts, {screen_aliases[name] or name, screen_opts})
+end
+
+table.insert(layouts, {"Orientations",
         {"Normal", reset_default_scr},
         {"Book", function() 
             exec('xinput set-prop 10 "Evdev Axes Swap" 1')
@@ -112,6 +82,31 @@ local screensitems = {
             exec('xinput disable 11')
             screen_flipped = true
         end}
+})
+
+
+local screensitems = {
+    {"Screens", layouts},
+    {"Tablet" ,{
+        {"Sculpt", sexec("~/wacom_sculpt.sh")},
+        {"Grease", sexec("~/wacom_grease.sh")},
+        {"Krita", sexec("~/wacom_krita.sh")},
+--        {"Left screen", sexec("~/wacom_left_screen.sh")},
+--        {"Rightscreen", sexec("~/wacom_right_screen.sh")},
+    }},
+    {"Touchpad" ,{
+        {"On",function()
+            exec('synclient TouchpadOff=0') 
+            exec('synclient TapButton3=2') 
+            exec('synclient TapButton2=3') 
+            exec('synclient TapButton1=1') 
+            exec('xinput enable 11') end
+        },
+        {"Off", function()
+            exec('synclient TouchpadOff=1')
+            exec('xinput disable 11')
+        end
+        }
     }},
     {"Switch", {
         {"Compositing", sexec('comp-switch')},

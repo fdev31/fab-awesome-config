@@ -74,10 +74,9 @@ zicmenu = awful.menu({items = zmitems})
 
 menu_items = {
     { "applications", app_items, beautiful.sun},
+    { "net", netctl_menu },
     { "connect", connect_items},
     { "zic", zmitems},
-    { "net", netctl_menu },
-    { "quit", awesome.quit },
 }
 
 mymainmenu = awful.menu({ items = menu_items })
