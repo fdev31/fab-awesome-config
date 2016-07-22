@@ -1,10 +1,10 @@
 local xrandr = {}
 
-xrandr.screensreen_states = {}
+xrandr.screen_states = {}
 xrandr.screens = {}
 
 xrandr.scan_screens = function()
-    for k,v in pairs(xrandr.screens) do xrandr.screens[k]=nil end
+    for k,v in pairs(xrandr.screen_states) do xrandr.screen_states[k]=nil end
     local x = io.popen("xrandr")
     local idx = nil
     for line in x:lines() do
@@ -12,8 +12,7 @@ xrandr.scan_screens = function()
         if idx then
             local status = not (string.find(line, "[(]") <= idx+15)
             local sc = string.sub(line, 0, idx-1)
-            xrandr.screensreen_states[sc] = {active=status}
-            table.insert(xrandr.screens, sc)
+            xrandr.screen_states[sc] = {active=status}
         end
     end
 end
@@ -23,15 +22,15 @@ xrandr.set_order = function(screen_config)
 end
 
 xrandr.is_defined = function(screen)
-    return xrandr.screensreen_states[screen].active ~= nil
+    return xrandr.screen_states[screen].active ~= nil
 end
 
 xrandr.is_on = function(screen)
-    return xrandr.screensreen_states[screen].active
+    return xrandr.screen_states[screen].active
 end
 
 xrandr.is_primary = function(screen)
-    return xrandr.screensreen_states.master == screen
+    return xrandr.screen_states.master == screen
 end
 
 -- priv
@@ -47,11 +46,11 @@ xrandr.switch_off = function(screen)
 end
 
 xrandr.switch_screen = function(screen, onoff)
-    xrandr.screensreen_states[screen].active = onoff
+    xrandr.screen_states[screen].active = onoff
 end
 
 xrandr.set_master = function(screen)
-    xrandr.screensreen_states.master = screen
+    xrandr.screen_states.master = screen
 end
 
 local naughty = require('naughty')
