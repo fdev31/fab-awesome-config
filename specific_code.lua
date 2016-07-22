@@ -9,11 +9,8 @@ local light_levels = {
     { "High",  sexec('xbacklight -set 100')  },
 }
 
--- TODO: read from external file
-local screen_config = {"DP-1", "HDMI-0", "DVI-D-0"} -- list sreens in desired order here
-
 local xrandr = require('xrandrlib')
-xrandr.init_screens(screen_config)
+xrandr.set_order({"DP-1", "HDMI-0", "DVI-D-0"})
 
 local screen_aliases = {}
 screen_aliases['eDP1'] = 'Built-in'
@@ -44,7 +41,8 @@ end
 
 --if io.open('/etc/hostname'):read() == 'xps' then
 local layouts = {
- {"Blank", {
+    {"Rescan", xrandr.scan_screens},
+    {"Blank", {
         {"ON", sexec('xset s on +dpms')},
         {"OFF", sexec('xset s off -dpms')}
     }},
@@ -53,7 +51,7 @@ local layouts = {
 
 local naughty = require('naughty')
 
-for i, name in pairs(screen_config) do
+for i, name in pairs(xrandr.screens) do
     local screen_opts = {}
     table.insert(screen_opts, {'on', function()
         xrandr.switch_on( name )
