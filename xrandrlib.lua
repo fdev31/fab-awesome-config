@@ -1,12 +1,22 @@
 local xrandr = {}
 
 xrandr.screen_states = {}
+xrandr.sc = {}
+
+local x = io.popen("xrandr")
+local idx = nil
+for line in x:lines() do
+    idx = string.find(line, " connected ")
+    if idx then
+        local status = not (string.find(line, "[(]") <= idx+15)
+        local sc = string.sub(line, 0, idx-1)
+        xrandr.screen_states[sc] = {active=status}
+        table.insert(xrandr.sc, sc)
+    end
+end
 
 xrandr.init_screens = function(screen_config)
     xrandr.sc = screen_config
-    for i, sc in pairs(screen_config) do
-        xrandr.screen_states[sc] = {}
-    end
 end
 
 xrandr.is_defined = function(screen)
@@ -45,13 +55,20 @@ local naughty = require('naughty')
 
 xrandr.apply_config = function()
     local xrandr_opts = {'xrandr'}
+    local last_on = false
 
     -- build xrandr options
     for i, disp in ipairs(xrandr.sc) do
         if xrandr.is_defined(disp) then
             xrandr_opts[#xrandr_opts+1] = '--output ' .. disp
-            if i ~= 1 then
-                xrandr_opts[#xrandr_opts+1] = '--right-of ' .. xrandr.sc[i-1]
+
+            if xrandr.is_on(disp) then
+                if not last_on then
+                    last_on = i
+                else
+                    xrandr_opts[#xrandr_opts+1] = '--right-of ' .. xrandr.sc[last_on]
+                    last_on = i
+                end
             end
 
             xrandr_opts[#xrandr_opts+1] = xrandr.is_on(disp) and '--auto' or '--off'

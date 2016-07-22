@@ -9,7 +9,8 @@ local light_levels = {
     { "High",  sexec('xbacklight -set 100')  },
 }
 
-local screen_config = {"eDP1", "HDMI-1"} -- list sreens in desired order here
+-- TODO: read from external file
+local screen_config = {"DP-1", "HDMI-0", "DVI-D-0"} -- list sreens in desired order here
 
 local xrandr = require('xrandrlib')
 xrandr.init_screens(screen_config)
@@ -17,6 +18,9 @@ xrandr.init_screens(screen_config)
 local screen_aliases = {}
 screen_aliases['eDP1'] = 'Built-in'
 screen_aliases['HDMI-1'] = 'Ext-HDMI'
+screen_aliases['DVI-D-0'] = 'Beamer'
+screen_aliases['HDMI-0'] = 'Medion'
+screen_aliases['DP-1'] = 'Iiyama'
 
 local screen_flipped = false
 
@@ -59,6 +63,7 @@ for i, name in pairs(screen_config) do
     end})
     table.insert(screen_opts, {'master', function()
         xrandr.set_master( name )
+        set_wacom_screen(i)
         xrandr.switch_on( name )
     end})
     table.insert(layouts, {screen_aliases[name] or name, screen_opts})
