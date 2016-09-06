@@ -32,6 +32,14 @@ local rules = {
     -- term
 --    ru("terminology", nil,         { opacity=TRANS_LEVEL, fixed_trans=true }),
     -- www 
+    {
+        rule = {class="Chromium", role="GtkFileChooserDialog"},
+        properties={floating=true, sticky=true},
+        callback = function (c)
+            awful.placement.centered(c, nil)
+            awful.client.movetotag(awful.tag.selected(mouse.screen), c)
+        end
+    },
     ru("Chromium", nil,            { tag=awful.tag.gettags(S_MAIN)[tagidx.web] }),
     ru("Chromium", ".*- chat -.*", { tag=awful.tag.gettags(S_MAIN)[tagidx.im] }),
     ru("Chromium", "Floating YouTube.*", { opacity=1.0, fixed_trans=true, floating=true, sticky=true }),
