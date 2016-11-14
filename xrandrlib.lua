@@ -22,7 +22,10 @@ xrandr.set_order = function(screen_config)
 end
 
 xrandr.is_defined = function(screen)
-    return xrandr.screen_states[screen].active ~= nil
+    if xrandr.screen_states[screen] then
+        return xrandr.screen_states[screen].active ~= nil
+    end
+    return false
 end
 
 xrandr.is_on = function(screen)
@@ -46,7 +49,9 @@ xrandr.switch_off = function(screen)
 end
 
 xrandr.switch_screen = function(screen, onoff)
-    xrandr.screen_states[screen].active = onoff
+    if xrandr.screen_states[screen] then
+        xrandr.screen_states[screen].active = onoff
+    end
 end
 
 xrandr.set_master = function(screen)
