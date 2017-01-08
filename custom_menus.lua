@@ -24,6 +24,7 @@ function nic_display()
     refresh_nic:stop()
     refresh_nic:start()
 end
+table.insert( netctl_menu, { "reset", exec('sudo netctl stop-all && sudo netctl restore') } )
 for line in netctl:lines() do
     line = line:sub(3)
     table.insert( netctl_menu, { line, function()
