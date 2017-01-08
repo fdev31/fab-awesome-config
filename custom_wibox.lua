@@ -5,7 +5,8 @@ local naughty = require("naughty")
 local wibox = require("wibox")
 -- Setup mixer object
 --
-local mixer = require('amixer')
+--local mixer = require('amixer')
+local mixer = require('ponymix')
 
 local PROCESS_MON_BUTTON = awful.util.table.join( awful.button({ }, 1, texec(PROCESS_MONITOR) ))
 local NETWORK_MON_BUTTON = awful.util.table.join( awful.button({ }, 1, texec(NETWORK_MONITOR) ))
