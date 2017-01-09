@@ -3,7 +3,7 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local wibox = require("wibox")
 local menubar = require("menubar")
-local mixer = require('amixer')
+local mixer = require('ponymix')
 require('custom_conf')
 
 
