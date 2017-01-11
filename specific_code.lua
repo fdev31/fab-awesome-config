@@ -90,22 +90,24 @@ table.insert(layouts, {"Orientations",
 
 local screensitems = {
     {"Screens", layouts},
-    {"Tablet" ,{
-        {"Sculpt", sexec("~/wacom_sculpt.sh")},
-        {"Grease", sexec("~/wacom_grease.sh")},
-        {"Krita", sexec("~/wacom_krita.sh")},
---        {"Left screen", sexec("~/wacom_left_screen.sh")},
---        {"Rightscreen", sexec("~/wacom_right_screen.sh")},
-    }},
-    {"Touchpad" ,{
-        {"On",function()
+    {"Input" ,{
+        {"F1-F12 std", function()
+            exec('sudo k780swap')
+        end
+        },
+        {"F1-F12 Fn", function()
+            exec('sudo k780swap off')
+        end
+        },
+        {"Wacom Sculpt", sexec("~/wacom_sculpt.sh")},
+        {"Touchpad On",function()
             exec('synclient TouchpadOff=0') 
             exec('synclient TapButton3=2') 
             exec('synclient TapButton2=3') 
             exec('synclient TapButton1=1') 
             exec('xinput enable 11') end
         },
-        {"Off", function()
+        {"Touchpad Off", function()
             exec('synclient TouchpadOff=1')
             exec('xinput disable 11')
         end
