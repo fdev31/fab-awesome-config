@@ -42,6 +42,7 @@ local rules = {
     },
     ru("Chromium", nil,            { tag=awful.tag.gettags(S_MAIN)[tagidx.web] }),
     ru("Chromium", ".*- chat -.*", { tag=awful.tag.gettags(S_MAIN)[tagidx.im] }),
+    ru("Franz", "Franz",            { tag=awful.tag.gettags(S_MAIN)[tagidx.im] }),
     ru("Chromium", "Floating YouTube.*", { opacity=1.0, fixed_trans=true, floating=true, sticky=true }),
     ru("Firefox", nil,             { tag=awful.tag.gettags(S_MAIN)[tagidx.web] }),
     ru("Midori", nil,              { tag=awful.tag.gettags(S_MAIN)[tagidx.web] }),
@@ -71,6 +72,7 @@ local rules = {
     ru("Plugin-container", nil,    { floating=true, fullscreen=true } ),
     -- logging xterm
     ru('TermLog', nil, {tag=awful.tag.gettags(S_SEC)[tagidx.logs], opacity=0.7 } ),
+    ru("Pcmanfm","Execute File", { floating = true, sticky = true, ontop = true, above = true }, awful.placement.centered),
 --    ru("Geeqie", nil,              { floating=true } ),
     -- geeqie
     { match = { "Full screen...Geeqie"              },  intrusive = true, border_width = 0, fullscreen = 1, ontop=true },
