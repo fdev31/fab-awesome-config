@@ -1,4 +1,4 @@
-WEB_BROWSER = 'firefox'
+WEB_BROWSER = 'chromium'
 FILE_MANAGER = 'thunar'
 NETWORK_MONITOR = 'sudo iptraf-ng'
 PROCESS_MONITOR = 'top'
