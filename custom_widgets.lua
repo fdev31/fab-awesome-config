@@ -40,8 +40,8 @@ vicious.register(membar:get_widget(wibox.widget.progressbar), vicious.widgets.me
 --
 fs = {
   r = progress_maker(nil, 6),
-  h = progress_maker(nil, 6),
-  t = progress_maker(nil, 6),
+--  h = progress_maker(nil, 6),
+--  t = progress_maker(nil, 6),
 }
 
 -- Progressbar properties
