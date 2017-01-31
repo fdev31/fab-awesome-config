@@ -4,11 +4,12 @@ local wibox = require("wibox")
 local gears = require('gears')
 
 local progress_maker = function(col, width, height, ticks)
+    local col = { type = "linear", from = { 0, 0}, to = { 20, 0}, stops = { {0, "#7799DD"}, {1, "#ff3333" }}}
     return wibox.widget {
         {
             shape         = gears.shape.rounded_bar,
-            color = "#5599FF",
-            background_color = "#020202",
+            color = col,
+            background_color = "#333",
             widget        = wibox.widget.progressbar,
         },
         forced_width  = 5,
