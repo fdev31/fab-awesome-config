@@ -9,7 +9,7 @@ theme.wallpaper = "~/Images/awesome_bg.jpg"
 -- }}}
 
 -- {{{ Styles
-theme.font      = "Roboto 8"
+theme.font      = "Roboto Regular 10"
 
 -- {{{ Colors
 theme.fg_normal  = "#DCDCCC"
