@@ -15,69 +15,34 @@ local k = {
     awful.key({ }, "XF86MonBrightnessUp", backlight.up),
     awful.key({ }, "XF86MonBrightnessDown", backlight.down),
 
-    awful.key({ modkey ,           } , "Left"  , c_viewprev )         ,
-    awful.key({ modkey ,           } , "Right" , c_viewnext )         ,
-    awful.key({ modkey , "Shift"   } , "Right" , c_grabnext )         ,
-    awful.key({ modkey , "Shift"   } , "Left"  , c_grabprev )         ,
-    awful.key({ modkey             } , "y"     , sexec('synapse'))    ,
-    awful.key({ "Control", "Shift" } , "l"     , sexec('screenlocker.sh')) ,
-    awful.key({ modkey             } , "t"     , sexec(FILE_MANAGER) )    ,
-    awful.key({ modkey             } , "w"     , sexec(WEB_BROWSER) ) ,
-    awful.key({ modkey             } , "Up"    , sexec('compton-trans -c +5') )    ,
-    awful.key({ modkey             } , "Down"  , sexec('compton-trans -c -- -5') ) ,
+    awful.key({ modkey ,           } , "Left"  , c_viewprev ,{description = "view previous", group = "tag"})         ,
+    awful.key({ modkey ,           } , "Right" , c_viewnext ,{description = "view next", group = "tag"})         ,
+    awful.key({ modkey , "Shift"   } , "Right" , c_grabnext, {description = "move to next tag", group = "client"})         ,
+    awful.key({ modkey , "Shift"   } , "Left"  , c_grabprev ,{description = "move to previous tag", group = "client"})         ,
+--    awful.key({ modkey             } , "y"     , sexec('synapse'))    ,
+    awful.key({ "Control", "Shift" } , "l"     , sexec('screenlocker.sh'), {description="lock", group="screen"}) ,
+    awful.key({ modkey             } , "t"     , sexec(FILE_MANAGER), {description="open file manager", group="launcher"} )    ,
+    awful.key({ modkey             } , "w"     , sexec(WEB_BROWSER) , {description="open Web browser", group="launcher"}) ,
+    awful.key({ modkey             } , "Up"    , sexec('compton-trans -c +5') , {description="more opacity", group="client"})    ,
+    awful.key({ modkey             } , "Down"  , sexec('compton-trans -c -- -5'), {description="less opacity", group="client"} ) ,
 
     awful.key({ modkey } , "p", function ()
         screen_switched = true awful.screen.focus_relative( 1)
-    end),
+    end, {description="Switch screen", group="client"}),
     awful.key({ modkey }, "F2", function()
         menubar.show() 
-    end),
+    end, {description="Launch app", group="launcher"}),
     awful.key({ modkey }, "q", function ()
         mymainmenu:show({keygrabber=true}) 
-    end),
+    end, {description="Show menu", group="awesome"}),
     awful.key({ modkey }, "z", function () 
         if( not zic_prompt) then zicmenu:show({keygrabber=true}) end 
     end),
     awful.key({ modkey }, "e", function()
         awful.menu.clients({ width=250 }) 
-    end),
+    end, {description="list", group="client"}),
     awful.key({ modkey }, "a", function ()
         drop(fancy_terminal, "bottom", "center", 0.9, 0.9, false) 
-    end),
-    awful.key({ modkey }, "z", function ()
-        if ( zic_prompt ) then
-            awful.prompt.run({ prompt = "Wasp: " }, mypromptbox[mouse.screen].widget,
-                function (...)
-                    p = io.popen('wasp '.. arg[1])
-                    txt = p:read()
-                    p:close()
-                    naughty.notify({title=txt})
-                end,
-                awful.completion.shell, awful.util.getdir("cache") .. "/wasp_history")
-            end
-    end),
-    -- FUNCTION KEYS
-    awful.key({ modkey }, "F3", function ()
-        awful.prompt.run({ prompt = "Dictionary: " }, mypromptbox[mouse.screen].widget,
-            function (words)
-                exec("gnome-dictionary --look-up='"..words.."'")
-            end)
-    end),
-    awful.key({ modkey }, "F4", function ()
-        awful.prompt.run({ prompt = "Task: " }, mypromptbox[mouse.screen].widget,
-            function (command)
-                if(command:len() > 2) then
-                    exec("task add "..command)
-                else
-                    local f = "/tmp/tasks.txt"
-                    exec("task > "..f)
-                    texec("less "..f)()
-                end
-            end)
-    end),
-    awful.key({ modkey }, "F5", function ()
-        awful.prompt.run({ prompt = "Lua: " }, mypromptbox[mouse.screen].widget,
-        awful.util.eval, nil, awful.util.getdir("cache") .. "/history_eval")
-    end)
+    end, {description="Popup term", group="launcher"}),
 }
 return {keys = k}

@@ -1,7 +1,69 @@
+local vicious = require("vicious")
+local beautiful = require("beautiful")
 local awful = require("awful")
 local wibox = require("wibox")
 
 local gears = require('gears')
+
+function set_nic()
+    nic = io.popen("netstat -rn |grep ^0.0.0.0 |awk '{print $8}'"):read()
+end
+local refresh_nic = timer({ timeout = 1 })
+function nic_display()
+    local refresh_limit = 30
+    refresh_nic:connect_signal("timeout", function ()
+        if nic or refresh_limit == 0 then
+            refresh_nic:stop()
+            if refresh_limit ~= 0 then
+                naughty.notify({title='Connected using '..nic})
+            end
+            return
+        end
+        set_nic()
+        refresh_limit = refresh_limit - 1
+    end)
+    refresh_nic:stop()
+    refresh_nic:start()
+end
+nic_display()
+set_nic()
+
+ -- shell exec
+exec  = awful.util.spawn_with_shell
+
+-- following returns pointer to functions, to use in menus/keys
+--
+ -- terminal exec
+function texec(cmd, opts)
+    local args = ' '
+    if (opts) then
+        local res = {}
+        for k, v in pairs(opts) do
+            table.insert(res, '-'..k..' '..v)
+        end
+        args = ' ' .. table.concat(res, ' ')
+    end
+    local t = function()
+        exec(terminal_run .. cmd .. " " .. args)
+    end
+    return t
+end
+
+ -- editor exec
+function eexec(w)
+    local t = function()
+        exec(editor_cmd .. " " .. w)
+    end
+    return t
+end
+
+ -- standard exec
+function sexec(cmd)
+    local t = function()
+        exec(cmd)
+    end
+    return t
+end
 
 local progress_maker = function(col, width, height, ticks)
     local col = { type = "linear", from = { 0, 0}, to = { 20, 0}, stops = { {0, "#7799DD"}, {1, "#ff3333" }}}
@@ -17,6 +79,14 @@ local progress_maker = function(col, width, height, ticks)
         layout        = wibox.container.rotate,
     }
 end
+
+separator = wibox.widget.imagebox()
+separator:set_image(beautiful.widget_sep)
+
+memicon = wibox.widget.imagebox()
+memicon:buttons(PROCESS_MON_BUTTON)
+memicon:set_image(beautiful.widget_mem)
+
 
 --- CPU
 cpugraph  = awful.widget.graph()
@@ -61,18 +131,25 @@ vicious.register(fs.r:get_widget(wibox.widget.progressbar), vicious.widgets.fs, 
 ----- NETWORK
 
 
+naughty = require('naughty')
+naughty.notify({title="Using ..." .. nic})
 netwidget = wibox.widget.textbox()
 netwidget:buttons(NETWORK_MON_BUTTON)
 -- Register widget
-if ENABLE_NET_WID then
+if true then
     vicious.register(netwidget, vicious.widgets.net, function(wid, args) 
         if nic then
-            return'<span color="'
-              .. color.yellow .. '">'..args['{'..nic..' down_kb}']..'</span>  ' .. nic .. '  <span color="'
-              .. color.green ..'">'..args['{'..nic..' up_kb}']..'</span>'
+            return'<span color="#FF0000">'..args['{'..nic..' down_kb}']..'</span>  ' .. nic .. '  <span color="#00FF00">'..args['{'..nic..' up_kb}']..'</span>'
           end
           return 'N/A'
       end
       , 3)
 end
 
+
+dnicon = wibox.widget.imagebox()
+upicon = wibox.widget.imagebox()
+dnicon:set_image(beautiful.widget_net)
+upicon:set_image(beautiful.widget_netup)
+dnicon:buttons(NETWORK_MON_BUTTON)
+upicon:buttons(NETWORK_MON_BUTTON)

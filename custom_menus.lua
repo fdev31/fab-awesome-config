@@ -6,24 +6,6 @@ require('custom_conf')
 netctl_menu = {}
 netctl = io.popen('netctl list')
 
-local refresh_nic = timer({ timeout = 1 })
-
-function nic_display()
-    local refresh_limit = 30
-    refresh_nic:connect_signal("timeout", function ()
-        if nic or refresh_limit == 0 then
-            refresh_nic:stop()
-            if refresh_limit ~= 0 then
-                naughty.notify({title='Connected using '..nic})
-            end
-            return
-        end
-        set_nic()
-        refresh_limit = refresh_limit - 1
-    end)
-    refresh_nic:stop()
-    refresh_nic:start()
-end
 table.insert( netctl_menu, { "reset", exec('sudo netctl stop-all && sudo netctl restore') } )
 for line in netctl:lines() do
     line = line:sub(3)
@@ -35,7 +17,6 @@ for line in netctl:lines() do
     } )
 end
 netctl:close()
-nic_display()
 
 -- Setup backlight object
 

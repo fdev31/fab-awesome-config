@@ -33,47 +33,19 @@ color = {red="#ec3780", green="#80ecac", blue="#80b5ec", yellow="#eaec80"}
 
 -- handy functions --
 --
- -- shell exec
-exec  = awful.util.spawn_with_shell
-
--- following returns pointer to functions, to use in menus/keys
---
- -- terminal exec
-function texec(cmd, opts)
-    local args = ' '
-    if (opts) then
-        local res = {}
-        for k, v in pairs(opts) do
-            table.insert(res, '-'..k..' '..v)
-        end
-        args = ' ' .. table.concat(res, ' ')
-    end
-    local t = function()
-        exec(terminal_run .. cmd .. " " .. args)
-    end
-    return t
-end
-
- -- editor exec
-function eexec(w)
-    local t = function()
-        exec(editor_cmd .. " " .. w)
-    end
-    return t
-end
-
- -- standard exec
-function sexec(cmd)
-    local t = function()
-        exec(cmd)
-    end
-    return t
-end
 
 -- END OF CUSTO &  definitions
 --
+-- remove formerly defined tags
+for s = 1, scount do -- for each screen
+    local etags = awful.tag.gettags(s)
+    for tag in pairs(etags) do
+        etags[tag]:delete()
+    end
+end
+
 -- tagidx.tag_name == <index of the given tag>
---
+
 tagidx = {}
 local _tags = {
     names={},
@@ -184,7 +156,4 @@ function c_viewidx(i, screen_id, grab_client)
 
 end
 
-function set_nic()
-    nic = io.popen("netstat -rn |grep ^0.0.0.0 |awk '{print $8}'"):read()
-end
 
