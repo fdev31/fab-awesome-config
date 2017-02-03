@@ -26,24 +26,24 @@ local _ = {
     max     = awful.layout.suit.max       ,
     mag     = awful.layout.suit.magnifier ,
     float   = awful.layout.suit.floating  ,
-    gradied = require('custom_layouts').exp
+    spir    = awful.layout.suit.spir      ,
 }
 
 -- all used layouts should be defined ONCE here:
 -- Available layouts (override defaults)
-layouts = {
+awful.layout.layouts = {
     _.DEFAULT,
-    _.gradied,
     _.titlet,
-    _.titleb,
     _.mag,
+    _.float,
+    _.spir,
 }
 -- user-customizable tags: (name, layout, options)
 tags = {
     {"term"  , _.titleb  , nil        },
     {"edit"  , _.DEFAULT , nil        },
     {"web"   , _.DEFAULT , nil        },
-    {"im"    , _.gradied , {ncol=2}   },
+    {"im"    , _.fair, {ncol=2}   },
     {"logs"  , _.DEFAULT , {ncol=1, mwfact=0.5}   },
     {"fm"    , _.DEFAULT , nil        },
     {"gfx"   , _.mag     , nil        },

@@ -1,4 +1,4 @@
-module = {}
+local module = {}
 local awful = require('awful')
 local mykeys = {}
 
@@ -30,7 +30,7 @@ function set_wacom_screen(screen_nr)
 end
 
 
-local reset_default_scr = function() 
+local reset_default_scr = function()
     screen_flipped = false
     exec('xinput set-prop 10 "Evdev Axes Swap" 0')
     exec('xinput set-prop 10 "Evdev Axis Inversion" 0 0')
@@ -69,7 +69,7 @@ end
 
 table.insert(layouts, {"Orientations",
         {"Normal", reset_default_scr},
-        {"Book", function() 
+        {"Book", function()
             exec('xinput set-prop 10 "Evdev Axes Swap" 1')
             exec('xinput set-prop 10 "Evdev Axis Inversion" 1 0')
             exec('synclient TouchpadOff=1')
@@ -77,7 +77,7 @@ table.insert(layouts, {"Orientations",
             exec('xrandr --output eDP1 --rotate left')
             screen_flipped = true
         end},
-        {"Flipped", function() 
+        {"Flipped", function()
             exec('xrandr --output eDP1 --rotate inverted --auto')
             exec('xinput set-prop 10 "Evdev Axes Swap" 0')
             exec('xinput set-prop 10 "Evdev Axis Inversion" 1 1')
@@ -101,10 +101,10 @@ local screensitems = {
         },
         {"Wacom Sculpt", sexec("~/wacom_sculpt.sh")},
         {"Touchpad On",function()
-            exec('synclient TouchpadOff=0') 
-            exec('synclient TapButton3=2') 
-            exec('synclient TapButton2=3') 
-            exec('synclient TapButton1=1') 
+            exec('synclient TouchpadOff=0')
+            exec('synclient TapButton3=2')
+            exec('synclient TapButton2=3')
+            exec('synclient TapButton1=1')
             exec('xinput enable 11') end
         },
         {"Touchpad Off", function()
@@ -123,10 +123,12 @@ local screensitems = {
 local screensmenu = awful.menu({items = screensitems})
 
 mykeys = {
-    awful.key({ modkey,           }, "g", 
+    awful.key({ modkey,           }, "g",
     function ()
         if screen_flipped then reset_default_scr() else screensmenu:show({keygrabber=true}) end
-    end)
+    end,
+    {description="show graphical menu", group="awesome"}
+    )
 }
 
 --end
