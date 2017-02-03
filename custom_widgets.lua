@@ -94,10 +94,10 @@ cpugraph  = awful.widget.graph()
 local w=20
 cpugraph:set_width(w)
 cpugraph:set_background_color("#222222")
-cpugraph:set_color({ type = "linear", from = { 0, -w/8 }, to = { w*0.2, w/2 }, stops = { {1, "#7799DD"}, {0, "#ff3333" }}})
+cpugraph:set_color({ type = "linear", from = { 0, -w/8 }, to = { w*0.7, w }, stops = { {1, "#222222"}, {0, "#ff3333" }}})
 cpugraph:buttons(PROCESS_MON_BUTTON)
  -- Register widgets
-vicious.register(cpugraph,  vicious.widgets.cpu,      "$1")
+vicious.register(cpugraph,  vicious.widgets.cpu, "$1", 1)
 
 
 --- MEMORY
@@ -131,8 +131,6 @@ vicious.register(fs.r:get_widget(wibox.widget.progressbar), vicious.widgets.fs, 
 ----- NETWORK
 
 
-naughty = require('naughty')
-naughty.notify({title="Using ..." .. nic})
 netwidget = wibox.widget.textbox()
 netwidget:buttons(NETWORK_MON_BUTTON)
 -- Register widget
