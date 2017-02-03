@@ -67,7 +67,7 @@ for s = 1, scount do -- for each screen
       local props = tags[i][3]
       if props then
           if type(props) == 'function' then
-              props(t)
+              props = props(t)
           else -- table of properties
               for pname, pval in pairs(props) do
                   awful.tag.setproperty(t, pname, pval)
@@ -155,5 +155,3 @@ function c_viewidx(i, screen_id, grab_client)
     screen[screen_id]:emit_signal("tag::history::update")
 
 end
-
-
