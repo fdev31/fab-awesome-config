@@ -43,7 +43,7 @@ local rules = {
       }, properties = { floating = true }},
 
     { rule_any = {type = { "normal", "dialog" }
-          }, properties = { titlebars_enabled = false }
+  }, properties = { titlebars_enabled = ENABLE_TITLEBARS}
         },
 
 
@@ -61,7 +61,7 @@ local rules = {
     ru(nil, "alsamixer",           { width=100, floating=true}, awful.placement.under_mouse),
     -- term
 --    ru("terminology", nil,         { opacity=TRANS_LEVEL, fixed_trans=true }),
-    -- www 
+    -- www
     {
         rule = {class="Chromium", role="GtkFileChooserDialog"},
         properties={floating=true, sticky=true},

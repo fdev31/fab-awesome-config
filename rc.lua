@@ -10,6 +10,7 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
+require('my_conf')
 
 function dprint(text)
     naughty.notify({title=text})
@@ -43,11 +44,10 @@ end
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 --beautiful.init(awful.util.get_themes_dir() .. "default/theme.lua")
-beautiful.init(awful.util.get_xdg_config_home() .. "awesome/theme/default/theme.lua")
+beautiful.init(awful.util.get_xdg_config_home() .. "awesome/theme/" .. THEME .. "/theme.lua")
 
 
 -- This is used later as the default terminal and editor to run.
-terminal = "xterm"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
 

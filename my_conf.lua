@@ -1,3 +1,4 @@
+THEME = "default"
 WEB_BROWSER = 'chromium'
 FILE_MANAGER = 'thunar'
 NETWORK_MONITOR = 'sudo iptraf-ng'
@@ -58,5 +59,3 @@ ENABLE_CPURAM_WID = true
 ENABLE_VOL_WID    = true
 ENABLE_HDD_WID    = true
 ENABLE_DATE_WID   = true
-
-return _ENV
