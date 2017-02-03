@@ -241,7 +241,7 @@ awful.screen.connect_for_each_screen(function(s)
 end)
 -- }}}
 require('custom_conf')
-require('custom_menus')
+menu_mod = require('custom_menus')
 
 -- {{{ Mouse bindings
 root.buttons(awful.util.table.join(
@@ -436,12 +436,11 @@ clientbuttons = awful.util.table.join(
     awful.button({ modkey }, 1, awful.mouse.client.move),
     awful.button({ modkey }, 3, awful.mouse.client.resize))
 
-modules = require('specific_code')
-if modules.keys then
-    globalkeys = awful.util.table.join(globalkeys, unpack(modules.keys))
+if menu_mod.keys then
+    globalkeys = awful.util.table.join(globalkeys, unpack(menu_mod.keys))
 end
-if modules.client_keys then
-    clientbuttons = awful.util.table.join(clientbuttons, unpack(modules.client_keys))
+if menu_mod.client_keys then
+    clientbuttons = awful.util.table.join(clientbuttons, unpack(menu_mod.client_keys))
 end
 -- Set keys
 root.keys(globalkeys)
