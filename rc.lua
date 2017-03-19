@@ -347,7 +347,7 @@ globalkeys = awful.util.table.join(
 )
 
 local ck = require('custom_key')
-globalkeys = awful.util.table.join(globalkeys, unpack(ck.keys))
+globalkeys = awful.util.table.join(globalkeys, table.unpack(ck.keys))
 
 clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "f",
@@ -437,10 +437,10 @@ clientbuttons = awful.util.table.join(
     awful.button({ modkey }, 3, awful.mouse.client.resize))
 
 if menu_mod.keys then
-    globalkeys = awful.util.table.join(globalkeys, unpack(menu_mod.keys))
+    globalkeys = awful.util.table.join(globalkeys, table.unpack(menu_mod.keys))
 end
 if menu_mod.client_keys then
-    clientbuttons = awful.util.table.join(clientbuttons, unpack(menu_mod.client_keys))
+    clientbuttons = awful.util.table.join(clientbuttons, table.unpack(menu_mod.client_keys))
 end
 -- Set keys
 root.keys(globalkeys)
@@ -498,7 +498,7 @@ awful.rules.rules = {
     --   properties = { screen = 1, tag = "2" } },
 }
 -- }}}
-clientkeys = awful.util.table.join(clientkeys, unpack(require('custom_client_key').keys))
+clientkeys = awful.util.table.join(clientkeys, table.unpack(require('custom_client_key').keys))
 awful.rules.rules = require('custom_rules').rules
 
 -- {{{ Signals
