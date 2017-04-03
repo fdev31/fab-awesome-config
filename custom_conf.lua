@@ -1,4 +1,5 @@
 local awful = require("awful")
+local io = require('io')
 
 -- some global modules:
 vicious = require("vicious")
@@ -6,6 +7,9 @@ drop = require("drop")
 
 home   = os.getenv("HOME")
 screen_switched = false
+
+proc = io.popen('~/.screenlayout/default.sh')
+io.close(proc)
 
 scount = screen.count()
 
@@ -16,6 +20,8 @@ else
     S_MAIN = 1
     S_SEC = 2
 end
+
+awful.screen.preferred = S_MAIN
 
 color = {red="#ec3780", green="#80ecac", blue="#80b5ec", yellow="#eaec80"}
 
