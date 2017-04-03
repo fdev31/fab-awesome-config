@@ -13,6 +13,8 @@ terminal = "terminator"
 terminal_run = "terminator -x "
 fancy_terminal = "terminator -x"
 
+editor_cmd = terminal_run .. editor
+
 -- Tags --
 local awful = require("awful")
 
