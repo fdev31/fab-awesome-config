@@ -48,8 +48,6 @@ beautiful.init(awful.util.get_xdg_config_home() .. "awesome/theme/" .. THEME .. 
 
 
 -- This is used later as the default terminal and editor to run.
-editor = os.getenv("EDITOR") or "nano"
-editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
