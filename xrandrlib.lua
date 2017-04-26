@@ -1,5 +1,11 @@
 local xrandr = {}
 
+--[[ TODO
+--actions:
+-- swap screens (h)
+-- swap screens (v)
+-- ]]
+
 xrandr.screen_states = {}
 xrandr.screens = {}
 
