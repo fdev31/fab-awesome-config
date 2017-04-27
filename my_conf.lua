@@ -29,8 +29,8 @@ local awful = require("awful")
 --
 -- awful.layout.suit.spiral.dwindle, awful.layout.suit.spiral.name
 -- awful.layout.suit.tile.right, left, bottom, top...
---
-my_layouts = {
+
+local my_layouts = {
     { awful.layout.suit.tile, awful.layout.suit.tile.bottom, awful.layout.suit.tile.left, awful.layout.suit.tile.top},
     { awful.layout.suit.floating},
     { awful.layout.suit.fair, awful.layout.suit.fair.horizontal, awful.layout.suit.spiral, awful.layout.suit.spiral.dwindle},
@@ -73,8 +73,6 @@ function prev_layout_group()
     _set_layout(unpack(lay))
 end
 
-naughty = require('naughty')
-
 function next_layout_group() 
     local lay = get_cur_layout()
     if lay[1] >= #my_layouts then
@@ -98,7 +96,6 @@ end
 
 function next_layout() 
     local lay = get_cur_layout()
-    naughty.notify({title="lay: " .. lay[1] .. ", " .. lay[2]})
     if lay[2] == #my_layouts[lay[1]] then
         lay[2] = 1
     else
