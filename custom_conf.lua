@@ -86,3 +86,18 @@ awful.tag.viewidx(tagidx.web-1, 1) -- default tag
 if scount > 1 then
     awful.tag.viewidx(tagidx.im-1, 2)
 end
+
+local theme = require('beautiful').get()
+
+local separator = '|'
+theme.tasklist_sticky = '⚓' .. separator
+theme.tasklist_ontop = '⌃' .. separator
+theme.tasklist_above = '▴' .. separator
+theme.tasklist_below = '▾' .. separator
+theme.tasklist_floating = '✈' .. separator
+theme.tasklist_maximized = '▪' .. separator
+theme.tasklist_maximized_horizontal = '⬌' .. separator
+theme.tasklist_maximized_vertical = '⬍' .. separator
+
+
+
