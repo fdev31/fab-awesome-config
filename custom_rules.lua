@@ -48,12 +48,14 @@ local rules = {
 
 
     ru(nil,nil,{ -- defaults
-        focus            = true,
-        size_hints_honor = false,
-        keys             = clientkeys,
-        buttons          = clientbuttons,
-        border_width     = beautiful.border_width,
-        border_color     = beautiful.border_normal
+          border_width = beautiful.border_width,
+          border_color = beautiful.border_normal,
+          focus = awful.client.focus.filter,
+          raise = true,
+          keys = clientkeys,
+          buttons = clientbuttons,
+          screen = awful.screen.preferred,
+          placement = awful.placement.no_overlap+awful.placement.no_offscreen
     }),
     -- standard rules --
     -- volume properties
