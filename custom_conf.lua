@@ -21,8 +21,6 @@ else
     S_SEC = 2
 end
 
-awful.screen.preferred = S_MAIN
-
 color = {red="#ec3780", green="#80ecac", blue="#80b5ec", yellow="#eaec80"}
 
 -- SETUP COMPOSE KEY. see compose in /usr/share/X11/xkb/rules/base.lst
