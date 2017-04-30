@@ -70,7 +70,7 @@ function prev_layout_group()
         lay[1] = lay[1] - 1
     end
 --    lay[2] = 1
-    _set_layout(unpack(lay))
+    _set_layout(table.unpack(lay))
 end
 
 function next_layout_group() 
@@ -81,7 +81,7 @@ function next_layout_group()
         lay[1] = lay[1] + 1
     end
 --    lay[2] = 1
-    _set_layout(unpack(lay))
+    _set_layout(table.unpack(lay))
 end
 
 function prev_layout() 
@@ -91,7 +91,7 @@ function prev_layout()
     else
         lay[2] = lay[2] - 1
     end
-    _set_layout(unpack(lay))
+    _set_layout(table.unpack(lay))
 end
 
 function next_layout() 
@@ -101,7 +101,7 @@ function next_layout()
     else
         lay[2] = lay[2] + 1
     end
-    _set_layout(unpack(lay))
+    _set_layout(table.unpack(lay))
 end
 
 local _ = {
