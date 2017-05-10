@@ -60,6 +60,7 @@ local rules = {
     -- standard rules --
     -- volume properties
     ru("[pP]avucontrol", ".* volume.*",         { floating=true, fullscreen=false}),
+    ru("Steam", "Steam - News",         { floating=true, fullscreen=false, ontop=true}),
     ru(nil, "alsamixer",           { width=100, floating=true}, awful.placement.under_mouse),
     -- term
 --    ru("terminology", nil,         { opacity=TRANS_LEVEL, fixed_trans=true }),
