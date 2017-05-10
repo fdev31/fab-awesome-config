@@ -64,7 +64,7 @@ end
 
 function prev_layout_group() 
     local lay = get_cur_layout()
-    if lay[1] == 1 then
+    if lay[1] <= 1 then
         lay[1] = #my_layouts
     else
         lay[1] = lay[1] - 1
@@ -86,7 +86,7 @@ end
 
 function prev_layout() 
     local lay = get_cur_layout()
-    if lay[2] == 1 then
+    if lay[2] >= 1 then
         lay[2] = #my_layouts[lay[1]]
     else
         lay[2] = lay[2] - 1
