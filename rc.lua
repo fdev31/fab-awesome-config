@@ -103,7 +103,8 @@ myawesomemenu = {
 }
 
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "open terminal", terminal }
+                                    { "open terminal", terminal },
+                                    { "Disconnect user", function() awful.spawn('mate-session-save --logout-dialog') end},
                                   }
                         })
 

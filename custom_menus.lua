@@ -59,8 +59,8 @@ menu_items = {
     { "net", netctl_menu },
     { "connect", connect_items},
     { "zic", zmitems},
-    { "configure", sexec('gnome-tweak-tool')},
-    { "quit", sexec('pkill gnome-session')},
+    { "configure", sexec('mate-control-center')},
+    { "quit", sexec('mate-session-save --shutdown-dialog')},
 }
 
 mymainmenu = awful.menu({ items = menu_items })
