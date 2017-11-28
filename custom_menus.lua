@@ -39,8 +39,8 @@ local app_items = {
     { "Steam", sexec("Steam") },
 }
 local connect_items = {
-    { "Ssh tow",  texec('tow')  },
-    { "Telnet target",    texec('telnet $(cat ~/tmp/TARGET_IP.txt)') },
+    { "Screen STB",  texec('screen /dev/ttyUSB0 115200')  },
+    { "Ssh STB",    texec('$(~/utils/sstb') },
     {"remote input", function()
         texec('ssh -f -N -L 24800:localhost:24800 popo')
         texec('synergyc -f localhost')()
