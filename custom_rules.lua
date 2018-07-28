@@ -107,6 +107,7 @@ local rules = {
     -- logging xterm
     ru('TermLog', nil, {tag=awful.tag.gettags(S_SEC)[tagidx.logs], opacity=0.7 } ),
     ru("Pcmanfm","Execute File", { floating = true, sticky = true, ontop = true, above = true }, awful.placement.centered),
+    ru("Kupfer.py","Kupfer", { floating = true, sticky = true, ontop = true, above = true }, awful.placement.centered),
 --    ru("Geeqie", nil,              { floating=true } ),
     -- geeqie
     { match = { "Full screen...Geeqie"              },  intrusive = true, border_width = 0, fullscreen = 1, ontop=true },
