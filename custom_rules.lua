@@ -65,9 +65,8 @@ local rules = {
     ru(nil, "alsamixer",           { width=100, floating=true}, awful.placement.under_mouse),
     -- term
 --    ru("terminology", nil,         { opacity=TRANS_LEVEL, fixed_trans=true }),
-    -- www
     {
-        rule = {class="Chromium", role="GtkFileChooserDialog"},
+        rule = {class=nil, role="GtkFileChooserDialog"},
         properties={floating=true, sticky=true},
         callback = function (c)
             awful.placement.centered(c, nil)
@@ -76,6 +75,9 @@ local rules = {
     },
     ru("Chromium", nil,            { tag=awful.tag.gettags(S_MAIN)[tagidx.web] }),
     ru("Chromium", ".*- chat -.*", { tag=awful.tag.gettags(S_MAIN)[tagidx.im] }),
+    ru("Chromium", ".*- Flowdock",            { tag=awful.tag.gettags(S_SEC)[tagidx.im], floating=false }),
+    ru("Firefox", ".*- Outlook Web App -.*",  { tag=awful.tag.gettags(S_SEC)[tagidx.im], floating=false }),
+    ru("Skype", nil,            { tag=awful.tag.gettags(S_SEC)[tagidx.im], floating=false }),
     ru("Franz", "Franz",            { tag=awful.tag.gettags(S_MAIN)[tagidx.im] }),
     ru("Chromium", "Floating YouTube.*", { opacity=1.0, fixed_trans=true, floating=true, sticky=true }),
     ru("Firefox", nil,             { tag=awful.tag.gettags(S_MAIN)[tagidx.web] }),
