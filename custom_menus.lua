@@ -159,6 +159,10 @@ table.insert(layouts, {"Orientations",
 local screensitems = {
     {"Screens", layouts},
     {"Input" ,{
+        {"Touchscreen set", function()
+            exec('xinput map-to-output "ATML1000:00 03EB:842F" eDP1')
+        end
+        },
         {"F1-F12 std", function()
             exec('sudo k780swap')
         end
