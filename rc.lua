@@ -182,7 +182,13 @@ screen.connect_signal("property::geometry", set_wallpaper)
 
 require('custom_widgets')
 
+
 awful.screen.connect_for_each_screen(function(s)
+    mysystray = wibox.widget.systray()
+    mysystray.forced_width = 230
+    mysystray:set_base_size(64)
+    mysystray:set_horizontal(true)
+    mysystray:set_screen(s)
     -- Wallpaper
     set_wallpaper(s)
 
@@ -231,7 +237,7 @@ awful.screen.connect_for_each_screen(function(s)
             separator,
             mytextclock,
             separator,
-            wibox.widget.systray(),
+            mysystray,
             separator,
             mykeyboardlayout,
             s.mylayoutbox,
