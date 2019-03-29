@@ -96,6 +96,3 @@ theme.tasklist_floating = '✈' .. separator
 theme.tasklist_maximized = '▪' .. separator
 theme.tasklist_maximized_horizontal = '⬌' .. separator
 theme.tasklist_maximized_vertical = '⬍' .. separator
-
-
-

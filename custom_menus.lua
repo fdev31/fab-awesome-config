@@ -89,7 +89,6 @@ screen_aliases['DP-1'] = 'Iiyama'
 
 local screen_flipped = false
 
-
 function set_wacom_screen(screen_nr)
     local offset = (screen_nr - 1) * 1920
     for i=10,20 do
