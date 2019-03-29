@@ -190,13 +190,9 @@ screen.connect_signal("property::geometry", set_wallpaper)
 
 require('custom_widgets')
 
+connected = false
 
 awful.screen.connect_for_each_screen(function(s)
-    mysystray = wibox.widget.systray()
-    mysystray.forced_width = 230
-    mysystray:set_base_size(64)
-    mysystray:set_horizontal(true)
-    mysystray:set_screen(s)
     -- Wallpaper
     set_wallpaper(s)
 
@@ -221,6 +217,34 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s })
+    local my_widgets = { -- Right widgets
+        layout = wibox.layout.fixed.horizontal,
+        separator,
+        dnicon,
+        netwidget,
+        upicon,
+        cpugraph,
+        memicon,
+        membar,
+        separator,
+        mytextclock,
+        separator,
+    }
+
+    if not connected then
+        mysystray = wibox.widget.systray()
+        mysystray.forced_width = 230
+        mysystray:set_base_size(64)
+        mysystray:set_horizontal(true)
+        mysystray:set_screen(s)
+        my_widgets = table.join(my_widgets, {mysystray, separator})
+        connected = true
+    end
+
+    my_widgets = table.join(my_widgets, {
+        mykeyboardlayout,
+        s.mylayoutbox,
+    })
 
     -- Add widgets to the wibox
     s.mywibox:setup {
@@ -233,23 +257,7 @@ awful.screen.connect_for_each_screen(function(s)
             s.mypromptbox,
         },
         s.mytasklist, -- Middle widget
-        { -- Right widgets
-            layout = wibox.layout.fixed.horizontal,
-            separator,
-            dnicon,
-            netwidget,
-            upicon,
-            cpugraph,
-            memicon,
-            membar,
-            separator,
-            mytextclock,
-            separator,
-            mysystray,
-            separator,
-            mykeyboardlayout,
-            s.mylayoutbox,
-        },
+        my_widgets,
     }
 end)
 -- }}}
