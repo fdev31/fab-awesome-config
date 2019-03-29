@@ -9,8 +9,8 @@ ENABLE_TITLEBARS = false
 IS_LAPTOP = os.execute('laptop-detect')
 zic_prompt = true
 editor = os.getenv("EDITOR") or "nano"
-terminal = "terminator"
-terminal_run = "terminator -x "
+terminal = "kitty"
+terminal_run = "kitty -e "
 fancy_terminal = "terminator -x"
 
 editor_cmd = terminal_run .. editor
