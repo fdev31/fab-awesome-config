@@ -232,12 +232,7 @@ awful.screen.connect_for_each_screen(function(s)
     }
 
     if not connected then
-        mysystray = wibox.widget.systray()
-        mysystray.forced_width = 230
-        mysystray:set_base_size(64)
-        mysystray:set_horizontal(true)
-        mysystray:set_screen(s)
-        my_widgets = table.join(my_widgets, {mysystray, separator})
+        my_widgets = table.join(my_widgets, { wibox.widget.systray(), separator})
         connected = true
     end
 
