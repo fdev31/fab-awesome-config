@@ -24,24 +24,26 @@ end
 color = {red="#ec3780", green="#80ecac", blue="#80b5ec", yellow="#eaec80"}
 
 -- SETUP COMPOSE KEY. see compose in /usr/share/X11/xkb/rules/base.lst
- if IS_LAPTOP then
-     awful.util.spawn_with_shell('setxkbmap -option compose:prsc')
- else
-     awful.util.spawn_with_shell('setxkbmap -option compose:menu')
- end
+if IS_LAPTOP then
+    awful.spawn.with_shell('setxkbmap -option compose:prsc')
+else
+    awful.spawn.with_shell('setxkbmap -option compose:menu')
+end
 
 -- handy functions --
 --
 
 -- END OF CUSTO &  definitions
---
--- remove formerly defined tags
-for s = 1, scount do -- for each screen
-    local etags = awful.tag.gettags(s)
-    for tag in pairs(etags) do
-        etags[tag]:delete()
+function rmtags(s)
+    local tags = s.tags
+    for tag in pairs(tags) do
+        tags[tag]:delete()
     end
 end
+
+ -- remove current tags, then forget
+awful.screen.connect_for_each_screen (rmtags)
+awful.screen.disconnect_for_each_screen (rmtags)
 
 -- tagidx.tag_name == <index of the given tag>
 

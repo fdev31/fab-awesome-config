@@ -1,4 +1,5 @@
 local vicious = require("vicious")
+local naughty = require("naughty")
 local beautiful = require("beautiful")
 local awful = require("awful")
 local wibox = require("wibox")
@@ -8,7 +9,7 @@ local gears = require('gears')
 function set_nic()
     nic = io.popen("netstat -rn |grep ^0.0.0.0 |awk '{print $8}'"):read()
 end
-local refresh_nic = timer({ timeout = 1 })
+local refresh_nic = gears.timer({ timeout = 1 })
 function nic_display()
     local refresh_limit = 30
     refresh_nic:connect_signal("timeout", function ()
@@ -29,7 +30,7 @@ nic_display()
 set_nic()
 
  -- shell exec
-exec  = awful.util.spawn_with_shell
+exec  = awful.spawn.with_shell
 
 -- following returns pointer to functions, to use in menus/keys
 --
@@ -89,7 +90,7 @@ memicon:set_image(beautiful.widget_mem)
 
 
 --- CPU
-cpugraph  = awful.widget.graph()
+cpugraph  = wibox.widget.graph()
 
 local w=20
 cpugraph:set_width(w)
@@ -151,3 +152,4 @@ dnicon:set_image(beautiful.widget_net)
 upicon:set_image(beautiful.widget_netup)
 dnicon:buttons(NETWORK_MON_BUTTON)
 upicon:buttons(NETWORK_MON_BUTTON)
+

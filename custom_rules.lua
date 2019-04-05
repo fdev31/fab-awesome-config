@@ -16,6 +16,17 @@ function ru(c,n,prop, callback)
         return p
 end
 
+local all_screens = {}
+for s in screen do
+    -- do something
+     all_screens[#all_screens+1] = s
+end
+
+function gettags(idx, tagidx)
+    return all_screens[idx].tags[tagidx]
+end
+
+
 local rules = {
 { rule_any = {
         instance = {
@@ -70,36 +81,36 @@ local rules = {
         properties={floating=true, sticky=true},
         callback = function (c)
             awful.placement.centered(c, nil)
-            awful.client.movetotag(awful.tag.selected(mouse.screen), c)
+            awful.client.movetotag(selected(mouse.screen), c)
         end
     },
-    ru("Chromium", nil,            { tag=awful.tag.gettags(S_MAIN)[tagidx.web] }),
-    ru("Chromium", ".*- chat -.*", { tag=awful.tag.gettags(S_MAIN)[tagidx.im] }),
-    ru("Chromium", ".*- Flowdock",            { tag=awful.tag.gettags(S_SEC)[tagidx.im], floating=false }),
-    ru("Firefox", ".*- Outlook Web App -.*",  { tag=awful.tag.gettags(S_SEC)[tagidx.im], floating=false }),
-    ru("Skype", nil,            { tag=awful.tag.gettags(S_SEC)[tagidx.im], floating=false }),
-    ru("Franz", "Franz",            { tag=awful.tag.gettags(S_MAIN)[tagidx.im] }),
+    ru("Chromium", nil,            { tag=gettags(S_MAIN, tagidx.web) }),
+    ru("Chromium", ".*- chat -.*", { tag=gettags(S_MAIN, tagidx.im) }),
+    ru("Chromium", ".*- Flowdock",            { tag=gettags(S_SEC, tagidx.im), floating=false }),
+    ru("Firefox", ".*- Outlook Web App -.*",  { tag=gettags(S_SEC, tagidx.im), floating=false }),
+    ru("Skype", nil,            { tag=gettags(S_SEC, tagidx.im), floating=false }),
+    ru("Franz", "Franz",            { tag=gettags(S_MAIN, tagidx.im) }),
     ru("Chromium", "Floating YouTube.*", { opacity=1.0, fixed_trans=true, floating=true, sticky=true }),
-    ru("Firefox", nil,             { tag=awful.tag.gettags(S_MAIN)[tagidx.web] }),
-    ru("Midori", nil,              { tag=awful.tag.gettags(S_MAIN)[tagidx.web] }),
-    ru("Pale moon", nil,           { tag=awful.tag.gettags(S_MAIN)[tagidx.web] }),
+    ru("Firefox", nil,             { tag=gettags(S_MAIN, tagidx.web) }),
+    ru("Midori", nil,              { tag=gettags(S_MAIN, tagidx.web) }),
+    ru("Pale moon", nil,           { tag=gettags(S_MAIN, tagidx.web) }),
     -- chat
-    ru("Xchat", nil,               { tag=awful.tag.gettags(S_SEC)[tagidx.im] } ),
-    ru("Thunderbird", nil,         { tag=awful.tag.gettags(S_SEC)[tagidx.im] } ),
+    ru("Xchat", nil,               { tag=gettags(S_SEC, tagidx.im) } ),
+    ru("Thunderbird", nil,         { tag=gettags(S_SEC, tagidx.im) } ),
     -- medias
-    ru("Audacious", nil,           { tag=awful.tag.gettags(S_SEC)[tagidx.media] } ),
-    ru("Midori", ".* – Rdio",      { tag=awful.tag.gettags(S_SEC)[tagidx.web] } ),
+    ru("Audacious", nil,           { tag=gettags(S_SEC, tagidx.media) } ),
+    ru("Midori", ".* – Rdio",      { tag=gettags(S_SEC, tagidx.web) } ),
 
     -- edit
-    ru("Gvim", nil,                { tag=awful.tag.gettags(S_MAIN)[tagidx.edit] } ),
-    ru("jetbrains-pycharm-ce", nil,{ tag=awful.tag.gettags(S_MAIN)[tagidx.edit] } ),
-    ru("Snaked", nil,              { tag=awful.tag.gettags(S_MAIN)[tagidx.edit] } ),
+    ru("Gvim", nil,                { tag=gettags(S_MAIN, tagidx.edit) } ),
+    ru("jetbrains-pycharm-ce", nil,{ tag=gettags(S_MAIN, tagidx.edit) } ),
+    ru("Snaked", nil,              { tag=gettags(S_MAIN, tagidx.edit) } ),
     -- gfx
-    ru("Blender", nil,             { tag=awful.tag.gettags(S_MAIN)[tagidx.gfx] } ),
-    ru("Inkscape", nil,            { tag=awful.tag.gettags(S_MAIN)[tagidx.gfx] } ),
-    ru("Gimp", nil,                { tag=awful.tag.gettags(S_MAIN)[tagidx.gfx] } ),
+    ru("Blender", nil,             { tag=gettags(S_MAIN, tagidx.gfx) } ),
+    ru("Inkscape", nil,            { tag=gettags(S_MAIN, tagidx.gfx) } ),
+    ru("Gimp", nil,                { tag=gettags(S_MAIN, tagidx.gfx) } ),
     -- sound
-    ru("Rdio", nil,                { tag=awful.tag.gettags(S_SEC)[tagidx.media] } ),
+    ru("Rdio", nil,                { tag=gettags(S_SEC, tagidx.media) } ),
     -- fs
     ru("ROX-Filer", nil,           { floating=true }),
     -- hacks --
@@ -107,7 +118,7 @@ local rules = {
     ru("Exe", "exe",               { floating=true, fullscreen=true } ),
     ru("Plugin-container", nil,    { floating=true, fullscreen=true } ),
     -- logging xterm
-    ru('TermLog', nil, {tag=awful.tag.gettags(S_SEC)[tagidx.logs], opacity=0.7 } ),
+    ru('TermLog', nil, {tag=gettags(S_SEC, tagidx.logs), opacity=0.7 } ),
     ru("Pcmanfm","Execute File", { floating = true, sticky = true, ontop = true, above = true }, awful.placement.centered),
     ru("Kupfer.py","Kupfer", { floating = true, sticky = true, ontop = true, above = true }, awful.placement.centered),
 --    ru("Geeqie", nil,              { floating=true } ),
@@ -127,7 +138,7 @@ for s = 1, scount do screen[s]:connect_signal("arrange", function ()
     local layout = awful.layout.getname(awful.layout.get(s))
 
     for _, c in pairs(clients) do -- Floaters are always on top
-        if   awful.client.floating.get(c) or layout == "floating"
+        if   c.floating or layout == "floating"
         then if not c.fullscreen then c.above       =  true  end
         else                          c.above       =  false end
     end

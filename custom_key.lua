@@ -7,72 +7,25 @@ local mixer = require('ponymix')
 require('custom_conf')
 
 function c_grabnext(screen)
-    return c_viewidx(1, screen, true)
+    local c = client.focus
+    local r = c_viewnext()
+    c:tags({awful.screen.focused().selected_tag})
+    return r
 end
+
 function c_grabprev(screen)
-    return c_viewidx(-1, screen, true)
+    local c = client.focus
+    local r = c_viewprev()
+    c:tags({awful.screen.focused().selected_tag})
+    return r
 end
+
 function c_viewnext(screen)
-    return c_viewidx(1, screen)
-end
-function c_viewprev(screen)
-    return c_viewidx(-1, screen)
+    return awful.tag.viewnext(awful.screen.focused())
 end
 
-function c_viewidx(i, screen_id, grab_client)
-    local screen_id = screen_id or mouse.screen
-    local tags = awful.tag.gettags(screen_id)
-    local current = awful.tag.getidx()
-
-    local all_tags = {}
-    local last_visible = nil
-
-    for k, t in ipairs(tags) do
-        local h = awful.tag.getproperty(t, "hide")
-        table.insert(all_tags, {hidden=h, left_visible=last_visible})
-        if not h then
-            last_visible = k
-        end
-    end
-    local rightmost = all_tags[#all_tags].hidden and all_tags[#all_tags].left_visible or #all_tags
-    for k, t in ipairs(all_tags) do
-        if t.left_visible == nil then
-            t.left_visible = rightmost
-        end
-    end
-
-    last_visible = nil
-    for k=#all_tags, 1, -1 do
-        local t = all_tags[k]
-        t.right_visible = last_visible
-        if not t.hidden then
-            last_visible = k
-        end
-    end
-
-    local leftmost = all_tags[1].hidden and all_tags[1].right_visible or 1
-    for k=#all_tags, 1, -1 do
-        local t = all_tags[k]
-        if t.right_visible == nil then
-            t.right_visible = leftmost
-        end
-    end
-
-    if i > 0 then
-        i = all_tags[current].right_visible
-    else
-        i = all_tags[current].left_visible
-    end
-
-    if grab_client then
-        awful.client.movetotag(tags[i])
-    end
-
-    awful.tag.viewnone(screen_id)
-    tags[i].selected = true
-
-    screen[screen_id]:emit_signal("tag::history::update")
-
+function c_viewprev()
+    return awful.tag.viewprev(awful.screen.focused())
 end
 
 local k = {
