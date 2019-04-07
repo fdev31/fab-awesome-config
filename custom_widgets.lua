@@ -3,7 +3,6 @@ local naughty = require("naughty")
 local beautiful = require("beautiful")
 local awful = require("awful")
 local wibox = require("wibox")
-
 local gears = require('gears')
 
 function set_nic()
@@ -119,7 +118,7 @@ fs = {
 for _, w in pairs(fs) do
   -- Register buttons
 --  w:set_border_color('#333333')
-  w:buttons(awful.util.table.join(
+  w:buttons(gears.table.join(
     awful.button({ }, 1, sexec(FILE_MANAGER) )
   ))
 end -- Enable caching

@@ -19,14 +19,6 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 require("awful.hotkeys_popup.keys")
 require('my_conf')
 
-function TableConcat(t1,t2)
-    for i=1,#t2 do
-        t1[#t1+1] = t2[i]
-    end
-    return t1
-end
-table.join = TableConcat
-
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -86,21 +78,6 @@ awful.layout.layouts = {
     -- awful.layout.suit.corner.sw,
     -- awful.layout.suit.corner.se,
 }
--- }}}
-
--- {{{ Helper functions
-local function client_menu_toggle_fn()
-    local instance = nil
-
-    return function ()
-        if instance and instance.wibox.visible then
-            instance:hide()
-            instance = nil
-        else
-            instance = awful.menu.clients({ theme = { width = 250 } })
-        end
-    end
-end
 -- }}}
 
 -- {{{ Menu
@@ -240,11 +217,11 @@ awful.screen.connect_for_each_screen(function(s)
     }
 
     if not connected then
-        right_widgets = table.join(right_widgets, { wibox.widget.systray(), separator})
+        right_widgets = gears.table.join(right_widgets, { wibox.widget.systray(), separator})
         connected = true
     end
 
-    right_widgets = table.join(right_widgets, {
+    right_widgets = gears.table.join(right_widgets, {
         mykeyboardlayout,
         s.mylayoutbox,
     })
@@ -294,6 +271,8 @@ globalkeys = gears.table.join(
         end,
         {description = "focus previous by index", group = "client"}
     ),
+    awful.key({ modkey,           }, "q", function () mymainmenu:show() end,
+              {description = "show main menu", group = "awesome"}),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end,
@@ -335,14 +314,9 @@ globalkeys = gears.table.join(
               {description = "increase the number of columns", group = "layout"}),
     awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1, nil, true)    end,
               {description = "decrease the number of columns", group = "layout"}),
-    awful.key({ modkey,           }, "space", function () next_layout_group() end,
-              {description = "select next group", group = "layout"}),
-    awful.key({ modkey, "Shift"   }, "space", function () prev_layout_group()                end,
-              {description = "select previous group", group = "layout"}),
-
-    awful.key({ modkey,           }, "v", function () next_layout() end,
+    awful.key({ modkey,           }, "space", function () awful.layout.inc( 1)                end,
               {description = "select next", group = "layout"}),
-    awful.key({ modkey, "Shift"   }, "v", function () prev_layout()                end,
+    awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(-1)                end,
               {description = "select previous", group = "layout"}),
 
     awful.key({ modkey, "Control" }, "n",
@@ -350,7 +324,7 @@ globalkeys = gears.table.join(
                   local c = awful.client.restore()
                   -- Focus restored client
                   if c then
-                      c:emit_signal(
+                    c:emit_signal(
                         "request::activate", "key.unminimize", {raise = true}
                     )
                   end

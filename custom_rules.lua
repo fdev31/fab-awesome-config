@@ -1,6 +1,7 @@
 local awful = require("awful")
 local beautiful = require("beautiful")
 local naughty = require("naughty")
+local gears = require("gears")
 require('custom_conf')
 
 local TRANS_LEVEL = 0.8
@@ -125,7 +126,7 @@ local rules = {
     -- geeqie
     { match = { "Full screen...Geeqie"              },  intrusive = true, border_width = 0, fullscreen = 1, ontop=true },
     { match = { "Tools...Geeqie"                    },
-      keys = awful.util.table.join(awful.key({}, "Escape", function(c)  getclient("id", c.group_id + 2):kill() end))   },
+      keys = gears.table.join(awful.key({}, "Escape", function(c)  getclient("id", c.group_id + 2):kill() end))   },
 }
 
 --client.connect_signal("unfocus", function (c) c.opacity = TRANS_LEVEL end)
