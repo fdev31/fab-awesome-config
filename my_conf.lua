@@ -52,7 +52,7 @@ local function _set_layout(x, y)
 end
 
 local function get_cur_layout()
-    local cur_t = awful.tag.selected()
+    local cur_t = mouse.screen.selected_tag
     local cur_l = selected_layout[cur_t]
     if cur_l == nil then
         cur_l = {1, 1}
