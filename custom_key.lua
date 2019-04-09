@@ -41,7 +41,7 @@ local k = {
     awful.key({ modkey , "Shift"   } , "Right" , c_grabnext, {description = "move to next tag", group = "client"})         ,
     awful.key({ modkey , "Shift"   } , "Left"  , c_grabprev ,{description = "move to previous tag", group = "client"})         ,
 --    awful.key({ modkey             } , "y"     , sexec('synapse'))    ,
-    awful.key({ "Control", "Shift" } , "l"     , sexec('screenlocker.sh'), {description="lock", group="screen"}) ,
+    awful.key({ modkey } , "l"     , sexec('screenlocker.sh'), {description="lock", group="screen"}) ,
     awful.key({ modkey             } , "t"     , sexec(FILE_MANAGER), {description="open file manager", group="launcher"} )    ,
     awful.key({ modkey             } , "w"     , sexec(WEB_BROWSER) , {description="open Web browser", group="launcher"}) ,
     awful.key({ modkey             } , "Up"    , sexec('compton-trans -c +5') , {description="more opacity", group="client"})    ,
