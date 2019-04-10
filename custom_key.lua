@@ -44,8 +44,8 @@ local k = {
     awful.key({ modkey } , "l"     , sexec('screenlocker.sh'), {description="lock", group="screen"}) ,
     awful.key({ modkey             } , "t"     , sexec(FILE_MANAGER), {description="open file manager", group="launcher"} )    ,
     awful.key({ modkey             } , "w"     , sexec(WEB_BROWSER) , {description="open Web browser", group="launcher"}) ,
-    awful.key({ modkey             } , "Up"    , sexec('compton-trans -c +5') , {description="more opacity", group="client"})    ,
-    awful.key({ modkey             } , "Down"  , sexec('compton-trans -c -- -5'), {description="less opacity", group="client"} ) ,
+    awful.key({ modkey             } , "Up"    , function() client.focus.opacity = math.min(1, client.focus.opacity + 0.05) end, {description="more opacity", group="client"})    ,
+    awful.key({ modkey             } , "Down"  , function() client.focus.opacity = math.max(0.1, client.focus.opacity - 0.05) end, {description="less opacity", group="client"} ) ,
 
     awful.key({ modkey } , "p", function ()
         screen_switched = true awful.screen.focus_relative( 1)
