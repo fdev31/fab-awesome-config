@@ -1,6 +1,6 @@
 THEME = "default"
 WEB_BROWSER = 'firefox'
-FILE_MANAGER = 'pcmanfm'
+FILE_MANAGER = 'nautilus'
 NETWORK_MONITOR = 'sudo iptraf-ng'
 PROCESS_MONITOR = 'top'
 ENABLE_TITLEBARS = false
