@@ -9,26 +9,25 @@ while offering simpler and faster access to most common configuration items.
 
 ## Features
 
-- optional vicious widgets 
-    - network monitor
-    - cpu & ram monitor
-    - sound control
-    - hdd capacity
-    - date & time
-- systray
+- Mate integration
+- compositor effects (compton configuration file provided)
+    - set windows transparency with a shortcut
+- opiniated selection of apps integrated
+    - Kitty / terminator
+    - pcmanfm / nautilus / thunar
+    - kupfer
 - toggleable popup-like shell
 - hidden-tag ready functions
 - friendlier configuration
     - convenient shortcuts
     - configuration in `my_*.lua` files
     - generic features in `custom_*.lua` files
-- nice theme & shortcuts based on default theme, 
-- compton surface compositor integration (sample file provided)
-- dual screen frendly
+- original theme & shortcuts based on default theme,
+- multi-screen frendly
 - laptop friendly
     - backlight support
 - sound keys support
-- one more layout, vertical screen friendly
+- one more layout, vertical screen friendly called **gradient**
 
 ## Variables
 
@@ -41,7 +40,7 @@ S_Main: main screen
 Most default shortcuts available, plus:
 
 `Mod+A`
-    Shell popup
+    Toggle shell popup
 
 `Mod+Q`
     Menu
@@ -57,6 +56,9 @@ Most default shortcuts available, plus:
 
 `Mod+E`
     List all clients (aka windows)
+
+`Mod+L`
+    Lock screen
 
 `Mod+F3`
     Search gnome-dictionary
