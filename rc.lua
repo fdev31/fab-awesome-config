@@ -222,7 +222,7 @@ awful.screen.connect_for_each_screen(function(s)
     end
 
     right_widgets = gears.table.join(right_widgets, {
-        mykeyboardlayout,
+--        mykeyboardlayout,
         s.mylayoutbox,
     })
 
