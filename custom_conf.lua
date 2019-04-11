@@ -13,13 +13,8 @@ io.close(proc)
 
 scount = screen.count()
 
-if (scount == 1) then
-    S_MAIN = 1
-    S_SEC = 1
-else
-    S_MAIN = 1
-    S_SEC = 2
-end
+S_MAIN = 1
+S_SEC = 2
 
 color = {red="#ec3780", green="#80ecac", blue="#80b5ec", yellow="#eaec80"}
 
@@ -81,11 +76,7 @@ end
 _tags = nil
 tags = nil
 
-awful.tag.viewidx(tagidx.web-1, 1) -- default tag
-
-if scount > 1 then
-    awful.tag.viewidx(tagidx.im-1, 2)
-end
+awful.tag.viewidx(tagidx.web, scount) -- default tag
 
 local theme = require('beautiful').get()
 

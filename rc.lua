@@ -167,8 +167,6 @@ screen.connect_signal("property::geometry", set_wallpaper)
 
 require('custom_widgets')
 
-connected = false
-
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
     set_wallpaper(s)
@@ -216,9 +214,8 @@ awful.screen.connect_for_each_screen(function(s)
         separator,
     }
 
-    if not connected then
+    if s == screen.primary then
         right_widgets = gears.table.join(right_widgets, { wibox.widget.systray(), separator})
-        connected = true
     end
 
     right_widgets = gears.table.join(right_widgets, {
