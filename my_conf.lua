@@ -4,6 +4,7 @@ FILE_MANAGER = 'nautilus'
 NETWORK_MONITOR = 'sudo iptraf-ng'
 PROCESS_MONITOR = 'top'
 ENABLE_TITLEBARS = false
+ENABLE_WALLPAPER = false
 
 -- misc settings
 IS_LAPTOP = os.execute('laptop-detect')

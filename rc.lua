@@ -149,8 +149,10 @@ local tasklist_buttons = gears.table.join(
                      awful.button({ }, 5, function ()
                                               awful.client.focus.byidx(-1)
                                           end))
-
 local function set_wallpaper(s)
+    if not ENABLE_WALLPAPER then
+        return
+    end
     -- Wallpaper
     if beautiful.wallpaper then
         local wallpaper = beautiful.wallpaper
