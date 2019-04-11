@@ -81,6 +81,7 @@ local rules = {
           screen = awful.screen.preferred,
           placement = awful.placement.no_overlap+awful.placement.no_offscreen
     }),
+    ru("Variety", ".*Variety", {floating=true}),
     ru(nil, "CGM-rc-Heli-Simulator", {floating=false, fullscreen=false}),
     -- standard rules --
     -- volume properties
