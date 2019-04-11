@@ -8,6 +8,7 @@ require('custom_conf')
 
 function c_grabnext(screen)
     local c = client.focus
+    if c == nil then return end
     local r = c_viewnext()
     c:tags({awful.screen.focused().selected_tag})
     return r
@@ -15,6 +16,7 @@ end
 
 function c_grabprev(screen)
     local c = client.focus
+    if c == nil then return end
     local r = c_viewprev()
     c:tags({awful.screen.focused().selected_tag})
     return r
@@ -43,8 +45,8 @@ local k = {
     awful.key({ modkey , "Shift"   } , "l"     , sexec('screenlocker.sh'), {description="lock", group="screen"}) ,
     awful.key({ modkey             } , "t"     , sexec(FILE_MANAGER), {description="open file manager", group="launcher"} )    ,
     awful.key({ modkey             } , "w"     , sexec(WEB_BROWSER) , {description="open Web browser", group="launcher"}) ,
-    awful.key({ modkey             } , "Up"    , function() client.focus.opacity = math.min(1, client.focus.opacity + 0.05) end, {description="more opacity", group="client"})    ,
-    awful.key({ modkey             } , "Down"  , function() client.focus.opacity = math.max(0.1, client.focus.opacity - 0.05) end, {description="less opacity", group="client"} ) ,
+    awful.key({ modkey             } , "Up"    , function() if client.focus then client.focus.opacity = math.min(1, client.focus.opacity + 0.05) end end, {description="more opacity", group="client"})    ,
+    awful.key({ modkey             } , "Down"  , function() if client.focus then client.focus.opacity = math.max(0.1, client.focus.opacity - 0.05) end end, {description="less opacity", group="client"} ) ,
 
     awful.key({ modkey } , "p", function ()
         screen_switched = true awful.screen.focus_relative( 1)
