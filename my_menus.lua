@@ -119,6 +119,9 @@ local layouts = {
 
 local naughty = require('naughty')
 
+-- TODO: evaluate other modules & replace it if dynamic
+-- else implement updates
+
 for i, name in pairs(xrandr.screens) do
     local screen_opts = {}
     table.insert(screen_opts, {'on', function()

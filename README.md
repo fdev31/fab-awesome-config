@@ -20,7 +20,7 @@ while offering simpler and faster access to most common configuration items.
 - hidden-tag ready functions
 - friendlier configuration
     - convenient shortcuts
-    - configuration in `my_*.lua` files
+    - configuration in `my_*.lua` files (the ones to edit)
     - generic features in `custom_*.lua` files
 - original theme & shortcuts based on default theme,
 - multi-screen frendly
