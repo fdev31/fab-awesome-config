@@ -1,3 +1,8 @@
+-- 
+-- Top bar widget goodies
+-- sits next to the system tray
+--
+
 local vicious = require("vicious")
 local naughty = require("naughty")
 local beautiful = require("beautiful")
@@ -87,7 +92,6 @@ memicon = wibox.widget.imagebox()
 memicon:buttons(PROCESS_MON_BUTTON)
 memicon:set_image(beautiful.widget_mem)
 
-
 --- CPU
 cpugraph  = wibox.widget.graph()
 
@@ -130,7 +134,6 @@ vicious.register(fs.r:get_widget(wibox.widget.progressbar), vicious.widgets.fs, 
 --
 ----- NETWORK
 
-
 netwidget = wibox.widget.textbox()
 netwidget:buttons(NETWORK_MON_BUTTON)
 -- Register widget
@@ -143,7 +146,6 @@ if true then
       end
       , 3)
 end
-
 
 dnicon = wibox.widget.imagebox()
 upicon = wibox.widget.imagebox()

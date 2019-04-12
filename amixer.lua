@@ -1,3 +1,8 @@
+--
+-- mixer module based on amixer
+-- a single amixer process is used to improve the efficiency
+--
+
 local id="0"
 local increment=4
 

@@ -1,3 +1,11 @@
+--
+-- Main high level configuration
+-- * available layouts
+-- * tags description
+-- * apps to be used on shortcuts
+-- * turning widgets on/off
+--
+
 THEME = "default"
 WEB_BROWSER = 'firefox'
 FILE_MANAGER = 'nautilus'

@@ -1,3 +1,7 @@
+-- simple xrandr integration
+-- to be compared to more advanced ones available
+-- could be replaced by something more complete
+
 local xrandr = {}
 
 --[[ TODO

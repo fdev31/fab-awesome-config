@@ -1,3 +1,7 @@
+--
+-- very basic xbacklight integration
+--
+
 module = {}
 awful = require 'awful'
 -- use awful.util.spawn instead ?

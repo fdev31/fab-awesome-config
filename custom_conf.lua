@@ -1,3 +1,7 @@
+-- base init module
+-- second file to be loaded after widgets
+-- TODO: clean me
+
 local awful = require("awful")
 local io = require('io')
 
@@ -71,6 +75,7 @@ function mktags(s)
       end
   end
 end
+
 awful.screen.connect_for_each_screen (mktags)
 
 _tags = nil

@@ -1,3 +1,7 @@
+--
+-- rules to be applied to clients
+--
+
 local awful = require("awful")
 local beautiful = require("beautiful")
 local naughty = require("naughty")

@@ -1,3 +1,7 @@
+-- 
+-- Global shortcuts
+--
+
 local awful = require("awful")
 local beautiful = require("beautiful")
 local naughty = require("naughty")
@@ -64,22 +68,6 @@ function next_layout()
     _set_layout(table.unpack(lay))
 end
 
-function c_grabnext(screen)
-    local c = client.focus
-    if c == nil then return end
-    local r = c_viewnext()
-    c:tags({awful.screen.focused().selected_tag})
-    return r
-end
-
-function c_grabprev(screen)
-    local c = client.focus
-    if c == nil then return end
-    local r = c_viewprev()
-    c:tags({awful.screen.focused().selected_tag})
-    return r
-end
-
 function c_viewnext(screen)
     return awful.tag.viewnext(awful.screen.focused())
 end
@@ -101,8 +89,6 @@ local k = {
 
     awful.key({ modkey ,           } , "Left"  , c_viewprev ,{description = "view previous", group = "tag"})         ,
     awful.key({ modkey ,           } , "Right" , c_viewnext ,{description = "view next", group = "tag"})         ,
-    awful.key({ modkey , "Shift"   } , "Right" , c_grabnext, {description = "move to next tag", group = "client"})         ,
-    awful.key({ modkey , "Shift"   } , "Left"  , c_grabprev ,{description = "move to previous tag", group = "client"})         ,
 --    awful.key({ modkey , "Control+Shift"   } , "l"     , sexec('screenlocker.sh'), {description="lock", group="screen"}) ,
     awful.key({ modkey             } , "t"     , sexec(FILE_MANAGER), {description="open file manager", group="launcher"} )    ,
     awful.key({ modkey             } , "w"     , sexec(WEB_BROWSER) , {description="open Web browser", group="launcher"}) ,

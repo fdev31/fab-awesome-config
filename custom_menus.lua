@@ -1,3 +1,6 @@
+-- Menus definitions
+-- includes the main global menu & the graphical global menu
+
 local awful = require("awful")
 local beautiful = require("beautiful")
 local naughty = require("naughty")
@@ -27,8 +30,6 @@ if IS_LAPTOP then
 else
     backlight = { up = nil, down = nil }
 end
-
-
 
 -- TODO: build menus from text files
 local app_items = {

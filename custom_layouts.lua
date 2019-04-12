@@ -1,3 +1,7 @@
+-- custom layout
+-- "gradient"
+-- intended to be used on vertical screens
+
 local tag = require('awful.tag')
 
 local function do_exp_loaded_h(p)

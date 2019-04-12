@@ -1,3 +1,7 @@
+--
+-- simple ponymix integration as a mixer module
+-- use it if you want to control pulseaudio
+--
 local increment=4
 
 return {
