@@ -64,14 +64,14 @@ _.DEFAULT = my_layouts[1][1]
 
 -- user-customizable tags: (name, layout, options)
 tags = {
-    {"term"  , _.fair , nil        },
-    {"edit"  , _.DEFAULT , nil        },
-    {"web"   , _.DEFAULT , nil        },
+    {"term"  , _.fair },
+    {"edit"  , _.DEFAULT },
+    {"web"   , _.DEFAULT },
     {"im"    , _.fair, {ncol=2}   },
     {"logs"  , _.DEFAULT , {ncol=1, mwfact=0.5}   },
-    {"fm"    , _.DEFAULT , nil        },
-    {"gfx"   , _.mag     , nil        },
-    {"media" , _.DEFAULT , nil        },
+    {"fm"    , _.DEFAULT },
+    {"gfx"   , _.mag},
+    {"media" , _.DEFAULT},
     {"toto"  , _.DEFAULT , {hide=true}}
 }
 _ = nil
