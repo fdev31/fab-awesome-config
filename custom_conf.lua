@@ -55,11 +55,10 @@ for i,t in ipairs(tags) do
     _tags.layout[i] = t[2]
 end
 
--- Create tags:
-for s = 1, scount do -- for each screen
-  local tag = awful.tag(_tags.names, s, _tags.layout) -- create tags
+function mktags(s)
+  local tag = awful.tag.new(_tags.names, s, _tags.layout) -- create tags
   for i, t in ipairs(tag) do -- set some properties
-      awful.tag.setproperty(t , "mwfact" , 0.5)
+      t.master_width_factor = 0.8
       local props = tags[i][3]
       if props then
           if type(props) == 'function' then
@@ -72,6 +71,7 @@ for s = 1, scount do -- for each screen
       end
   end
 end
+awful.screen.connect_for_each_screen (mktags)
 
 _tags = nil
 tags = nil

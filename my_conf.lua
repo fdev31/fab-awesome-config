@@ -20,114 +20,51 @@ editor_cmd = terminal_run .. editor
 local awful = require("awful")
 
 -- shortcut for layouts
---
--- TODO: <meta+v> = "next" layout's alternative
---
--- groups:
--- awful.layout.suit.corner.nw, awful.layout.suit.corner.ne, awful.layout.suit.corner.sw, awful.layout.suit.corner.se
---
--- awful.layout.suit.max.name, awful.layout.suit.max.fullscreen
---
--- awful.layout.suit.spiral.dwindle, awful.layout.suit.spiral.name
--- awful.layout.suit.tile.right, left, bottom, top...
-
-local my_layouts = {
-    { awful.layout.suit.tile, awful.layout.suit.tile.bottom, awful.layout.suit.tile.left, awful.layout.suit.tile.top},
---    { awful.layout.suit.floating},
-    { awful.layout.suit.fair, awful.layout.suit.fair.horizontal, awful.layout.suit.spiral, awful.layout.suit.spiral.dwindle},
-    { awful.layout.suit.max, awful.layout.suit.max.fullscreen, awful.layout.suit.magnifier},
-    { awful.layout.suit.corner.nw, awful.layout.suit.corner.ne, awful.layout.suit.corner.sw, awful.layout.suit.corner.se}
-}
-
--- TODO: adapt to real screen count
-local selected_layout = {
-    {1, 1},
-    {1, 1},
-    {1, 1},
-    {1, 1}
-}
-local selected_layout = {1,1}
-
-local function _set_layout(x, y)
-    awful.layout.set(my_layouts[x][y])
-end
-
-local function get_cur_layout()
-    local cur_t = mouse.screen.selected_tag
-    local cur_l = selected_layout[cur_t]
-    if cur_l == nil then
-        cur_l = {1, 1}
-        selected_layout[cur_t] = cur_l
-    end
-    return cur_l
-end
-
-
-function prev_layout_group() 
-    local lay = get_cur_layout()
-    if lay[1] <= 1 then
-        lay[1] = #my_layouts
-    else
-        lay[1] = lay[1] - 1
-    end
---    lay[2] = 1
-    _set_layout(table.unpack(lay))
-end
-
-function next_layout_group() 
-    local lay = get_cur_layout()
-    if lay[1] >= #my_layouts then
-        lay[1] = 1
-    else
-        lay[1] = lay[1] + 1
-    end
---    lay[2] = 1
-    _set_layout(table.unpack(lay))
-end
-
-function prev_layout() 
-    local lay = get_cur_layout()
-    if lay[2] >= 1 then
-        lay[2] = #my_layouts[lay[1]]
-    else
-        lay[2] = lay[2] - 1
-    end
-    _set_layout(table.unpack(lay))
-end
-
-function next_layout() 
-    local lay = get_cur_layout()
-    if lay[2] == #my_layouts[lay[1]] then
-        lay[2] = 1
-    else
-        lay[2] = lay[2] + 1
-    end
-    _set_layout(table.unpack(lay))
-end
-
 local _ = {
-    DEFAULT = awful.layout.suit.tile      ,
+    title = awful.layout.suit.tile      ,
     titlet  = awful.layout.suit.tile.top  ,
     titleb  = awful.layout.suit.tile.bottom,
+    titler  = awful.layout.suit.tile.right,
+    titlel  = awful.layout.suit.tile.left,
     fair    = awful.layout.suit.fair      ,
+    fairh    = awful.layout.suit.fair.horizontal      ,
     max     = awful.layout.suit.max       ,
     mag     = awful.layout.suit.magnifier ,
     float   = awful.layout.suit.floating  ,
-    spir    = awful.layout.suit.spir      ,
+    nw = awful.layout.suit.corner.nw,
+    se = awful.layout.suit.corner.se,
+    spir    = awful.layout.suit.spiral.dwindle ,
 }
 
 -- all used layouts should be defined ONCE here:
 -- Available layouts (override defaults)
 awful.layout.layouts = {
-    _.DEFAULT,
+    _.title,
+    _.titleb,
+    _.titlel,
+    _.titler,
     _.titlet,
+    _.fair,
+    _.fairh,
     _.mag,
-    _.float,
+    _.max,
+    _.nw,
+    _.se,
     _.spir,
 }
+
+-- export layout groups, used to switch layouts
+my_layouts = {
+    { _.spir, _.fair, _.fairh},
+    { _.nw, _.titlet, _.titler},
+    { _.mag, _.max },
+}
+
+_.DEFAULT = my_layouts[1][1]
+
 -- user-customizable tags: (name, layout, options)
 tags = {
-    {"term"  , _.titleb  , nil        },
+    {"term"  , _.fair , nil        },
     {"edit"  , _.DEFAULT , nil        },
     {"web"   , _.DEFAULT , nil        },
     {"im"    , _.fair, {ncol=2}   },

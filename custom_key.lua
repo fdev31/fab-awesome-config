@@ -6,6 +6,64 @@ local menubar = require("menubar")
 local mixer = require('ponymix')
 require('custom_conf')
 
+local selected_layout = { }
+
+local function _set_layout(x, y)
+    awful.layout.set(my_layouts[x][y])
+end
+
+local function get_cur_layout()
+    local cur_t = awful.screen.focused().selected_tag
+    local cur_l = selected_layout[cur_t]
+    if cur_l == nil then
+        cur_l = {1, 1}
+        selected_layout[cur_t] = cur_l
+    end
+    return cur_l
+end
+
+function prev_layout_group() 
+    local lay = get_cur_layout()
+    if lay[1] <= 1 then
+        lay[1] = #my_layouts
+    else
+        lay[1] = lay[1] - 1
+    end
+    lay[2] = 1
+    _set_layout(table.unpack(lay))
+end
+
+function next_layout_group() 
+    local lay = get_cur_layout()
+    if lay[1] >= #my_layouts then
+        lay[1] = 1
+    else
+        lay[1] = lay[1] + 1
+    end
+    lay[2] = 1
+    _set_layout(table.unpack(lay))
+end
+
+function prev_layout() 
+    local lay = get_cur_layout()
+    if lay[2] <= 1 then
+        lay[2] = #my_layouts[lay[1]]
+    else
+        lay[2] = lay[2] - 1
+    end
+    _set_layout(table.unpack(lay))
+end
+
+function next_layout() 
+    local lay = get_cur_layout()
+    if lay[2] >= #my_layouts[lay[1]] then
+        lay[2] = 1
+    else
+        lay[2] = lay[2] + 1
+    end
+    _set_layout(table.unpack(lay))
+end
+
 function c_grabnext(screen)
     local c = client.focus
     if c == nil then return end
@@ -45,7 +103,7 @@ local k = {
     awful.key({ modkey ,           } , "Right" , c_viewnext ,{description = "view next", group = "tag"})         ,
     awful.key({ modkey , "Shift"   } , "Right" , c_grabnext, {description = "move to next tag", group = "client"})         ,
     awful.key({ modkey , "Shift"   } , "Left"  , c_grabprev ,{description = "move to previous tag", group = "client"})         ,
-    awful.key({ modkey , "Shift"   } , "l"     , sexec('screenlocker.sh'), {description="lock", group="screen"}) ,
+--    awful.key({ modkey , "Control+Shift"   } , "l"     , sexec('screenlocker.sh'), {description="lock", group="screen"}) ,
     awful.key({ modkey             } , "t"     , sexec(FILE_MANAGER), {description="open file manager", group="launcher"} )    ,
     awful.key({ modkey             } , "w"     , sexec(WEB_BROWSER) , {description="open Web browser", group="launcher"}) ,
     awful.key({ modkey             } , "Up"    , function() if client.focus then client.focus.opacity = math.min(1, client.focus.opacity + 0.05) end end, {description="more opacity", group="client"})    ,
