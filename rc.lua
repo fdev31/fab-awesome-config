@@ -241,8 +241,8 @@ awful.screen.connect_for_each_screen(function(s)
     }
 end)
 -- }}}
-require('custom_conf')
-menu_mod = require('custom_menus')
+require('base_init')
+menu_mod = require('my_menus')
 
 -- {{{ Mouse bindings
 root.buttons(gears.table.join(
@@ -531,8 +531,8 @@ awful.rules.rules = {
     --   properties = { screen = 1, tag = "2" } },
 }
 -- }}}
-clientkeys = gears.table.join(clientkeys, table.unpack(require('custom_client_key').keys))
-awful.rules.rules = require('custom_rules').rules
+clientkeys = gears.table.join(clientkeys, table.unpack(require('custom_clientkeys').keys))
+awful.rules.rules = require('my_rules').rules
 
 -- {{{ Signals
 -- Signal function to execute when a new client appears.

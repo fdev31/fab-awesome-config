@@ -4,7 +4,6 @@
 
 require('custom_conf')
 
-
 function c_grabnext(c)
     local r = c_viewnext()
     c:tags({awful.screen.focused().selected_tag})
