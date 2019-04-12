@@ -15,7 +15,7 @@ function nic_display()
         if nic or refresh_limit == 0 then
             refresh_nic:stop()
             if refresh_limit ~= 0 then
-                naughty.notify({title='Connected using '..nic})
+                naughty.notify({text='Connected using '..nic})
             end
             return
         end
