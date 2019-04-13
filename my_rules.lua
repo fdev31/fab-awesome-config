@@ -6,7 +6,7 @@ local awful = require("awful")
 local beautiful = require("beautiful")
 local naughty = require("naughty")
 local gears = require("gears")
-require('custom_conf')
+require('my_conf')
 
 local TRANS_LEVEL = 0.8
 

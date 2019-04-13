@@ -8,7 +8,7 @@ local naughty = require("naughty")
 local wibox = require("wibox")
 local menubar = require("menubar")
 local mixer = require('ponymix')
-require('custom_conf')
+require('my_conf')
 
 local selected_layout = { }
 

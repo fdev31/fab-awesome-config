@@ -4,7 +4,7 @@
 local awful = require("awful")
 local beautiful = require("beautiful")
 local naughty = require("naughty")
-require('custom_conf')
+require('my_conf')
 
 netctl_menu = {}
 netctl = io.popen('netctl list')

@@ -2,7 +2,7 @@
 -- Shortcuts for Window clients
 --
 
-require('custom_conf')
+require('my_conf')
 
 function c_grabnext(c)
     local r = c_viewnext()
