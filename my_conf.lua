@@ -76,10 +76,10 @@ tags = {
     {"edit"  , _.DEFAULT },
     {"web"   , _.DEFAULT },
     {"im"    , _.fair, {ncol=2}   },
-    {"logs"  , _.DEFAULT , {ncol=1, mwfact=0.5}   },
+    {"logs"  , _.fair, {ncol=1, mwfact=0.5}   },
     {"fm"    , _.DEFAULT },
     {"gfx"   , _.mag},
-    {"media" , _.DEFAULT},
+    {"media" , _.titlet},
     {"toto"  , _.DEFAULT , {hide=true}}
 }
 _ = nil
