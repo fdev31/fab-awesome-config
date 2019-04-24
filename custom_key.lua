@@ -81,11 +81,11 @@ local k = {
     awful.key({ }, "XF86AudioNext", sexec('playerctl next')),
     awful.key({ }, "XF86AudioPlay", sexec('playerctl play-pause')),
 
-    awful.key({ }, "XF86AudioLowerVolume", function() mixer.down() vicious.force(vicious.widgets.volume) end),
-    awful.key({ }, "XF86AudioRaiseVolume", function() mixer.up() vicious.force(vicious.widgets.volume) end),
-    awful.key({ }, "XF86AudioMute", mixer.toggle),
-    awful.key({ }, "XF86MonBrightnessUp", backlight.up),
-    awful.key({ }, "XF86MonBrightnessDown", backlight.down),
+--    awful.key({ }, "XF86AudioLowerVolume", function() mixer.down() vicious.force(vicious.widgets.volume) end),
+--    awful.key({ }, "XF86AudioRaiseVolume", function() mixer.up() vicious.force(vicious.widgets.volume) end),
+--    awful.key({ }, "XF86AudioMute", mixer.toggle),
+--    awful.key({ }, "XF86MonBrightnessUp", backlight.up),
+--    awful.key({ }, "XF86MonBrightnessDown", backlight.down),
 
     awful.key({ modkey ,           } , "Left"  , c_viewprev ,{description = "view previous", group = "tag"})         ,
     awful.key({ modkey ,           } , "Right" , c_viewnext ,{description = "view next", group = "tag"})         ,
