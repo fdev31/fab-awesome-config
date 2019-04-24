@@ -32,11 +32,17 @@ function ru(c,n,prop)
     }
     -- if there is a tag, get it dynamically to get the correct screen
     if prop.tag ~= nil then
-        local screenidx = prop.tag[1]
-        local tagname = prop.tag[2]
-        p.callback = function(c)
-            local tag = getScreen(screenidx).tags[tagidx[tagname]]
-            c:tags({tag})
+        if prop.tag == 'active' then
+            p.callback = function(c)
+                c:tags({mouse.screen.selected_tag})
+            end
+        else
+            local screenidx = prop.tag[1]
+            local tagname = prop.tag[2]
+            p.callback = function(c)
+                local tag = getScreen(screenidx).tags[tagidx[tagname]]
+                c:tags({tag})
+            end
         end
         prop.tag = nil
     end
@@ -83,7 +89,8 @@ local rules = {
           keys = clientkeys,
           buttons = clientbuttons,
           screen = awful.screen.preferred,
-          placement = awful.placement.no_overlap+awful.placement.no_offscreen
+          placement = awful.placement.no_overlap+awful.placement.no_offscreen,
+          callback = function (c) naughty.notify({text=c.name, title=c.class, position='bottom_left', opacity=0.7}) end,
     }),
     ru("Variety", ".*Variety", {floating=true}),
     ru(nil, "CGM-rc-Heli-Simulator", {floating=false, fullscreen=false}),
@@ -96,30 +103,25 @@ local rules = {
 --    ru("terminology", nil,         { opacity=TRANS_LEVEL, fixed_trans=true }),
     ru("code-oss", nil,            { tag={S_MAIN, 'edit'} }),
 
-    ru("Chromium", nil,            { tag={S_MAIN, 'web'} }),
+--    ru("Dialog", nil, { floating=true, sticky=true, tag='active' }),
+
+    ru("Chromium", ".* - Chromium",            { tag={S_MAIN, 'web'} }),
     ru("Chromium", "Skype - .*", { tag={S_MAIN, 'im'} } ),
     ru("Chromium", ".*- chat -.*", { tag={S_MAIN, 'im'} }),
     ru("Chromium", ".*- Flowdock",            { tag={S_SEC, 'im'}, floating=false }),
     ru("Chromium", ".*- Outlook Web App -.*",  { tag={S_SEC, 'im'}, floating=false }),
-    ru("Chromium", "Floating YouTube.*", { opacity=1.0, fixed_trans=true, floating=true, sticky=true }),
 
-    ru("Google-chrome", nil,            { tag={S_MAIN, 'web'} }),
+    ru("Google-chrome", ".* - Google Chrome" ,{ tag={S_MAIN, 'web'} }),
     ru("Google-chrome", "Skype - .*", { tag={S_MAIN, 'im'} } ),
     ru("Google-chrome", ".*- chat -.*", { tag={S_MAIN, 'im'} }),
     ru("Google-chrome", ".*- Flowdock",            { tag={S_SEC, 'im'}, floating=false }),
     ru("Google-chrome", ".*- Outlook Web App -.*",  { tag={S_SEC, 'im'}, floating=false }),
-    ru("Google-chrome", "Floating YouTube.*", { opacity=1.0, fixed_trans=true, floating=true, sticky=true }),
 
-    ru("Firefox", nil,            { tag={S_MAIN, 'web'} }),
+    ru("Firefox", "Mozilla Firefox",            { tag={S_MAIN, 'web'} }),
     ru("Firefox", "Skype - .*", { tag={S_MAIN, 'im'} } ),
     ru("Firefox", ".*- chat -.*", { tag={S_MAIN, 'im'} }),
     ru("Firefox", ".*- Flowdock",            { tag={S_SEC, 'im'}, floating=false }),
     ru("Firefox", ".*- Outlook Web App -.*",  { tag={S_SEC, 'im'}, floating=false }),
-    ru("Firefox", "Floating YouTube.*", { opacity=1.0, fixed_trans=true, floating=true, sticky=true }),
-
-    ru("Midori", nil,              { tag={S_MAIN, 'web'} }),
-    ru("Pale moon", nil,           { tag={S_MAIN, 'web'} }),
-
 
     ru("Skype", nil,            { tag={S_SEC, 'im'}, floating=false }),
     ru("Franz", "Franz",            { tag={S_MAIN, 'im'} }),
@@ -128,7 +130,6 @@ local rules = {
     ru("Thunderbird", nil,         { tag={S_SEC, 'im'} } ),
     -- medias
     ru("Audacious", nil,           { tag={S_SEC, 'media'} } ),
-    ru("Midori", ".* – Rdio",      { tag={S_SEC, 'web'} } ),
 
     -- edit
     ru("Gvim", nil,                { tag={S_MAIN, 'edit'} } ),
