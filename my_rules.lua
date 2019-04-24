@@ -90,7 +90,7 @@ local rules = {
           buttons = clientbuttons,
           screen = awful.screen.preferred,
           placement = awful.placement.no_overlap+awful.placement.no_offscreen,
-          callback = function (c) naughty.notify({text=c.name, title=c.class, position='bottom_left', opacity=0.7}) end,
+--          callback = function (c) naughty.notify({text=c.name, title=c.class, position='bottom_left', opacity=0.7}) end,
     }),
     ru("Variety", ".*Variety", {floating=true}),
     ru(nil, "CGM-rc-Heli-Simulator", {floating=false, fullscreen=false}),
