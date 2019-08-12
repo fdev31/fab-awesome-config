@@ -10,6 +10,8 @@ local menubar = require("menubar")
 local mixer = require('ponymix')
 require('my_conf')
 
+local dropShell = quake({app='kitty', name='DropTerm', argname='--name %s', followtag=true, width=1, height=.45, vert='bottom', horiz='center'})
+
 local selected_layout = { }
 
 local function _set_layout(x, y)
@@ -111,7 +113,7 @@ local k = {
         awful.menu.clients({ width=250 })
     end, {description="list", group="client"}),
     awful.key({ modkey }, "a", function ()
-        drop(fancy_terminal, "bottom", "center", 0.9, 0.9, false)
+        dropShell:toggle()
     end, {description="Popup term", group="launcher"}),
 }
 return {keys = k}

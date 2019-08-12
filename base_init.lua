@@ -7,7 +7,7 @@ local io = require('io')
 
 -- some global modules:
 vicious = require("vicious")
-drop = require("drop")
+quake = require("quake")
 
 home   = os.getenv("HOME")
 screen_switched = false
