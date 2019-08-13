@@ -10,7 +10,7 @@ local menubar = require("menubar")
 local mixer = require('ponymix')
 require('my_conf')
 
-local dropShell = quake({app='kitty', name='DropTerm', argname='--name %s', followtag=true, width=1, height=.45, vert='bottom', horiz='center'})
+local dropShell = quake({app='kitty', name='DropTerm', argname='--name %s', followtag=true, width=0.95, height=0.4, vert='bottom', horiz='center'})
 
 local selected_layout = { }
 
