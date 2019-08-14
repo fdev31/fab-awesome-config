@@ -121,7 +121,7 @@ function quake:new(config)
     conf.name       = conf.name      or "QuakeDD"  -- window name
     conf.argname    = conf.argname   or "-name %s" -- how to specify window name
     conf.extra      = conf.extra     or ""         -- extra arguments
-    conf.border     = conf.border    or 1          -- client border width
+    conf.border     = (conf.border == nil and 1) or conf.border           -- client border width
     conf.visible    = conf.visible   or false      -- initially not visible
     conf.followtag  = conf.followtag or false      -- spawn on currently focused screen
     conf.overlap    = conf.overlap   or false      -- overlap wibox
