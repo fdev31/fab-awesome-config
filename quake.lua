@@ -59,6 +59,7 @@ function quake:display()
     -- Set geometry
     client.floating = true
     client.border_width = self.border
+    client.opacity = self.opacity
     client.size_hints_honor = false
     client:geometry(self.geometry[self.screen.index] or self:compute_size())
 
@@ -117,6 +118,7 @@ end
 function quake:new(config)
     local conf = config or {}
 
+    conf.opacity    = conf.opacity   or 1.0
     conf.app        = conf.app       or "xterm"    -- application to spawn
     conf.name       = conf.name      or "QuakeDD"  -- window name
     conf.argname    = conf.argname   or "-name %s" -- how to specify window name
