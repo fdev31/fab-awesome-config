@@ -157,6 +157,7 @@ local rules = {
             awful.client.movetotag(selected(mouse.screen), c)
         end
     },
+    ru("Plank", "plank", {border_width = 0, ontop=false, floating=true, focusable=false, below=true}),
     -- geeqie
     { match = { "Full screen...Geeqie"              },  intrusive = true, border_width = 0, fullscreen = 1, ontop=true },
     { match = { "Tools...Geeqie"                    },
