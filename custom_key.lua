@@ -97,6 +97,10 @@ local k = {
     awful.key({ modkey             } , "Up"    , function() if client.focus then client.focus.opacity = math.min(1, client.focus.opacity + 0.05) end end, {description="more opacity", group="client"})    ,
     awful.key({ modkey             } , "Down"  , function() if client.focus then client.focus.opacity = math.max(0.1, client.focus.opacity - 0.05) end end, {description="less opacity", group="client"} ) ,
 
+    awful.key({ modkey, "Control" } , "p", function ()
+        naughty.notify({title="Mode change", text=naughty.suspended and "standard" or "presentation"})
+        naughty.suspended = not (naughty.suspended and true or false)
+    end, {description="Switch notification mode", group="awesome"}),
     awful.key({ modkey } , "p", function ()
         screen_switched = true awful.screen.focus_relative( 1)
     end, {description="Switch screen", group="client"}),
